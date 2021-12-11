@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.StationIncomeDao">
-  <resultMap id="BaseResultMap" type="generate.StationIncome">
+  <resultMap id="BaseResultMap" type="com.jack.recycle.model.StationIncome">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="jz_id" jdbcType="VARCHAR" property="jzId" />
     <result column="every_day" jdbcType="VARCHAR" property="everyDay" />
@@ -20,13 +20,13 @@
     delete from station_income
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="generate.StationIncome" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.StationIncome" useGeneratedKeys="true">
     insert into station_income (jz_id, every_day, every_money
       )
     values (#{jzId,jdbcType=VARCHAR}, #{everyDay,jdbcType=VARCHAR}, #{everyMoney,jdbcType=DOUBLE}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="generate.StationIncome" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.StationIncome" useGeneratedKeys="true">
     insert into station_income
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="jzId != null">
@@ -51,7 +51,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="generate.StationIncome">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.StationIncome">
     update station_income
     <set>
       <if test="jzId != null">
@@ -66,7 +66,7 @@
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="generate.StationIncome">
+  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.StationIncome">
     update station_income
     set jz_id = #{jzId,jdbcType=VARCHAR},
       every_day = #{everyDay,jdbcType=VARCHAR},

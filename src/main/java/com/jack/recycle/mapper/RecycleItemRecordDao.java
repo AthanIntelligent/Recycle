@@ -1,6 +1,6 @@
 package com.jack.recycle.mapper;
 
-import generate.RecycleItemRecord;
+import com.jack.recycle.model.RecycleItemRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

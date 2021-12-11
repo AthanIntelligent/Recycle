@@ -1,6 +1,6 @@
 package com.jack.recycle.mapper;
 
-import generate.FactoryTransaction;
+import com.jack.recycle.model.FactoryTransaction;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

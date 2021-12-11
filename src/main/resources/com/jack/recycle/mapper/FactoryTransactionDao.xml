@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.FactoryTransactionDao">
-  <resultMap id="BaseResultMap" type="generate.FactoryTransaction">
+  <resultMap id="BaseResultMap" type="com.jack.recycle.model.FactoryTransaction">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="factoryId" jdbcType="VARCHAR" property="factoryid" />
     <result column="jzId" jdbcType="VARCHAR" property="jzid" />
@@ -22,13 +22,13 @@
     delete from factory_transaction
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="generate.FactoryTransaction" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.FactoryTransaction" useGeneratedKeys="true">
     insert into factory_transaction (factoryId, jzId, factoryWeight, 
       factoryMoney, recycleTypeId)
     values (#{factoryid,jdbcType=VARCHAR}, #{jzid,jdbcType=VARCHAR}, #{factoryweight,jdbcType=DOUBLE}, 
       #{factorymoney,jdbcType=DOUBLE}, #{recycletypeid,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="generate.FactoryTransaction" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.FactoryTransaction" useGeneratedKeys="true">
     insert into factory_transaction
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="factoryid != null">
@@ -65,7 +65,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="generate.FactoryTransaction">
+  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.FactoryTransaction">
     update factory_transaction
     <set>
       <if test="factoryid != null">
@@ -86,7 +86,7 @@
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="generate.FactoryTransaction">
+  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.FactoryTransaction">
     update factory_transaction
     set factoryId = #{factoryid,jdbcType=VARCHAR},
       jzId = #{jzid,jdbcType=VARCHAR},

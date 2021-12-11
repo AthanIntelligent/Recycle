@@ -1,37 +1,40 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
+import lombok.Data;
 
-import lombok.*;
-
+/**
+ * factory_transaction
+ * @author 
+ */
 @Data
 public class FactoryTransaction implements Serializable {
     private String uuid;
 
     /**
-     * 商家名称
+     * 商家id
      */
-    private String factoryName;
+    private String factoryid;
 
     /**
-     * 商家地址
+     * 基站id
      */
-    private String factoryAddress;
+    private String jzid;
 
     /**
-     * 法人
+     * 交易重量
      */
-    private String factoryMan;
+    private Double factoryweight;
 
     /**
-     * 电话号
+     * 交易金额
      */
-    private String telephone;
+    private Double factorymoney;
 
     /**
-     * 身份证
+     * 物品类型id
      */
-    private String identityCard;
+    private String recycletypeid;
 
     private static final long serialVersionUID = 1L;
 }

@@ -1,37 +1,30 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
+import lombok.Data;
 
-import lombok.*;
-
+/**
+ * station_income
+ * @author 
+ */
 @Data
 public class StationIncome implements Serializable {
     private String uuid;
 
     /**
-     * 商家名称
+     * 基站id
      */
-    private String factoryName;
+    private String jzId;
 
     /**
-     * 商家地址
+     * 日期
      */
-    private String factoryAddress;
+    private String everyDay;
 
     /**
-     * 法人
+     * 金额
      */
-    private String factoryMan;
-
-    /**
-     * 电话号
-     */
-    private String telephone;
-
-    /**
-     * 身份证
-     */
-    private String identityCard;
+    private Double everyMoney;
 
     private static final long serialVersionUID = 1L;
 }

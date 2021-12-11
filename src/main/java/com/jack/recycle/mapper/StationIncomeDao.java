@@ -1,6 +1,6 @@
 package com.jack.recycle.mapper;
 
-import generate.StationIncome;
+import com.jack.recycle.model.StationIncome;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
