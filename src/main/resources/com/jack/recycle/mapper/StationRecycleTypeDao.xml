@@ -3,96 +3,61 @@
 <mapper namespace="com.jack.recycle.mapper.StationRecycleTypeDao">
   <resultMap id="BaseResultMap" type="com.jack.recycle.model.StationRecycleType">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="factory_name" jdbcType="VARCHAR" property="factoryName" />
-    <result column="factory_address" jdbcType="VARCHAR" property="factoryAddress" />
-    <result column="factory_man" jdbcType="VARCHAR" property="factoryMan" />
-    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
-    <result column="identity_card" jdbcType="VARCHAR" property="identityCard" />
+    <result column="jz_id" jdbcType="VARCHAR" property="jzId" />
+    <result column="recycle_type_id" jdbcType="VARCHAR" property="recycleTypeId" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, factory_name, factory_address, factory_man, telephone, identity_card
+    uuid, jz_id, recycle_type_id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from factory
+    from station_recycle_type
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from factory
+    delete from station_recycle_type
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.StationRecycleType" useGeneratedKeys="true">
-    insert into factory (factory_name, factory_address, factory_man, 
-      telephone, identity_card)
-    values (#{factoryName,jdbcType=VARCHAR}, #{factoryAddress,jdbcType=VARCHAR}, #{factoryMan,jdbcType=VARCHAR}, 
-      #{telephone,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR})
+    insert into station_recycle_type (jz_id, recycle_type_id)
+    values (#{jzId,jdbcType=VARCHAR}, #{recycleTypeId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.StationRecycleType" useGeneratedKeys="true">
-    insert into factory
+    insert into station_recycle_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="factoryName != null">
-        factory_name,
+      <if test="jzId != null">
+        jz_id,
       </if>
-      <if test="factoryAddress != null">
-        factory_address,
-      </if>
-      <if test="factoryMan != null">
-        factory_man,
-      </if>
-      <if test="telephone != null">
-        telephone,
-      </if>
-      <if test="identityCard != null">
-        identity_card,
+      <if test="recycleTypeId != null">
+        recycle_type_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="factoryName != null">
-        #{factoryName,jdbcType=VARCHAR},
+      <if test="jzId != null">
+        #{jzId,jdbcType=VARCHAR},
       </if>
-      <if test="factoryAddress != null">
-        #{factoryAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="factoryMan != null">
-        #{factoryMan,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null">
-        #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="identityCard != null">
-        #{identityCard,jdbcType=VARCHAR},
+      <if test="recycleTypeId != null">
+        #{recycleTypeId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.StationRecycleType">
-    update factory
+    update station_recycle_type
     <set>
-      <if test="factoryName != null">
-        factory_name = #{factoryName,jdbcType=VARCHAR},
+      <if test="jzId != null">
+        jz_id = #{jzId,jdbcType=VARCHAR},
       </if>
-      <if test="factoryAddress != null">
-        factory_address = #{factoryAddress,jdbcType=VARCHAR},
-      </if>
-      <if test="factoryMan != null">
-        factory_man = #{factoryMan,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null">
-        telephone = #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="identityCard != null">
-        identity_card = #{identityCard,jdbcType=VARCHAR},
+      <if test="recycleTypeId != null">
+        recycle_type_id = #{recycleTypeId,jdbcType=VARCHAR},
       </if>
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.StationRecycleType">
-    update factory
-    set factory_name = #{factoryName,jdbcType=VARCHAR},
-      factory_address = #{factoryAddress,jdbcType=VARCHAR},
-      factory_man = #{factoryMan,jdbcType=VARCHAR},
-      telephone = #{telephone,jdbcType=VARCHAR},
-      identity_card = #{identityCard,jdbcType=VARCHAR}
+    update station_recycle_type
+    set jz_id = #{jzId,jdbcType=VARCHAR},
+      recycle_type_id = #{recycleTypeId,jdbcType=VARCHAR}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

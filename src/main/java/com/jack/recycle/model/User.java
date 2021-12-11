@@ -1,41 +1,45 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
+import lombok.Data;
 
-import lombok.*;
-
+/**
+ * user
+ * @author 
+ */
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class User implements Serializable {
     private String uuid;
 
     /**
-     * 商家名称
+     * 登录名
      */
-    private String factoryName;
+    private String loginName;
 
     /**
-     * 商家地址
+     * 密码
      */
-    private String factoryAddress;
+    private String password;
 
     /**
-     * 法人
+     * 真实姓名
      */
-    private String factoryMan;
+    private String realName;
 
     /**
-     * 电话号
+     * 手机号
      */
-    private String telephone;
+    private String mobile;
 
     /**
-     * 身份证
+     * 家庭住址
      */
-    private String identityCard;
+    private String address;
+
+    /**
+     * 用户类型（1：普通用户；2：基站人员；0：管理员）
+     */
+    private Integer userType;
 
     private static final long serialVersionUID = 1L;
 }

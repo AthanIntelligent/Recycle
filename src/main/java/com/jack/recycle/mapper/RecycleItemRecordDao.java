@@ -1,7 +1,9 @@
 package com.jack.recycle.mapper;
 
-import com.jack.recycle.model.RecycleItemRecord;
+import generate.RecycleItemRecord;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface RecycleItemRecordDao {
     int deleteByPrimaryKey(String uuid);
 

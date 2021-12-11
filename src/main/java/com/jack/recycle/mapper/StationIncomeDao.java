@@ -1,7 +1,9 @@
 package com.jack.recycle.mapper;
 
-import com.jack.recycle.model.StationIncome;
+import generate.StationIncome;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface StationIncomeDao {
     int deleteByPrimaryKey(String uuid);
 

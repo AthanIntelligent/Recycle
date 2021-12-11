@@ -1,7 +1,9 @@
 package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.StationRecycleType;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface StationRecycleTypeDao {
     int deleteByPrimaryKey(String uuid);
 

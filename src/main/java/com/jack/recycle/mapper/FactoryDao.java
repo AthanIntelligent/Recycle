@@ -1,7 +1,9 @@
 package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.Factory;
+import org.apache.ibatis.annotations.Mapper;
 
+@Mapper
 public interface FactoryDao {
     int deleteByPrimaryKey(String uuid);
 

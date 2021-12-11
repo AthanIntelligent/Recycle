@@ -1,98 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.RecycleItemRecordDao">
-  <resultMap id="BaseResultMap" type="com.jack.recycle.model.RecycleItemRecord">
+  <resultMap id="BaseResultMap" type="generate.RecycleItemRecord">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="factory_name" jdbcType="VARCHAR" property="factoryName" />
-    <result column="factory_address" jdbcType="VARCHAR" property="factoryAddress" />
-    <result column="factory_man" jdbcType="VARCHAR" property="factoryMan" />
-    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
-    <result column="identity_card" jdbcType="VARCHAR" property="identityCard" />
+    <result column="recycle_type_id" jdbcType="VARCHAR" property="recycleTypeId" />
+    <result column="weight" jdbcType="DOUBLE" property="weight" />
+    <result column="money" jdbcType="VARCHAR" property="money" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="jz_id" jdbcType="VARCHAR" property="jzId" />
+    <result column="recycle_time" jdbcType="TIMESTAMP" property="recycleTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, factory_name, factory_address, factory_man, telephone, identity_card
+    uuid, recycle_type_id, weight, money, user_id, jz_id, recycle_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from factory
+    from recycle_item_record
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from factory
+    delete from recycle_item_record
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.RecycleItemRecord" useGeneratedKeys="true">
-    insert into factory (factory_name, factory_address, factory_man, 
-      telephone, identity_card)
-    values (#{factoryName,jdbcType=VARCHAR}, #{factoryAddress,jdbcType=VARCHAR}, #{factoryMan,jdbcType=VARCHAR}, 
-      #{telephone,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR})
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="generate.RecycleItemRecord" useGeneratedKeys="true">
+    insert into recycle_item_record (recycle_type_id, weight, money, 
+      user_id, jz_id, recycle_time
+      )
+    values (#{recycleTypeId,jdbcType=VARCHAR}, #{weight,jdbcType=DOUBLE}, #{money,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{jzId,jdbcType=VARCHAR}, #{recycleTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.RecycleItemRecord" useGeneratedKeys="true">
-    insert into factory
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="generate.RecycleItemRecord" useGeneratedKeys="true">
+    insert into recycle_item_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="factoryName != null">
-        factory_name,
+      <if test="recycleTypeId != null">
+        recycle_type_id,
       </if>
-      <if test="factoryAddress != null">
-        factory_address,
+      <if test="weight != null">
+        weight,
       </if>
-      <if test="factoryMan != null">
-        factory_man,
+      <if test="money != null">
+        money,
       </if>
-      <if test="telephone != null">
-        telephone,
+      <if test="userId != null">
+        user_id,
       </if>
-      <if test="identityCard != null">
-        identity_card,
+      <if test="jzId != null">
+        jz_id,
+      </if>
+      <if test="recycleTime != null">
+        recycle_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="factoryName != null">
-        #{factoryName,jdbcType=VARCHAR},
+      <if test="recycleTypeId != null">
+        #{recycleTypeId,jdbcType=VARCHAR},
       </if>
-      <if test="factoryAddress != null">
-        #{factoryAddress,jdbcType=VARCHAR},
+      <if test="weight != null">
+        #{weight,jdbcType=DOUBLE},
       </if>
-      <if test="factoryMan != null">
-        #{factoryMan,jdbcType=VARCHAR},
+      <if test="money != null">
+        #{money,jdbcType=VARCHAR},
       </if>
-      <if test="telephone != null">
-        #{telephone,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="identityCard != null">
-        #{identityCard,jdbcType=VARCHAR},
+      <if test="jzId != null">
+        #{jzId,jdbcType=VARCHAR},
+      </if>
+      <if test="recycleTime != null">
+        #{recycleTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.RecycleItemRecord">
-    update factory
+  <update id="updateByPrimaryKeySelective" parameterType="generate.RecycleItemRecord">
+    update recycle_item_record
     <set>
-      <if test="factoryName != null">
-        factory_name = #{factoryName,jdbcType=VARCHAR},
+      <if test="recycleTypeId != null">
+        recycle_type_id = #{recycleTypeId,jdbcType=VARCHAR},
       </if>
-      <if test="factoryAddress != null">
-        factory_address = #{factoryAddress,jdbcType=VARCHAR},
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DOUBLE},
       </if>
-      <if test="factoryMan != null">
-        factory_man = #{factoryMan,jdbcType=VARCHAR},
+      <if test="money != null">
+        money = #{money,jdbcType=VARCHAR},
       </if>
-      <if test="telephone != null">
-        telephone = #{telephone,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
       </if>
-      <if test="identityCard != null">
-        identity_card = #{identityCard,jdbcType=VARCHAR},
+      <if test="jzId != null">
+        jz_id = #{jzId,jdbcType=VARCHAR},
+      </if>
+      <if test="recycleTime != null">
+        recycle_time = #{recycleTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.RecycleItemRecord">
-    update factory
-    set factory_name = #{factoryName,jdbcType=VARCHAR},
-      factory_address = #{factoryAddress,jdbcType=VARCHAR},
-      factory_man = #{factoryMan,jdbcType=VARCHAR},
-      telephone = #{telephone,jdbcType=VARCHAR},
-      identity_card = #{identityCard,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="generate.RecycleItemRecord">
+    update recycle_item_record
+    set recycle_type_id = #{recycleTypeId,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DOUBLE},
+      money = #{money,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      jz_id = #{jzId,jdbcType=VARCHAR},
+      recycle_time = #{recycleTime,jdbcType=TIMESTAMP}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

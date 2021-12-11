@@ -1,14 +1,14 @@
-package com.jack.recycle.model;
+package generate;
 
 import java.io.Serializable;
 import lombok.Data;
 
 /**
- * station_recycle_type
+ * station_income
  * @author 
  */
 @Data
-public class StationRecycleType implements Serializable {
+public class StationIncome implements Serializable {
     private String uuid;
 
     /**
@@ -17,9 +17,14 @@ public class StationRecycleType implements Serializable {
     private String jzId;
 
     /**
-     * 基站类型id
+     * 日期
      */
-    private String recycleTypeId;
+    private String everyDay;
+
+    /**
+     * 金额
+     */
+    private Double everyMoney;
 
     private static final long serialVersionUID = 1L;
 }

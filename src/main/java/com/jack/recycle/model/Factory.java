@@ -1,14 +1,13 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
+import lombok.Data;
 
-import lombok.*;
-
+/**
+ * factory
+ * @author 
+ */
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class Factory implements Serializable {
     private String uuid;
 

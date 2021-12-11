@@ -5,10 +5,6 @@ import java.io.Serializable;
 import lombok.*;
 
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class RecycleItemRecord implements Serializable {
     private String uuid;
 

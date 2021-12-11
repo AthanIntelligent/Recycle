@@ -1,98 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.StationIncomeDao">
-  <resultMap id="BaseResultMap" type="com.jack.recycle.model.StationIncome">
+  <resultMap id="BaseResultMap" type="generate.StationIncome">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="factory_name" jdbcType="VARCHAR" property="factoryName" />
-    <result column="factory_address" jdbcType="VARCHAR" property="factoryAddress" />
-    <result column="factory_man" jdbcType="VARCHAR" property="factoryMan" />
-    <result column="telephone" jdbcType="VARCHAR" property="telephone" />
-    <result column="identity_card" jdbcType="VARCHAR" property="identityCard" />
+    <result column="jz_id" jdbcType="VARCHAR" property="jzId" />
+    <result column="every_day" jdbcType="VARCHAR" property="everyDay" />
+    <result column="every_money" jdbcType="DOUBLE" property="everyMoney" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, factory_name, factory_address, factory_man, telephone, identity_card
+    uuid, jz_id, every_day, every_money
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from factory
+    from station_income
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from factory
+    delete from station_income
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.StationIncome" useGeneratedKeys="true">
-    insert into factory (factory_name, factory_address, factory_man, 
-      telephone, identity_card)
-    values (#{factoryName,jdbcType=VARCHAR}, #{factoryAddress,jdbcType=VARCHAR}, #{factoryMan,jdbcType=VARCHAR}, 
-      #{telephone,jdbcType=VARCHAR}, #{identityCard,jdbcType=VARCHAR})
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="generate.StationIncome" useGeneratedKeys="true">
+    insert into station_income (jz_id, every_day, every_money
+      )
+    values (#{jzId,jdbcType=VARCHAR}, #{everyDay,jdbcType=VARCHAR}, #{everyMoney,jdbcType=DOUBLE}
+      )
   </insert>
-  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.StationIncome" useGeneratedKeys="true">
-    insert into factory
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="generate.StationIncome" useGeneratedKeys="true">
+    insert into station_income
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="factoryName != null">
-        factory_name,
+      <if test="jzId != null">
+        jz_id,
       </if>
-      <if test="factoryAddress != null">
-        factory_address,
+      <if test="everyDay != null">
+        every_day,
       </if>
-      <if test="factoryMan != null">
-        factory_man,
-      </if>
-      <if test="telephone != null">
-        telephone,
-      </if>
-      <if test="identityCard != null">
-        identity_card,
+      <if test="everyMoney != null">
+        every_money,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="factoryName != null">
-        #{factoryName,jdbcType=VARCHAR},
+      <if test="jzId != null">
+        #{jzId,jdbcType=VARCHAR},
       </if>
-      <if test="factoryAddress != null">
-        #{factoryAddress,jdbcType=VARCHAR},
+      <if test="everyDay != null">
+        #{everyDay,jdbcType=VARCHAR},
       </if>
-      <if test="factoryMan != null">
-        #{factoryMan,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null">
-        #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="identityCard != null">
-        #{identityCard,jdbcType=VARCHAR},
+      <if test="everyMoney != null">
+        #{everyMoney,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.StationIncome">
-    update factory
+  <update id="updateByPrimaryKeySelective" parameterType="generate.StationIncome">
+    update station_income
     <set>
-      <if test="factoryName != null">
-        factory_name = #{factoryName,jdbcType=VARCHAR},
+      <if test="jzId != null">
+        jz_id = #{jzId,jdbcType=VARCHAR},
       </if>
-      <if test="factoryAddress != null">
-        factory_address = #{factoryAddress,jdbcType=VARCHAR},
+      <if test="everyDay != null">
+        every_day = #{everyDay,jdbcType=VARCHAR},
       </if>
-      <if test="factoryMan != null">
-        factory_man = #{factoryMan,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null">
-        telephone = #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="identityCard != null">
-        identity_card = #{identityCard,jdbcType=VARCHAR},
+      <if test="everyMoney != null">
+        every_money = #{everyMoney,jdbcType=DOUBLE},
       </if>
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.StationIncome">
-    update factory
-    set factory_name = #{factoryName,jdbcType=VARCHAR},
-      factory_address = #{factoryAddress,jdbcType=VARCHAR},
-      factory_man = #{factoryMan,jdbcType=VARCHAR},
-      telephone = #{telephone,jdbcType=VARCHAR},
-      identity_card = #{identityCard,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="generate.StationIncome">
+    update station_income
+    set jz_id = #{jzId,jdbcType=VARCHAR},
+      every_day = #{everyDay,jdbcType=VARCHAR},
+      every_money = #{everyMoney,jdbcType=DOUBLE}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

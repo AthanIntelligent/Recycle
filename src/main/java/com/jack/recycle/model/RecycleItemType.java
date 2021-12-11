@@ -1,41 +1,35 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
+import lombok.Data;
 
-import lombok.*;
-
+/**
+ * recycle_item_type
+ * @author 
+ */
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class RecycleItemType implements Serializable {
     private String uuid;
 
     /**
-     * 商家名称
+     * 回收物品类型
      */
-    private String factoryName;
+    private String recycleType;
 
     /**
-     * 商家地址
+     * 回收物品名称
      */
-    private String factoryAddress;
+    private String recycleName;
 
     /**
-     * 法人
+     * 物品详细介绍
      */
-    private String factoryMan;
+    private String recycleDetail;
 
     /**
-     * 电话号
+     * 单价
      */
-    private String telephone;
-
-    /**
-     * 身份证
-     */
-    private String identityCard;
+    private Double perMoney;
 
     private static final long serialVersionUID = 1L;
 }
