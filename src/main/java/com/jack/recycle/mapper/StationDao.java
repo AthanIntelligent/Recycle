@@ -1,17 +1,15 @@
 package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.Station;
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
 public interface StationDao {
-    int deleteByPrimaryKey(String uuid);
+    int deleteByPrimaryKey(Integer uuid);
 
     int insert(Station record);
 
     int insertSelective(Station record);
 
-    Station selectByPrimaryKey(String uuid);
+    Station selectByPrimaryKey(Integer uuid);
 
     int updateByPrimaryKeySelective(Station record);
 

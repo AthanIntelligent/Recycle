@@ -8,7 +8,7 @@ import lombok.Data;
  * @author 
  */
 @Data
-public class User implements Serializable {
+public class Transaction implements Serializable {
     private Integer uuid;
 
     /**

@@ -1,17 +1,15 @@
 package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.User;
-import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
 public interface UserDao {
-    int deleteByPrimaryKey(String uuid);
+    int deleteByPrimaryKey(Integer uuid);
 
     int insert(User record);
 
     int insertSelective(User record);
 
-    User selectByPrimaryKey(String uuid);
+    User selectByPrimaryKey(Integer uuid);
 
     int updateByPrimaryKeySelective(User record);
 

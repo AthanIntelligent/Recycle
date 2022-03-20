@@ -4,42 +4,22 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * station
+ * auth
  * @author 
  */
 @Data
 public class Station implements Serializable {
-    private String uuid;
+    private Integer uuid;
 
     /**
-     * 基站人员id
+     * 权限名
      */
-    private String jzUserId;
+    private String authName;
 
     /**
-     * 基站地址
+     * 角色id
      */
-    private String jzAddress;
-
-    /**
-     * 基站名称
-     */
-    private String jzName;
-
-    /**
-     * 可预约时间段
-     */
-    private String orderTime;
-
-    /**
-     * 基站图片
-     */
-    private String picture;
-
-    /**
-     * 创建时间
-     */
-    private String createTime;
+    private Integer roleId;
 
     private static final long serialVersionUID = 1L;
 }
