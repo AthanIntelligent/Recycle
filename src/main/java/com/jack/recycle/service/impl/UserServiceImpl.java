@@ -13,15 +13,4 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
-    @Override
-    public Result login(User user) {
-        return null;
-    }
-
-    @Override
-    public Result regist(User user) {
-        user.setUuid("123");
-        userDao.insert(user);
-        return new Result(200,"ok",user);
-    }
 }

@@ -1,25 +1,66 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
- * auth
+ * user
  * @author 
  */
 @Data
 public class User implements Serializable {
-    private Integer uuid;
+    private String uuid;
 
     /**
-     * 权限名
+     * 登录名
      */
-    private String authName;
+    private String loginName;
 
     /**
-     * 角色id
+     * 密码
      */
-    private Integer roleId;
+    private String password;
+
+    /**
+     * 真实姓名
+     */
+    private String realName;
+
+    /**
+     * 手机号
+     */
+    private String mobile;
+
+    /**
+     * 家庭住址
+     */
+    private String address;
+
+    /**
+     * 用户类型（1：普通用户；2：基站人员；0：管理员）
+     */
+    private Integer userType;
+
+    /**
+     * 性别
+     */
+    private String sex;
+
+    /**
+     * 注册时间
+     */
+    private Date createTime;
+
+    /**
+     * 年龄
+     */
+    private Integer age;
+
+    /**
+     * 身份证号
+     */
+    private String id;
 
     private static final long serialVersionUID = 1L;
 }

@@ -20,23 +20,4 @@ public class UserController {
         return "Hello World";
     }
 
-    /**
-     * 注册
-     * @param user
-     * @return Result
-     */
-    @PostMapping(value = "/regist")
-    public Result regist(User user){
-        return userService.regist(user);
-    }
-
-    /**
-     * 登录
-     * @param user
-     * @return Result
-     */
-    @PostMapping(value = "/login")
-    public Result login(User user){
-        return userService.login(user);
-    }
 }

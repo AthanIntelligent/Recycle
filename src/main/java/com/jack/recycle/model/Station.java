@@ -1,25 +1,51 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import lombok.Data;
 
 /**
- * auth
+ * station
  * @author 
  */
 @Data
 public class Station implements Serializable {
-    private Integer uuid;
+    private String uuid;
 
     /**
-     * 权限名
+     * 基站人员id
      */
-    private String authName;
+    private String stationLegal;
 
     /**
-     * 角色id
+     * 基站地址
      */
-    private Integer roleId;
+    private String stationAddress;
+
+    /**
+     * 基站名称
+     */
+    private String stationName;
+
+    /**
+     * 开启状态
+     */
+    private String openFlag;
+
+    /**
+     * 审核
+     */
+    private String check;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 基站图片
+     */
+    private byte[] img;
 
     private static final long serialVersionUID = 1L;
 }

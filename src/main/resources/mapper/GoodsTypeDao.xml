@@ -2,62 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.GoodsTypeDao">
   <resultMap id="BaseResultMap" type="com.jack.recycle.model.GoodsType">
-    <id column="uuid" jdbcType="INTEGER" property="uuid" />
-    <result column="auth_name" jdbcType="VARCHAR" property="authName" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, auth_name, role_id
+    uuid, goods_type
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from auth
-    where uuid = #{uuid,jdbcType=INTEGER}
+    from goods_type
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from auth
-    where uuid = #{uuid,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from goods_type
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.GoodsType" useGeneratedKeys="true">
-    insert into auth (auth_name, role_id)
-    values (#{authName,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER})
+    insert into goods_type (goods_type)
+    values (#{goodsType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.GoodsType" useGeneratedKeys="true">
-    insert into auth
+    insert into goods_type
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="authName != null">
-        auth_name,
-      </if>
-      <if test="roleId != null">
-        role_id,
+      <if test="goodsType != null">
+        goods_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="authName != null">
-        #{authName,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
+      <if test="goodsType != null">
+        #{goodsType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.GoodsType">
-    update auth
+    update goods_type
     <set>
-      <if test="authName != null">
-        auth_name = #{authName,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=INTEGER},
+      <if test="goodsType != null">
+        goods_type = #{goodsType,jdbcType=VARCHAR},
       </if>
     </set>
-    where uuid = #{uuid,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.GoodsType">
-    update auth
-    set auth_name = #{authName,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=INTEGER}
-    where uuid = #{uuid,jdbcType=INTEGER}
+    update goods_type
+    set goods_type = #{goodsType,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

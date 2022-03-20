@@ -2,62 +2,121 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.TransactionDao">
   <resultMap id="BaseResultMap" type="com.jack.recycle.model.Transaction">
-    <id column="uuid" jdbcType="INTEGER" property="uuid" />
-    <result column="auth_name" jdbcType="VARCHAR" property="authName" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="weight" jdbcType="DOUBLE" property="weight" />
+    <result column="money" jdbcType="VARCHAR" property="money" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="station_id" jdbcType="VARCHAR" property="stationId" />
+    <result column="transaction_time" jdbcType="TIMESTAMP" property="transactionTime" />
+    <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+    <result column="station_user_id" jdbcType="VARCHAR" property="stationUserId" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, auth_name, role_id
+    uuid, weight, money, user_id, station_id, transaction_time, goods_id, station_user_id
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from auth
-    where uuid = #{uuid,jdbcType=INTEGER}
+    from transaction
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from auth
-    where uuid = #{uuid,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from transaction
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Transaction" useGeneratedKeys="true">
-    insert into auth (auth_name, role_id)
-    values (#{authName,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER})
+    insert into transaction (weight, money, user_id, 
+      station_id, transaction_time, goods_id, 
+      station_user_id)
+    values (#{weight,jdbcType=DOUBLE}, #{money,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{stationId,jdbcType=VARCHAR}, #{transactionTime,jdbcType=TIMESTAMP}, #{goodsId,jdbcType=VARCHAR}, 
+      #{stationUserId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Transaction" useGeneratedKeys="true">
-    insert into auth
+    insert into transaction
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="authName != null">
-        auth_name,
+      <if test="weight != null">
+        weight,
       </if>
-      <if test="roleId != null">
-        role_id,
+      <if test="money != null">
+        money,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="stationId != null">
+        station_id,
+      </if>
+      <if test="transactionTime != null">
+        transaction_time,
+      </if>
+      <if test="goodsId != null">
+        goods_id,
+      </if>
+      <if test="stationUserId != null">
+        station_user_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="authName != null">
-        #{authName,jdbcType=VARCHAR},
+      <if test="weight != null">
+        #{weight,jdbcType=DOUBLE},
       </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
+      <if test="money != null">
+        #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="stationId != null">
+        #{stationId,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionTime != null">
+        #{transactionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="stationUserId != null">
+        #{stationUserId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Transaction">
-    update auth
+    update transaction
     <set>
-      <if test="authName != null">
-        auth_name = #{authName,jdbcType=VARCHAR},
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DOUBLE},
       </if>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=INTEGER},
+      <if test="money != null">
+        money = #{money,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="stationId != null">
+        station_id = #{stationId,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionTime != null">
+        transaction_time = #{transactionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="goodsId != null">
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="stationUserId != null">
+        station_user_id = #{stationUserId,jdbcType=VARCHAR},
       </if>
     </set>
-    where uuid = #{uuid,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Transaction">
-    update auth
-    set auth_name = #{authName,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=INTEGER}
-    where uuid = #{uuid,jdbcType=INTEGER}
+    update transaction
+    set weight = #{weight,jdbcType=DOUBLE},
+      money = #{money,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      station_id = #{stationId,jdbcType=VARCHAR},
+      transaction_time = #{transactionTime,jdbcType=TIMESTAMP},
+      goods_id = #{goodsId,jdbcType=VARCHAR},
+      station_user_id = #{stationUserId,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

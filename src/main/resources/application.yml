@@ -3,9 +3,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/Recycle?useUnicode=true&characterEncoding=utf-8
-    username: root
-    password: 123456
+    url: jdbc:mysql://rm-2ze93e667h553x8pino.mysql.rds.aliyuncs.com:3306/recycle?useUnicode=true&characterEncoding=utf-8
+    username: aiden
+    password: Athan173210
   web:
     resources:
       static-locations: classpath:/templates
+shiro:
+  loginUrl: /loginView #未登录跳转url
+  unauthorizedUrl: /unauthorized #权限不足跳转url

@@ -2,62 +2,124 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.GoodsDao">
   <resultMap id="BaseResultMap" type="com.jack.recycle.model.Goods">
-    <id column="uuid" jdbcType="INTEGER" property="uuid" />
-    <result column="auth_name" jdbcType="VARCHAR" property="authName" />
-    <result column="role_id" jdbcType="INTEGER" property="roleId" />
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="recycle_detail" jdbcType="VARCHAR" property="recycleDetail" />
+    <result column="per_money" jdbcType="DOUBLE" property="perMoney" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jack.recycle.model.Goods">
+    <result column="pic" jdbcType="BLOB" property="pic" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, auth_name, role_id
+    uuid, goods_type, goods_name, recycle_detail, per_money, remark
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <sql id="Blob_Column_List">
+    pic
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
-    from auth
-    where uuid = #{uuid,jdbcType=INTEGER}
+    ,
+    <include refid="Blob_Column_List" />
+    from goods
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from auth
-    where uuid = #{uuid,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from goods
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods" useGeneratedKeys="true">
-    insert into auth (auth_name, role_id)
-    values (#{authName,jdbcType=VARCHAR}, #{roleId,jdbcType=INTEGER})
+    insert into goods (goods_type, goods_name, recycle_detail, 
+      per_money, remark, pic)
+    values (#{goodsType,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{recycleDetail,jdbcType=VARCHAR}, 
+      #{perMoney,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{pic,jdbcType=BLOB})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods" useGeneratedKeys="true">
-    insert into auth
+    insert into goods
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="authName != null">
-        auth_name,
+      <if test="goodsType != null">
+        goods_type,
       </if>
-      <if test="roleId != null">
-        role_id,
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="recycleDetail != null">
+        recycle_detail,
+      </if>
+      <if test="perMoney != null">
+        per_money,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="pic != null">
+        pic,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="authName != null">
-        #{authName,jdbcType=VARCHAR},
+      <if test="goodsType != null">
+        #{goodsType,jdbcType=VARCHAR},
       </if>
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="recycleDetail != null">
+        #{recycleDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="perMoney != null">
+        #{perMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        #{pic,jdbcType=BLOB},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Goods">
-    update auth
+    update goods
     <set>
-      <if test="authName != null">
-        auth_name = #{authName,jdbcType=VARCHAR},
+      <if test="goodsType != null">
+        goods_type = #{goodsType,jdbcType=VARCHAR},
       </if>
-      <if test="roleId != null">
-        role_id = #{roleId,jdbcType=INTEGER},
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="recycleDetail != null">
+        recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="perMoney != null">
+        per_money = #{perMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null">
+        pic = #{pic,jdbcType=BLOB},
       </if>
     </set>
-    where uuid = #{uuid,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jack.recycle.model.Goods">
+    update goods
+    set goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
+      per_money = #{perMoney,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=BLOB}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Goods">
-    update auth
-    set auth_name = #{authName,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=INTEGER}
-    where uuid = #{uuid,jdbcType=INTEGER}
+    update goods
+    set goods_type = #{goodsType,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
+      per_money = #{perMoney,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

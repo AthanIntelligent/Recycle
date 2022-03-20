@@ -4,22 +4,17 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * auth
+ * goods_type
  * @author 
  */
 @Data
 public class GoodsType implements Serializable {
-    private Integer uuid;
+    private String uuid;
 
     /**
-     * 权限名
+     * 物品类型
      */
-    private String authName;
-
-    /**
-     * 角色id
-     */
-    private Integer roleId;
+    private String goodsType;
 
     private static final long serialVersionUID = 1L;
 }

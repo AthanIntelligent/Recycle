@@ -4,22 +4,20 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * auth
+ * role
  * @author 
  */
 @Data
 public class Role implements Serializable {
-    private Integer uuid;
-
-    /**
-     * 权限名
-     */
-    private String authName;
-
     /**
      * 角色id
      */
-    private Integer roleId;
+    private Integer uuid;
+
+    /**
+     * 角色名字
+     */
+    private String roleName;
 
     private static final long serialVersionUID = 1L;
 }
