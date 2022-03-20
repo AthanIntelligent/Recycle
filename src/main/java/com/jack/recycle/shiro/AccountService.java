@@ -5,15 +5,11 @@ import com.jack.recycle.mapper.RoleDao;
 import com.jack.recycle.mapper.UserDao;
 import com.jack.recycle.model.Role;
 import com.jack.recycle.model.User;
-import org.apache.shiro.authc.Account;
-import org.apache.shiro.authc.SimpleAccount;
-import org.apache.shiro.authz.Permission;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.List;
-
+@Service
 public class AccountService {
     @Autowired
     UserDao userDao;

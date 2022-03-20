@@ -2,6 +2,7 @@ package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.User;
 
+
 public interface UserDao {
     int deleteByPrimaryKey(String uuid);
 
