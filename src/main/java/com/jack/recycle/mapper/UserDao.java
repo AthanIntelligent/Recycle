@@ -1,6 +1,7 @@
 package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.User;
+import org.apache.ibatis.annotations.Select;
 
 
 public interface UserDao {

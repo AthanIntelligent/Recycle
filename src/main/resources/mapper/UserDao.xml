@@ -24,7 +24,7 @@
     from user
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
-  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByUserName" parameterType="java.lang.String" resultType="com.jack.recycle.model.User">
     select
     <include refid="Base_Column_List" />
     from user

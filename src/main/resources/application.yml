@@ -9,6 +9,9 @@ spring:
   web:
     resources:
       static-locations: classpath:/templates
+mybatis:
+  mapper-locations: classpath:/resources/mapper/*.xml
+  type-aliases-package: com.jack.recycle.mapper
 shiro:
   loginUrl: /loginView #未登录跳转url
   unauthorizedUrl: /unauthorized #权限不足跳转url
