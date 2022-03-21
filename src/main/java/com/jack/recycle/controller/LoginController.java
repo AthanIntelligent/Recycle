@@ -28,6 +28,7 @@ public class LoginController {
      * @return Result
      */
     @PostMapping(value = "/login")
+//    @RequestMapping(value = "/login",produces = "application/json")
     public Result login(User user){
         return loginService.login(user);
     }

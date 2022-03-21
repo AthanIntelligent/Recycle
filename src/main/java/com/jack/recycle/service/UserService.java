@@ -5,5 +5,5 @@ import com.jack.recycle.utils.Result;
 
 
 public interface UserService {
-
+    User getLoginUser(String loginName);
 }

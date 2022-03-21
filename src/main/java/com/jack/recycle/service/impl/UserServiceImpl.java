@@ -13,4 +13,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+    @Override
+    public User getLoginUser(String loginName) {
+        return userDao.selectByUserName(loginName);
+    }
 }

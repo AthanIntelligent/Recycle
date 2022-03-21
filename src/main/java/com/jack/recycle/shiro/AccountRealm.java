@@ -60,7 +60,7 @@ public class AccountRealm extends AuthorizingRealm{
         //用户不存在，抛出异常
         if (user == null)throw new AuthenticationException("用户不存在");
         //密码错误，抛出异常
-        if (!user.getPassword().equals(userToken.getPassword()))throw new AuthenticationException("密码错误");
+        if (!user.getPassword().equals(String.valueOf(userToken.getPassword()))) throw new AuthenticationException("密码错误");
         //认证信息类
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo();
         //设置用户主体，像是授权、获取登录用户信息的对象就是在这里传入的

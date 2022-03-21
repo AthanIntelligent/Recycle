@@ -2,6 +2,7 @@ package com.jack.recycle.service.impl;
 
 import com.jack.recycle.model.User;
 import com.jack.recycle.service.LoginService;
+import com.jack.recycle.service.UserService;
 import com.jack.recycle.utils.Result;
 import org.apache.catalina.connector.Response;
 import org.apache.shiro.SecurityUtils;
@@ -9,10 +10,13 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class LoginServiceImpl implements LoginService {
+    @Autowired
+    UserService userService;
 
     @Override
     public Result login(User user) {
@@ -30,7 +34,7 @@ public class LoginServiceImpl implements LoginService {
         }catch (AuthenticationException e){
             return new Result(Response.SC_BAD_GATEWAY,e.getMessage());
         }
-        return new Result(Response.SC_OK,"成功");
+        return new Result(Response.SC_OK,"成功",userService.getLoginUser(user.getLoginName()));
     }
 
     @Override
