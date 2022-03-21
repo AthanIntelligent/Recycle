@@ -1,6 +1,9 @@
 package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.GoodsType;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 public interface GoodsTypeDao {
     int deleteByPrimaryKey(String uuid);
@@ -14,4 +17,6 @@ public interface GoodsTypeDao {
     int updateByPrimaryKeySelective(GoodsType record);
 
     int updateByPrimaryKey(GoodsType record);
+
+    List<GoodsType> selectAll();
 }
