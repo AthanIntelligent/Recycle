@@ -1,5 +1,6 @@
 package com.jack.recycle.shiro;
 
+import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition;
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -28,31 +29,31 @@ public class ShiroConfig {
         return manager;
     }
 
-    // DefaultWebSecurityManager 注入到 ShiroFilterFactoryBean 的过程与上面的一样
-//    @Bean
-//    public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
-
-        //        ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-//        factoryBean.setSecurityManager(securityManager);
-//        return factoryBean;
-//    }
+//     DefaultWebSecurityManager 注入到 ShiroFilterFactoryBean 的过程与上面的一样
     @Bean
-    public ShiroFilterChainDefinition shiroFilterChainDefinition(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
-        DefaultShiroFilterChainDefinition chain = new DefaultShiroFilterChainDefinition();
-        //登录 不需要认证
-        chain.addPathDefinition("/login","anon");
-//        //登录页面 不需要认证
-//        chain.addPathDefinition("/loginView","anon");
-//        //read权限才能访问
-//        chain.addPathDefinition("/userRead","perms[read]");
-//        //write权限才能访问
-//        chain.addPathDefinition("/userWrite","perms[write]");
-//        //登出
-//        chain.addPathDefinition("/logout","logout");
-        // 所有uri 需要登录
-        chain.addPathDefinition("/**","user");
+    public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
 
-        return chain;
+                ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+        factoryBean.setSecurityManager(securityManager);
+        return factoryBean;
     }
+//    @Bean
+//    public ShiroFilterChainDefinition shiroFilterChainDefinition(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
+//        DefaultShiroFilterChainDefinition chain = new DefaultShiroFilterChainDefinition();
+//        //登录 不需要认证
+//        chain.addPathDefinition("/login","anon");
+////        //登录页面 不需要认证
+////        chain.addPathDefinition("/loginView","anon");
+////        //read权限才能访问
+////        chain.addPathDefinition("/userRead","perms[read]");
+////        //write权限才能访问
+////        chain.addPathDefinition("/userWrite","perms[write]");
+////        //登出
+////        chain.addPathDefinition("/logout","logout");
+//        // 所有uri 需要登录
+////        chain.addPathDefinition("/**","user");
+//
+//        return chain;
+//    }
 
 }
