@@ -1,7 +1,6 @@
 package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.GoodsType;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

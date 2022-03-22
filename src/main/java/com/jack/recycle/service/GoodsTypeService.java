@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface GoodsTypeService {
     List<GoodsType> dirGoodsType();
+
+    int delGoodsType(String uuid);
+
+    int addGoodsType(GoodsType goodsType);
 }

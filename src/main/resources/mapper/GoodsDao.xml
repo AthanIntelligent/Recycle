@@ -8,33 +8,30 @@
     <result column="recycle_detail" jdbcType="VARCHAR" property="recycleDetail" />
     <result column="per_money" jdbcType="DOUBLE" property="perMoney" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jack.recycle.model.Goods">
-    <result column="pic" jdbcType="BLOB" property="pic" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, goods_type, goods_name, recycle_detail, per_money, remark
+    uuid, goods_type, goods_name, recycle_detail, per_money, remark, pic
   </sql>
-  <sql id="Blob_Column_List">
-    pic
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from goods
     where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from goods
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods" useGeneratedKeys="true">
-    insert into goods (goods_type, goods_name, recycle_detail, 
-      per_money, remark, pic)
-    values (#{goodsType,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{recycleDetail,jdbcType=VARCHAR}, 
-      #{perMoney,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{pic,jdbcType=BLOB})
+    insert into goods (uuid,goods_type, goods_name, recycle_detail,per_money, remark, pic)
+    values (#{uuid,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{recycleDetail,jdbcType=VARCHAR},
+      #{perMoney,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods" useGeneratedKeys="true">
     insert into goods
@@ -75,7 +72,7 @@
         #{remark,jdbcType=VARCHAR},
       </if>
       <if test="pic != null">
-        #{pic,jdbcType=BLOB},
+        #{pic,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -98,19 +95,9 @@
         remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="pic != null">
-        pic = #{pic,jdbcType=BLOB},
+        pic = #{pic,jdbcType=VARCHAR},
       </if>
     </set>
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jack.recycle.model.Goods">
-    update goods
-    set goods_type = #{goodsType,jdbcType=VARCHAR},
-      goods_name = #{goodsName,jdbcType=VARCHAR},
-      recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
-      per_money = #{perMoney,jdbcType=DOUBLE},
-      remark = #{remark,jdbcType=VARCHAR},
-      pic = #{pic,jdbcType=BLOB}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Goods">

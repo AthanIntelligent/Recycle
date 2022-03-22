@@ -16,7 +16,7 @@
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select
-    <include refid="Blob_Column_List" />
+    *
     from goods_type
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
@@ -24,8 +24,8 @@
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.GoodsType" useGeneratedKeys="true">
-    insert into goods_type (goods_type)
-    values (#{goodsType,jdbcType=VARCHAR})
+    insert into goods_type (uuid,goods_type)
+    values (#{uuid,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.GoodsType" useGeneratedKeys="true">
     insert into goods_type

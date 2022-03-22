@@ -2,6 +2,9 @@ package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.Goods;
 
+import java.util.List;
+
+
 public interface GoodsDao {
     int deleteByPrimaryKey(String uuid);
 
@@ -16,4 +19,6 @@ public interface GoodsDao {
     int updateByPrimaryKeyWithBLOBs(Goods record);
 
     int updateByPrimaryKey(Goods record);
+
+    List<Goods> selectAll();
 }

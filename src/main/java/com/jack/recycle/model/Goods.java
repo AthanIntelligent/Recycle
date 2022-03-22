@@ -39,7 +39,7 @@ public class Goods implements Serializable {
     /**
      * 物品图片
      */
-    private byte[] pic;
+    private String pic;
 
     private static final long serialVersionUID = 1L;
 }

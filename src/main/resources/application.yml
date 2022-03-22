@@ -15,3 +15,7 @@ mybatis:
 shiro:
   loginUrl: /loginView #未登录跳转url
   unauthorizedUrl: /unauthorized #权限不足跳转url
+#单个文件上传发大小
+#  spring.servlet.multipart.max-file-size=10MB
+  #多个文件上传的共大小不得超过100M
+#  spring.servlet.multipart.max-request-size=100MB
