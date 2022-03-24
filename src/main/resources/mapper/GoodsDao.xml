@@ -24,6 +24,15 @@
     <include refid="Base_Column_List" />
     from goods
   </select>
+  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where uuid in
+    <foreach collection="list" item="uuid" index="index" open="(" close=")" separator=",">
+      #{uuid}
+    </foreach>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from goods
     where uuid = #{uuid,jdbcType=VARCHAR}

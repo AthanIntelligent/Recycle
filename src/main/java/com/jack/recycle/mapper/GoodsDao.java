@@ -21,4 +21,6 @@ public interface GoodsDao {
     int updateByPrimaryKey(Goods record);
 
     List<Goods> selectAll();
+
+    List<Goods> selectByIds(List<String> ids);
 }
