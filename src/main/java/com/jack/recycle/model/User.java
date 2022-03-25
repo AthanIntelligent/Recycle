@@ -50,7 +50,7 @@ public class User implements Serializable {
     /**
      * 注册时间
      */
-    private Date createTime;
+    private String createTime;
 
     /**
      * 年龄
@@ -61,6 +61,7 @@ public class User implements Serializable {
      * 身份证号
      */
     private String id;
+
 
     private static final long serialVersionUID = 1L;
 }

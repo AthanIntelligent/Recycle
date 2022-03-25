@@ -10,7 +10,7 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="user_type" jdbcType="INTEGER" property="userType" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="id" jdbcType="VARCHAR" property="id" />
   </resultMap>
@@ -24,29 +24,48 @@
     from user
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
-  <select id="selectByUserName" parameterType="java.lang.String" resultType="com.jack.recycle.model.User">
+  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from user
     where login_name = #{username,jdbcType=VARCHAR}
   </select>
+  <select id="selectAllUser" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+  </select>
+  <select id="dirUserInfo" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select *
+    from user
+    <where>
+      <if test="loginName != null">
+        login_name = #{loginName}
+      </if>
+    </where>
+    limit (#{currPage-1}*#{pageSize},#{pageSize})
+    order by create_time DESC
+</select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user
-    where uuid = #{uuid,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.User" useGeneratedKeys="true">
-    insert into user (login_name, `password`, real_name, 
+    insert into user (uuid,login_name, `password`, real_name,
       mobile, address, user_type, 
       sex, create_time, age, 
       id)
-    values (#{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, 
+    values (#{uuid,jdbcType=VARCHAR},#{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
-      #{sex,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{age,jdbcType=INTEGER}, 
+      #{sex,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
       #{id,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.User" useGeneratedKeys="true">
     insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        uuid,
+      </if>
       <if test="loginName != null">
         login_name,
       </if>
@@ -79,6 +98,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR}
+      </if>
       <if test="loginName != null">
         #{loginName,jdbcType=VARCHAR},
       </if>
@@ -136,7 +158,7 @@
         sex = #{sex,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=VARCHAR},
       </if>
       <if test="age != null">
         age = #{age,jdbcType=INTEGER},
@@ -156,7 +178,7 @@
       address = #{address,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=INTEGER},
       sex = #{sex,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},
       id = #{id,jdbcType=VARCHAR}
     where uuid = #{uuid,jdbcType=VARCHAR}

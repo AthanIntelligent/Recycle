@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 @SpringBootTest
 class RecycleApplicationTests {
@@ -20,7 +21,7 @@ class RecycleApplicationTests {
     UserDao userDao;
     @Test
     void contextLoads() {
-        User user = userDao.selectByUserName("admin");
+        List<User> user = userDao.selectAllUser();
         System.out.println(user);
     }
 
@@ -29,7 +30,14 @@ class RecycleApplicationTests {
     private GoodsTypeDao goodsTypeDao;
     @Test
     void contextLoadsA() {
-        List<GoodsType> goodsTypes = goodsTypeDao.selectAll();
+        User user1 = new User();
+        User user2 = new User();
+        user1.setUuid(UUID.randomUUID().toString());
+        user1.setAge(12);
+        user2.setUuid("1");
+        user2.setAge(12);
+        System.out.println(user1.toString());
+        System.out.println(user1.toString().equals(user2.toString()));
     }
 
     @Autowired

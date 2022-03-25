@@ -33,14 +33,14 @@ public class Station implements Serializable {
     private String openFlag;
 
     /**
-     * 审核
+     * 审核状态
      */
     private String check;
 
     /**
      * 创建时间
      */
-    private Date createTime;
+    private String createTime;
 
     /**
      * 基站图片

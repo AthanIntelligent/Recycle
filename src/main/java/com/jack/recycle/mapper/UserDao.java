@@ -3,6 +3,9 @@ package com.jack.recycle.mapper;
 import com.jack.recycle.model.User;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+import java.util.Map;
+
 
 public interface UserDao {
     int deleteByPrimaryKey(String uuid);
@@ -18,4 +21,8 @@ public interface UserDao {
     int updateByPrimaryKey(User record);
 
     User selectByUserName(String username);
+
+    List<User> selectAllUser();
+
+    List<User> dirUserInfo(Map<String, Object> map);
 }

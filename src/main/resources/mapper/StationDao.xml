@@ -8,7 +8,7 @@
     <result column="station_name" jdbcType="VARCHAR" property="stationName" />
     <result column="open_flag" jdbcType="VARCHAR" property="openFlag" />
     <result column="check" jdbcType="VARCHAR" property="check" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jack.recycle.model.Station">
     <result column="img" jdbcType="BLOB" property="img" />
@@ -19,13 +19,17 @@
   <sql id="Blob_Column_List">
     img
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from station
     where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByStationLegal" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from station
+    where station_legal = #{stationLegal,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from station
@@ -35,8 +39,8 @@
     insert into station (station_legal, station_address, station_name, 
       open_flag, `check`, create_time, 
       img)
-    values (#{stationLegal,jdbcType=VARCHAR}, #{stationAddress,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR}, 
-      #{openFlag,jdbcType=VARCHAR}, #{check,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{stationLegal,jdbcType=VARCHAR}, #{stationAddress,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR},
+      #{openFlag,jdbcType=VARCHAR}, #{check,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR},
       #{img,jdbcType=BLOB})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Station" useGeneratedKeys="true">
@@ -107,7 +111,7 @@
         `check` = #{check,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=VARCHAR},
       </if>
       <if test="img != null">
         img = #{img,jdbcType=BLOB},
@@ -115,14 +119,24 @@
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
+  <update id="openBaseStation" parameterType="java.lang.String">
+    update station
+    set `check` = '已入驻' and open_flag = '1'
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="reBaseStation" parameterType="java.lang.String">
+    update station
+    set `check` = '申请失败' and open_flag = '2'
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jack.recycle.model.Station">
     update station
     set station_legal = #{stationLegal,jdbcType=VARCHAR},
-      station_address = #{stationAddress,jdbcType=VARCHAR},
+      station_address = #{stationAddress,jdbcType=INTEGER},
       station_name = #{stationName,jdbcType=VARCHAR},
       open_flag = #{openFlag,jdbcType=VARCHAR},
       `check` = #{check,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=VARCHAR},
       img = #{img,jdbcType=BLOB}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
@@ -133,7 +147,7 @@
       station_name = #{stationName,jdbcType=VARCHAR},
       open_flag = #{openFlag,jdbcType=VARCHAR},
       `check` = #{check,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=VARCHAR}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

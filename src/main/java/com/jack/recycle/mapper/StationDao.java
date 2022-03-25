@@ -16,4 +16,10 @@ public interface StationDao {
     int updateByPrimaryKeyWithBLOBs(Station record);
 
     int updateByPrimaryKey(Station record);
+
+    Station selectByStationLegal(String stationLegal);
+
+    int openBaseStation(String uuid);
+
+    int reBaseStation(String uuid);
 }

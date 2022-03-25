@@ -6,7 +6,9 @@ import com.jack.recycle.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/recycle/api")
+import java.util.UUID;
+
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 public class LoginController {
     @Autowired
@@ -17,8 +19,9 @@ public class LoginController {
      * @param user
      * @return Result
      */
-    @PostMapping(value = "/regist")
+    @PostMapping(value = "/register")
     public Result regist(User user){
+        user.setUuid(UUID.randomUUID().toString());
         return loginService.regist(user);
     }
 
@@ -28,8 +31,7 @@ public class LoginController {
      * @return Result
      */
     @PostMapping(value = "/login")
-//    @RequestMapping(value = "/login",produces = "application/json")
-    public Result login(User user){
+    public Result login(@RequestBody User user){
         return loginService.login(user);
     }
 

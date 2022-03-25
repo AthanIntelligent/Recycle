@@ -8,6 +8,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 @Configuration
 public class ShiroConfig {
 
@@ -32,11 +36,30 @@ public class ShiroConfig {
 //     DefaultWebSecurityManager 注入到 ShiroFilterFactoryBean 的过程与上面的一样
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
-
-                ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+        ShiroFilterChainDefinition shiroFilterChainDefinition = new DefaultShiroFilterChainDefinition();
+        ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         factoryBean.setSecurityManager(securityManager);
+        Map<String, Filter> filterMap=new LinkedHashMap<>(8);
+//        filterMap.put("jwt",jwtFilterRegBean.getFilter());
+        factoryBean.setFilters(filterMap);
+        factoryBean.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
+
         return factoryBean;
     }
+
+    @Bean
+    public ShiroFilterChainDefinition shiroFilterChainDefinition() {
+        DefaultShiroFilterChainDefinition chainDefinition = new DefaultShiroFilterChainDefinition();
+        //这些请求不通过jwtFilter
+        chainDefinition.addPathDefinition("/login","anon");
+        chainDefinition.addPathDefinition("/login.html","anon");
+        chainDefinition.addPathDefinition("/unauthorized","anon");
+        // 所有请求通过我们自己的JWT Filter
+        chainDefinition.addPathDefinition("/**","user");
+        return chainDefinition;
+    }
+
+
 //    @Bean
 //    public ShiroFilterChainDefinition shiroFilterChainDefinition(@Qualifier("securityManager") DefaultWebSecurityManager securityManager){
 //        DefaultShiroFilterChainDefinition chain = new DefaultShiroFilterChainDefinition();
