@@ -1,5 +1,8 @@
 package com.jack.recycle.utils;
 
+import lombok.Data;
+
+@Data
 public class Result<T> {
     private Integer status;
     private String message;
@@ -14,5 +17,9 @@ public class Result<T> {
         this.status = status;
         this.message = message;
         this.data = data;
+    }
+
+    public Result() {
+
     }
 }

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jack.recycle.mapper.StationDao">
+  <resultMap id="BaseResultMap" type="com.jack.recycle.model.Station">
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="station_legal" jdbcType="VARCHAR" property="stationLegal" />
+    <result column="station_address" jdbcType="VARCHAR" property="stationAddress" />
+    <result column="station_name" jdbcType="VARCHAR" property="stationName" />
+    <result column="open_flag" jdbcType="VARCHAR" property="openFlag" />
+    <result column="check" jdbcType="VARCHAR" property="check" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jack.recycle.model.Station">
+    <result column="img" jdbcType="BLOB" property="img" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uuid, station_legal, station_address, station_name, open_flag, `check`, create_time
+  </sql>
+  <sql id="Blob_Column_List">
+    img
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from station
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByStationLegal" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from station
+    where station_legal = #{stationLegal,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from station
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Station" useGeneratedKeys="true">
+    insert into station (station_legal, station_address, station_name, 
+      open_flag, `check`, create_time, 
+      img)
+    values (#{stationLegal,jdbcType=VARCHAR}, #{stationAddress,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR},
+      #{openFlag,jdbcType=VARCHAR}, #{check,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR},
+      #{img,jdbcType=BLOB})
+  </insert>
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Station" useGeneratedKeys="true">
+    insert into station
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stationLegal != null">
+        station_legal,
+      </if>
+      <if test="stationAddress != null">
+        station_address,
+      </if>
+      <if test="stationName != null">
+        station_name,
+      </if>
+      <if test="openFlag != null">
+        open_flag,
+      </if>
+      <if test="check != null">
+        `check`,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="img != null">
+        img,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stationLegal != null">
+        #{stationLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="stationAddress != null">
+        #{stationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="stationName != null">
+        #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null">
+        #{openFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="check != null">
+        #{check,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="img != null">
+        #{img,jdbcType=BLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Station">
+    update station
+    <set>
+      <if test="stationLegal != null">
+        station_legal = #{stationLegal,jdbcType=VARCHAR},
+      </if>
+      <if test="stationAddress != null">
+        station_address = #{stationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="stationName != null">
+        station_name = #{stationName,jdbcType=VARCHAR},
+      </if>
+      <if test="openFlag != null">
+        open_flag = #{openFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="check != null">
+        `check` = #{check,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null">
+        img = #{img,jdbcType=BLOB},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="openBaseStation" parameterType="java.lang.String">
+    update station
+    set `check` = '已入驻' and open_flag = '1'
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="reBaseStation" parameterType="java.lang.String">
+    update station
+    set `check` = '申请失败' and open_flag = '2'
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.jack.recycle.model.Station">
+    update station
+    set station_legal = #{stationLegal,jdbcType=VARCHAR},
+      station_address = #{stationAddress,jdbcType=INTEGER},
+      station_name = #{stationName,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=VARCHAR},
+      `check` = #{check,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      img = #{img,jdbcType=BLOB}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Station">
+    update station
+    set station_legal = #{stationLegal,jdbcType=VARCHAR},
+      station_address = #{stationAddress,jdbcType=VARCHAR},
+      station_name = #{stationName,jdbcType=VARCHAR},
+      open_flag = #{openFlag,jdbcType=VARCHAR},
+      `check` = #{check,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>
