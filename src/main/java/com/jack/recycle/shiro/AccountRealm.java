@@ -9,6 +9,8 @@ import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.Cookie;
+
 
 public class AccountRealm extends AuthorizingRealm{
 
@@ -67,6 +69,8 @@ public class AccountRealm extends AuthorizingRealm{
         info.setPrincipals(new SimplePrincipalCollection(user,getName()));
         //这里传入密码是为了修改密码后认证信息失效
         info.setCredentials(user.getPassword());
+        System.out.println(info.getCredentials());
+        System.out.println(info.getPrincipals());
         return info;
     }
 }

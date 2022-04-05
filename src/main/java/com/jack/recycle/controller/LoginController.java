@@ -36,6 +36,15 @@ public class LoginController {
     }
 
     /**
+     * 登出
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/logout")
+    public Result loginOut(@RequestBody User user){
+        return null;
+    }
+    /**
      * 模拟登录页面
      * @return 结果信息
      */

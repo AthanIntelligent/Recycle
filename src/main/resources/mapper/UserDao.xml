@@ -5,6 +5,7 @@
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="login_name" jdbcType="VARCHAR" property="loginName" />
     <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="address" jdbcType="VARCHAR" property="address" />
@@ -15,7 +16,7 @@
     <result column="id" jdbcType="VARCHAR" property="id" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, login_name, `password`, real_name, mobile, address, user_type, sex, create_time, 
+    uuid, login_name, `password`,token, real_name, mobile, address, user_type, sex, create_time,
     age, id
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -51,11 +52,11 @@
     where uuid = #{uuid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.User" useGeneratedKeys="true">
-    insert into user (uuid,login_name, `password`, real_name,
+    insert into user (uuid,login_name, `password`,token, real_name,
       mobile, address, user_type, 
       sex, create_time, age, 
       id)
-    values (#{uuid,jdbcType=VARCHAR},#{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
+    values (#{uuid,jdbcType=VARCHAR},#{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},#{token,jdbcType=VARCHAR} #{realName,jdbcType=VARCHAR},
       #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
       #{sex,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
       #{id,jdbcType=VARCHAR})
@@ -71,6 +72,9 @@
       </if>
       <if test="password != null">
         `password`,
+      </if>
+      <if test="token != null">
+        token,
       </if>
       <if test="realName != null">
         real_name,
@@ -107,6 +111,9 @@
       <if test="password != null">
         #{password,jdbcType=VARCHAR},
       </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
       <if test="realName != null">
         #{realName,jdbcType=VARCHAR},
       </if>
@@ -133,6 +140,9 @@
       </if>
     </trim>
   </insert>
+  <update id="updateToken" parameterType="java.lang.String">
+    update user set token=#{param1,jdbcType=VARCHAR} where login_name=#{param2,jdbcType=VARCHAR};
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.User">
     update user
     <set>
@@ -141,6 +151,9 @@
       </if>
       <if test="password != null">
         `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
       </if>
       <if test="realName != null">
         real_name = #{realName,jdbcType=VARCHAR},
@@ -173,6 +186,7 @@
     update user
     set login_name = #{loginName,jdbcType=VARCHAR},
       `password` = #{password,jdbcType=VARCHAR},
+       token = #{token,jdbcType=VARCHAR},
       real_name = #{realName,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},

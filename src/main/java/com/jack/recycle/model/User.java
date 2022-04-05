@@ -23,6 +23,11 @@ public class User implements Serializable {
     private String password;
 
     /**
+     * token
+     */
+    private String token;
+
+    /**
      * 真实姓名
      */
     private String realName;
