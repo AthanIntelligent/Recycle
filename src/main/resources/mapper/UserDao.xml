@@ -9,7 +9,7 @@
     <result column="real_name" jdbcType="VARCHAR" property="realName" />
     <result column="mobile" jdbcType="VARCHAR" property="mobile" />
     <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="user_type" jdbcType="INTEGER" property="userType" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="age" jdbcType="INTEGER" property="age" />
@@ -56,8 +56,8 @@
       mobile, address, user_type, 
       sex, create_time, age, 
       id)
-    values (#{uuid,jdbcType=VARCHAR},#{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},#{token,jdbcType=VARCHAR} #{realName,jdbcType=VARCHAR},
-      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userType,jdbcType=INTEGER}, 
+    values (#{uuid,jdbcType=VARCHAR},#{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},#{token,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
+      #{mobile,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR},
       #{sex,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
       #{id,jdbcType=VARCHAR})
   </insert>
@@ -165,7 +165,7 @@
         address = #{address,jdbcType=VARCHAR},
       </if>
       <if test="userType != null">
-        user_type = #{userType,jdbcType=INTEGER},
+        user_type = #{userType,jdbcType=VARCHAR},
       </if>
       <if test="sex != null">
         sex = #{sex,jdbcType=VARCHAR},
@@ -190,7 +190,7 @@
       real_name = #{realName,jdbcType=VARCHAR},
       mobile = #{mobile,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
-      user_type = #{userType,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=VARCHAR},
       age = #{age,jdbcType=INTEGER},

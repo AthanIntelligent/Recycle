@@ -35,7 +35,7 @@ public class UserUtils {
     public static String getCurrUserInfoPermissions() throws IOException {
         String authStr = "";
         User currUserInfo = getCurrUserInfo();
-        List<Auth> auth = authDao.selectByUserType(currUserInfo.getUserType());
+        List<Auth> auth = authDao.selectByUserType(Integer.valueOf(currUserInfo.getUserType()));
         if(auth.size() > 0){
             for(int i=0;i<auth.size();i++){
                 if(i == auth.size()-1){

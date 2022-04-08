@@ -20,7 +20,7 @@ public class LoginController {
      * @return Result
      */
     @PostMapping(value = "/register")
-    public Result regist(User user){
+    public Result regist(@RequestBody User user){
         user.setUuid(UUID.randomUUID().toString());
         return loginService.regist(user);
     }

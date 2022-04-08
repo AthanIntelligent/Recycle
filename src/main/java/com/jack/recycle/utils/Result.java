@@ -8,6 +8,8 @@ public class Result<T> {
     private String message;
     private T data;
 
+    private String token;
+
     public Result(Integer status, String message) {
         this.status = status;
         this.message = message;
@@ -17,6 +19,13 @@ public class Result<T> {
         this.status = status;
         this.message = message;
         this.data = data;
+    }
+
+    public Result(Integer status, String message, T data,String token) {
+        this.status = status;
+        this.message = message;
+        this.data = data;
+        this.token = token;
     }
 
     public Result() {

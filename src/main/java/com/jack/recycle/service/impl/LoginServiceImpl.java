@@ -62,7 +62,7 @@ public class LoginServiceImpl implements LoginService {
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:dd");
         user.setCreateTime(simpleDateFormat.format(new Date()));
-        int d = userDao.insertSelective(user);
+        int d = userDao.insert(user);
         if(d > 0){
             return new Result(Response.SC_OK,"注册成功");
         }else {
