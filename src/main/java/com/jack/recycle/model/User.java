@@ -67,6 +67,10 @@ public class User implements Serializable {
      */
     private String id;
 
+    /**
+     * 开启状态
+     */
+    private Integer openFlag;
 
     private static final long serialVersionUID = 1L;
 }

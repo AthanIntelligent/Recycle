@@ -14,7 +14,7 @@ public interface GoodsService {
 
     int updGoods(Goods goods);
 
-    List<Goods> dirGoods();
+    List<Goods> dirGoods(Goods goods);
 
     Goods getGoods(String uuid);
 

@@ -50,9 +50,9 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public List<Goods> dirGoods() {
-        List<Goods> goods = goodsDao.selectAll();
-        return goods;
+    public List<Goods> dirGoods(Goods goods) {
+        List<Goods> goodsList = goodsDao.selectAll(goods);
+        return goodsList;
     }
 
     @Override
