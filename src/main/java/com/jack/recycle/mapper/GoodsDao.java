@@ -20,7 +20,8 @@ public interface GoodsDao {
 
     int updateByPrimaryKey(Goods record);
 
-    List<Goods> selectAll();
+    List<Goods> selectAll(Goods record);
 
     List<Goods> selectByIds(List<String> ids);
+
 }

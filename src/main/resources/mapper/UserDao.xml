@@ -14,6 +14,7 @@
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
     <result column="age" jdbcType="INTEGER" property="age" />
     <result column="id" jdbcType="VARCHAR" property="id" />
+    <result column="open_flag" jdbcType="INTEGER" property="openFlag" />
   </resultMap>
   <sql id="Base_Column_List">
     uuid, login_name, `password`,token, real_name, mobile, address, user_type, sex, create_time,
