@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping("/goods")
 public class GoodsController {
@@ -47,10 +48,10 @@ public class GoodsController {
         return new Result(StatusCode.OK, "OK", i);
     }
 
-    @GetMapping(value = "/dirGoods")
-    public Result dirGoods() {
-        List<Goods> goods = goodsService.dirGoods();
-        return new Result(StatusCode.OK, "OK", goods);
+    @PostMapping(value = "/dirGoods")
+    public Result dirGoods(@RequestBody Goods goods) {
+        List<Goods> goodsList = goodsService.dirGoods(goods);
+        return new Result(StatusCode.OK, "OK", goodsList);
     }
 
     @GetMapping(value = "/getGoods")

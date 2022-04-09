@@ -24,7 +24,7 @@ public class AccountService {
 
     public String getRole(String loginName) {
         User user = userDao.selectByUserName(loginName);
-        Role role = roleDao.selectByPrimaryKey(user.getUserType());
+        Role role = roleDao.selectByPrimaryKey(Integer.valueOf(user.getUserType()));
         return role.getRoleName();
     }
 

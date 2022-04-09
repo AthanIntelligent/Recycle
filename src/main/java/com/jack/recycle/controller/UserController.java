@@ -2,16 +2,17 @@ package com.jack.recycle.controller;
 
 import com.jack.recycle.model.User;
 import com.jack.recycle.service.UserService;
+import com.jack.recycle.utils.MemcachedRunner;
 import com.jack.recycle.utils.Result;
+import com.jack.recycle.utils.UserUtils;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
-
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -19,14 +20,25 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MemcachedRunner memcachedRunner;
+
     /**
      * 查看用户详情
-     * @param uuid
+     * @param
      * @return
      */
     @GetMapping(value = "/getUserInfo")
-    public Result getUserInfo(String uuid) {
-        return new Result(Response.SC_OK,"success",userService.getUserInfoById(uuid));
+    public Result getUserInfo() {
+        Map<String,Object> map = new HashMap<>();
+        String userId = (String) memcachedRunner.getClient().get("userId");
+        map.put("userInfo",userService.getUserInfoById(userId));
+        try {
+            map.put("permissions",UserUtils.getCurrUserInfoPermissions());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Result(Response.SC_OK,"success",map);
     }
 
     /**

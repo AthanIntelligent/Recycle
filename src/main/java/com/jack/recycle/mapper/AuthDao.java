@@ -2,6 +2,8 @@ package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.Auth;
 
+import java.util.List;
+
 public interface AuthDao {
     int deleteByPrimaryKey(Integer uuid);
 
@@ -14,4 +16,6 @@ public interface AuthDao {
     int updateByPrimaryKeySelective(Auth record);
 
     int updateByPrimaryKey(Auth record);
+
+    List<Auth> selectByUserType(Integer userType);
 }

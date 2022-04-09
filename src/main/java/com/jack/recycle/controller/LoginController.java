@@ -20,7 +20,7 @@ public class LoginController {
      * @return Result
      */
     @PostMapping(value = "/register")
-    public Result regist(User user){
+    public Result regist(@RequestBody User user){
         user.setUuid(UUID.randomUUID().toString());
         return loginService.regist(user);
     }
@@ -35,6 +35,15 @@ public class LoginController {
         return loginService.login(user);
     }
 
+    /**
+     * 登出
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/logout")
+    public Result loginOut(@RequestBody User user){
+        return null;
+    }
     /**
      * 模拟登录页面
      * @return 结果信息

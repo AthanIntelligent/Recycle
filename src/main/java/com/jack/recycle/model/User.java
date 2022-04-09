@@ -23,6 +23,11 @@ public class User implements Serializable {
     private String password;
 
     /**
+     * token
+     */
+    private String token;
+
+    /**
      * 真实姓名
      */
     private String realName;
@@ -40,7 +45,7 @@ public class User implements Serializable {
     /**
      * 用户类型（1：普通用户；2：基站人员；0：管理员）
      */
-    private Integer userType;
+    private String userType;
 
     /**
      * 性别
@@ -62,6 +67,10 @@ public class User implements Serializable {
      */
     private String id;
 
+    /**
+     * 开启状态
+     */
+    private Integer openFlag;
 
     private static final long serialVersionUID = 1L;
 }
