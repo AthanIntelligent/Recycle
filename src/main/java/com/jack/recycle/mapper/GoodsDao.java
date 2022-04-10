@@ -14,9 +14,9 @@ public interface GoodsDao {
 
     Goods selectByPrimaryKey(String uuid);
 
-    int updateByPrimaryKeySelective(Goods record);
+    Goods selectByName(String name);
 
-    int updateByPrimaryKeyWithBLOBs(Goods record);
+    int updateByPrimaryKeySelective(Goods record);
 
     int updateByPrimaryKey(Goods record);
 

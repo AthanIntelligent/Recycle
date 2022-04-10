@@ -1,17 +1,27 @@
 package com.jack.recycle.utils;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class PicUtil {
-    public static String dealPic(MultipartFile file) {
+    private static ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    private static HttpServletRequest request = servletRequestAttributes.getRequest();
+
+    public static String dealPic(MultipartFile file) throws IOException {
         //图片上传成功后，将图片的地址写到数据库
         //保存图片的路径
-        String filePath = "C:\\PIC\\goodsImg";
+        ClassPathResource classPathResource = new ClassPathResource("static/goodsPic");
+        String filePath = classPathResource.getFile().getPath();
         //获取原始图片名
         String originalFilename = file.getOriginalFilename();
         //获取文件的后缀名

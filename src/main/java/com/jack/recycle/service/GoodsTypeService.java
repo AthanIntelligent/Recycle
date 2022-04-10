@@ -10,4 +10,8 @@ public interface GoodsTypeService {
     int delGoodsType(String uuid);
 
     int addGoodsType(GoodsType goodsType);
+
+    String getGoodsTypeUuid(String goodsType);
+
+    String getGoodsTypeName(String goodsTypeUuid);
 }

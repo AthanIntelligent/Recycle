@@ -32,7 +32,7 @@ public class Goods implements Serializable {
     private Double perMoney;
 
     /**
-     * 新旧程度
+     * 新旧程度备注
      */
     private String remark;
 

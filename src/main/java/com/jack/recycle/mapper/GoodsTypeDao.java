@@ -18,4 +18,8 @@ public interface GoodsTypeDao {
     int updateByPrimaryKey(GoodsType record);
 
     List<GoodsType> selectAll();
+
+    String getGoodsTypeUuid(String goodsType);
+
+    String getGoodsTypeName(String goodsTypeUuid);
 }

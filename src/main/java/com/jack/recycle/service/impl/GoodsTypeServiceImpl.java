@@ -32,4 +32,16 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
         int insert = goodsTypeDao.insert(goodsType);
         return insert;
     }
+
+    @Override
+    public String getGoodsTypeUuid(String goodsType) {
+        String goodsTypeUuid = goodsTypeDao.getGoodsTypeUuid(goodsType);
+        return goodsTypeUuid;
+    }
+
+    @Override
+    public String getGoodsTypeName(String goodsTypeUuid) {
+        String goodsTypeName = goodsTypeDao.getGoodsTypeName(goodsTypeUuid);
+        return goodsTypeName;
+    }
 }
