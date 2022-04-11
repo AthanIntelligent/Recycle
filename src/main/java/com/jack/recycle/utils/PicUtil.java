@@ -17,11 +17,10 @@ public class PicUtil {
     private static ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
     private static HttpServletRequest request = servletRequestAttributes.getRequest();
 
-    public static String dealPic(MultipartFile file) throws IOException {
+    public static String dealPic(MultipartFile file) {
         //图片上传成功后，将图片的地址写到数据库
         //保存图片的路径
-        ClassPathResource classPathResource = new ClassPathResource("static/goodsPic");
-        String filePath = classPathResource.getFile().getPath();
+        String filePath = "D:\\AAACSS\\WebStormProjects\\Recycle-ui\\static\\image\\goodImg";
         //获取原始图片名
         String originalFilename = file.getOriginalFilename();
         //获取文件的后缀名
@@ -34,13 +33,14 @@ public class PicUtil {
         if (".jpg".equals(suffix)||".png".equals(suffix)){
             //把本地文件上传到封装上传文件位置的全路径
             try {
+                //保存图片
                 file.transferTo(targetFile);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return targetFile.getPath();
+            return newFileName;
         }else {
-            return "0";
+            return null;
         }
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.BufferedInputStream;
 import java.util.*;
 
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping("/goods/excel")
 public class GoodsExcelController {

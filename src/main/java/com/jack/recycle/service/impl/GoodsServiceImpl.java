@@ -32,7 +32,6 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Override
     public int addGoods(Goods goods) {
-        goods.setUuid(UUID.randomUUID().toString());
         int insert = goodsDao.insert(goods);
         return insert;
     }
