@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
@@ -43,20 +44,13 @@ public class UserController {
 
     /**
      * 分页获取用户信息
-     * @param currPage
-     * @param pageSize
-     * @param map
+     * @param user
      * @return
      */
-    @GetMapping(value = "/dirUserInfo")
-    public Result dirUserInfo(Integer currPage, Integer pageSize, Map<String,Object> map){
-        if(currPage == null || currPage <= 0){
-            currPage = 1;
-        }
-        if(pageSize == null || pageSize <= 0){
-            pageSize = 10;
-        }
-        return new Result(Response.SC_OK,"success",userService.dirUserInfo(currPage,pageSize,map));
+    @PostMapping(value = "/dirUserInfo")
+    public Result dirUserInfo(@RequestBody User user){
+        List<User> users = userService.dirUserInfo(user);
+        return new Result(Response.SC_OK,"success",users);
     }
 
     /**
@@ -66,7 +60,7 @@ public class UserController {
      * @throws Exception
      */
     @PostMapping(value = "/updUserInfo")
-    public Result updUserInfo(User user) throws Exception {
+    public Result updUserInfo(@RequestBody User user) throws Exception {
         String userId = user.getUuid();
         User userInfo = userService.getUserInfoById(userId);
         if(!checkField(userInfo,user))

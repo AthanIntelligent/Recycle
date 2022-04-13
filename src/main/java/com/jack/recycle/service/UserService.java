@@ -12,9 +12,9 @@ public interface UserService {
 
     User getUserInfoById(String id);
 
-    List<User> dirUserInfo(Integer currPage, Integer pageSize, Map<String, Object> map);
-
     int updUserInfo(User user);
 
     int deleteUserInfo(String uuid);
+
+    List<User> dirUserInfo(User user);
 }

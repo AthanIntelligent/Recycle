@@ -27,13 +27,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> dirUserInfo(Integer currPage, Integer pageSize, Map<String, Object> map) {
-        map.put("currPage",currPage);
-        map.put("pageSize",pageSize);
-        return userDao.dirUserInfo(map);
-    }
-
-    @Override
     public int updUserInfo(User user) {
         return userDao.updateByPrimaryKeySelective(user);
     }
@@ -41,5 +34,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public int deleteUserInfo(String uuid) {
         return userDao.deleteByPrimaryKey(uuid);
+    }
+
+    @Override
+    public List<User> dirUserInfo(User user) {
+        return userDao.dirUserInfo(user);
     }
 }

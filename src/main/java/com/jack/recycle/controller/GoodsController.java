@@ -44,7 +44,7 @@ public class GoodsController {
     }
 
     @PostMapping(value = "/updGoods")
-    public Result updGoods(@RequestBody Goods goods) throws IOException {
+    public Result updGoods(@RequestBody Goods goods){
         Goods goodsOld = goodsService.getGoods(goods.getUuid());
         goods.setGoodsType(goodsTypeService.getGoodsTypeUuid(goods.getGoodsType()));
         if (!StringUtils.isEmpty(goodsOld.getPic())){

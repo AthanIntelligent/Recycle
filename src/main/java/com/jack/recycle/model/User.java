@@ -57,6 +57,25 @@ public class User implements Serializable {
      */
     private String createTime;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "uuid='" + uuid + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", password='" + password + '\'' +
+                ", token='" + token + '\'' +
+                ", realName='" + realName + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", address='" + address + '\'' +
+                ", userType='" + userType + '\'' +
+                ", sex='" + sex + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", age=" + age +
+                ", id='" + id + '\'' +
+                ", openFlag=" + openFlag +
+                '}';
+    }
+
     /**
      * 年龄
      */

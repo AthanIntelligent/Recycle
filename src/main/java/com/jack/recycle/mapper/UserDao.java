@@ -24,7 +24,7 @@ public interface UserDao {
 
     List<User> selectAllUser();
 
-    List<User> dirUserInfo(Map<String, Object> map);
+    List<User> dirUserInfo(User record);
 
     void updateToken(String token, String loginName);
 }
