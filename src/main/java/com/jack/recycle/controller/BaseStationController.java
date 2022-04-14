@@ -1,24 +1,39 @@
 package com.jack.recycle.controller;
 
-import com.jack.recycle.model.Goods;
 import com.jack.recycle.model.Station;
 import com.jack.recycle.model.VO.StationAndUser;
 import com.jack.recycle.service.StationService;
 import com.jack.recycle.utils.Result;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+@CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
+@RequestMapping("/station")
 public class BaseStationController {
     @Autowired
     StationService stationService;
+
+    /**
+     * 查看基站列表
+     */
+    @PostMapping(value = "/dirStation")
+    public Result dirStation(@RequestBody Station station){
+        return new Result(Response.SC_OK,"success",stationService.dirStation(station));
+    }
+
+    /**
+     * 获取基站法人信息
+     */
+    @GetMapping(value = "/getStationLegal")
+    public Result getStationLegal(String stationUuid){
+        return new Result(Response.SC_OK,"success",stationService.getStationLegal(stationUuid));
+    }
 
     /**
      * 查看基站详情

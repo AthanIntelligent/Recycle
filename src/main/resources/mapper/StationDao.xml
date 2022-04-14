@@ -10,15 +10,27 @@
     <result column="check" jdbcType="VARCHAR" property="check" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.jack.recycle.model.Station">
-    <result column="img" jdbcType="BLOB" property="img" />
-  </resultMap>
   <sql id="Base_Column_List">
     uuid, station_legal, station_address, station_name, open_flag, `check`, create_time
   </sql>
-  <sql id="Blob_Column_List">
-    img
-  </sql>
+  <select id="selectAllStation" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from station
+    where 1=1
+    <if test="openFlag != null">
+      and open_flag = #{openFlag,jdbcType=INTEGER}
+    </if>
+    <if test="stationName != null">
+      and station_name like "%"#{stationName,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="stationAddress != null">
+      and station_address like "%"#{stationAddress,jdbcType=VARCHAR}"%"
+    </if>
+    <if test="createTime != null">
+      and create_time = #{createTime,jdbcType=VARCHAR}
+    </if>
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -37,11 +49,9 @@
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Station" useGeneratedKeys="true">
     insert into station (station_legal, station_address, station_name, 
-      open_flag, `check`, create_time, 
-      img)
+      open_flag, `check`, create_time)
     values (#{stationLegal,jdbcType=VARCHAR}, #{stationAddress,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR},
-      #{openFlag,jdbcType=VARCHAR}, #{check,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR},
-      #{img,jdbcType=BLOB})
+      #{openFlag,jdbcType=VARCHAR}, #{check,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Station" useGeneratedKeys="true">
     insert into station
@@ -64,9 +74,6 @@
       <if test="createTime != null">
         create_time,
       </if>
-      <if test="img != null">
-        img,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="stationLegal != null">
@@ -86,9 +93,6 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="img != null">
-        #{img,jdbcType=BLOB},
       </if>
     </trim>
   </insert>
@@ -113,9 +117,6 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=VARCHAR},
       </if>
-      <if test="img != null">
-        img = #{img,jdbcType=BLOB},
-      </if>
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
@@ -136,8 +137,7 @@
       station_name = #{stationName,jdbcType=VARCHAR},
       open_flag = #{openFlag,jdbcType=VARCHAR},
       `check` = #{check,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=VARCHAR},
-      img = #{img,jdbcType=BLOB}
+      create_time = #{createTime,jdbcType=VARCHAR}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Station">

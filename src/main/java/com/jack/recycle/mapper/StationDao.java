@@ -2,6 +2,8 @@ package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.Station;
 
+import java.util.List;
+
 public interface StationDao {
     int deleteByPrimaryKey(String uuid);
 
@@ -22,4 +24,6 @@ public interface StationDao {
     int openBaseStation(String uuid);
 
     int reBaseStation(String uuid);
+
+    List<Station> selectAllStation(Station station);
 }

@@ -9,6 +9,8 @@ import com.jack.recycle.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class StationServiceImpl implements StationService {
     @Autowired
@@ -64,6 +66,18 @@ public class StationServiceImpl implements StationService {
     @Override
     public int delBaseStation(String uuid) {
         return stationDao.deleteByPrimaryKey(uuid);
+    }
+
+    @Override
+    public List<Station> dirStation(Station station) {
+        return stationDao.selectAllStation(station);
+    }
+
+    @Override
+    public User getStationLegal(String stationUuid) {
+        Station station = stationDao.selectByPrimaryKey(stationUuid);
+        User user = userDao.selectByPrimaryKey(station.getStationLegal());
+        return user;
     }
 
 

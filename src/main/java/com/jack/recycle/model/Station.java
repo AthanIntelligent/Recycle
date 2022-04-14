@@ -1,7 +1,6 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
 
 /**
@@ -41,11 +40,6 @@ public class Station implements Serializable {
      * 创建时间
      */
     private String createTime;
-
-    /**
-     * 基站图片
-     */
-    private byte[] img;
 
     private static final long serialVersionUID = 1L;
 }
