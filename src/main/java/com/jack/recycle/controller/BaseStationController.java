@@ -24,6 +24,10 @@ public class BaseStationController {
      */
     @PostMapping(value = "/dirStation")
     public Result dirStation(@RequestBody Station station){
+        if ("开启".equals(station.getOpenFlag()))
+            station.setOpenFlag("1");
+        if ("关闭".equals(station.getOpenFlag()))
+            station.setOpenFlag("2");
         return new Result(Response.SC_OK,"success",stationService.dirStation(station));
     }
 
@@ -31,8 +35,8 @@ public class BaseStationController {
      * 获取基站法人信息
      */
     @GetMapping(value = "/getStationLegal")
-    public Result getStationLegal(String stationUuid){
-        return new Result(Response.SC_OK,"success",stationService.getStationLegal(stationUuid));
+    public Result getStationLegal(String userId){
+        return new Result(Response.SC_OK,"success",stationService.getStationLegal(userId));
     }
 
     /**
@@ -41,6 +45,19 @@ public class BaseStationController {
     @GetMapping(value = "/getStationDetail")
     public Result getStationDetail(String uuid){
         return new Result(Response.SC_OK,"success",stationService.getStationDetail(uuid));
+    }
+
+    /**
+     * 修改基站信息（管理员可修改状态）
+     */
+    @PostMapping(value = "/updStation")
+    public Result updStation(@RequestBody Station station){
+        Station stationDetailByUserId = stationService.getStationDetailByUserId(station.getUuid());
+        int i = 0;
+        if (!station.equals(stationDetailByUserId)) {
+            i = stationService.updStation(station);
+        }
+        return new Result(Response.SC_OK,"success",i);
     }
 
     /**

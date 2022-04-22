@@ -17,7 +17,7 @@ public interface StationDao {
 
     int updateByPrimaryKeyWithBLOBs(Station record);
 
-    int updateByPrimaryKey(Station record);
+    int updateByPrimaryKey(String record);
 
     Station selectByStationLegal(String stationLegal);
 

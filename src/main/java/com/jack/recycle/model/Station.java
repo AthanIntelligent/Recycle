@@ -1,6 +1,8 @@
 package com.jack.recycle.model;
 
 import java.io.Serializable;
+import java.util.Objects;
+
 import lombok.Data;
 
 /**
@@ -42,4 +44,18 @@ public class Station implements Serializable {
     private String createTime;
 
     private static final long serialVersionUID = 1L;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Station station = (Station) o;
+        return Objects.equals(uuid, station.uuid) &&
+                Objects.equals(stationLegal, station.stationLegal) &&
+                Objects.equals(stationAddress, station.stationAddress) &&
+                Objects.equals(stationName, station.stationName) &&
+                Objects.equals(openFlag, station.openFlag) &&
+                Objects.equals(check, station.check) &&
+                Objects.equals(createTime, station.createTime);
+    }
 }

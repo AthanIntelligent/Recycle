@@ -11,7 +11,7 @@ public interface StationService {
 
     int joinBaseStation(Station station);
 
-    Station getStationDetailByUserId(String stationLegal);
+    Station getStationDetailByUserId(String uuid);
 
     int openBaseStation(String uuid);
 
@@ -24,4 +24,6 @@ public interface StationService {
     List<Station> dirStation(Station station);
 
     User getStationLegal(String stationUuid);
+
+    int updStation(Station station);
 }

@@ -74,10 +74,15 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public User getStationLegal(String stationUuid) {
-        Station station = stationDao.selectByPrimaryKey(stationUuid);
-        User user = userDao.selectByPrimaryKey(station.getStationLegal());
+    public User getStationLegal(String userId) {
+        User user = userDao.selectByPrimaryKey(userId);
         return user;
+    }
+
+    @Override
+    public int updStation(Station station) {
+        int i = stationDao.updateByPrimaryKeySelective(station);
+        return i;
     }
 
 
