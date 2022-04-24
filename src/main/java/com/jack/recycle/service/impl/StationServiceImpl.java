@@ -85,5 +85,11 @@ public class StationServiceImpl implements StationService {
         return i;
     }
 
+    @Override
+    public int addStation(Station station) {
+        int insert = stationDao.insert(station);
+        return insert;
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.jack.recycle.controller;
 import com.jack.recycle.model.Station;
 import com.jack.recycle.model.VO.StationAndUser;
 import com.jack.recycle.service.StationService;
+import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,20 @@ public class BaseStationController {
             i = stationService.updStation(station);
         }
         return new Result(Response.SC_OK,"success",i);
+    }
+
+    /**
+     * 注册基站
+     */
+    @PostMapping(value = "/addStation")
+    public Result addStation(@RequestBody Station station){
+        //创建一张基站和类型的关联表（基站回收哪些类型的物品）
+        station.setUuid(UUID.randomUUID().toString());
+        station.setOpenFlag("2");
+        station.setStationLegal("7b74e505-3924-4c03-86ed-acbbb6df4b92");
+        station.setCheck("2");
+        station.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd hh:mm:ss"));
+        return new Result(Response.SC_OK,"success",stationService.addStation(station));
     }
 
     /**

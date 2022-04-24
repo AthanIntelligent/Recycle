@@ -26,4 +26,6 @@ public interface StationService {
     User getStationLegal(String stationUuid);
 
     int updStation(Station station);
+
+    int addStation(Station station);
 }
