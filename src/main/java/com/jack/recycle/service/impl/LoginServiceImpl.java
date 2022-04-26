@@ -62,11 +62,22 @@ public class LoginServiceImpl implements LoginService {
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:dd");
         user.setCreateTime(simpleDateFormat.format(new Date()));
+        //基站人员
+        if(user.getUserType().equals("2")){
+            user.setOpenFlag(2);
+        }else {
+            user.setOpenFlag(1);
+        }
         int d = userDao.insert(user);
         if(d > 0){
             return new Result(Response.SC_OK,"注册成功");
         }else {
             return new Result(Response.SC_INTERNAL_SERVER_ERROR,"注册失败");
         }
+    }
+
+    @Override
+    public int logout(String loginName) {
+       return userDao.updateToken(null,loginName);
     }
 }

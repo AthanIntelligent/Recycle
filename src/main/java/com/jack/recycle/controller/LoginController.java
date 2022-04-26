@@ -3,6 +3,8 @@ package com.jack.recycle.controller;
 import com.jack.recycle.model.User;
 import com.jack.recycle.service.LoginService;
 import com.jack.recycle.utils.Result;
+import com.jack.recycle.utils.UserUtils;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,16 @@ public class LoginController {
      */
     @PostMapping(value = "/register")
     public Result regist(@RequestBody User user){
+        if(user.getLoginName().equals("")
+            || user.getPassword().equals("")
+            || user.getRealName().equals("")
+            || user.getMobile().equals(""))
+        {
+            return new Result(Response.SC_BAD_REQUEST,"必填项不能为空");
+        }
+        if(!user.getAddress().equals("") && user.getAddress().split(",")[0].length()==0 && user.getAddress().split(",")[1].length() > 0 ){
+            return new Result(Response.SC_BAD_REQUEST,"地址信息不完整");
+        }
         user.setUuid(UUID.randomUUID().toString());
         return loginService.regist(user);
     }
@@ -37,12 +49,18 @@ public class LoginController {
 
     /**
      * 登出
-     * @param user
      * @return
      */
     @PostMapping(value = "/logout")
-    public Result loginOut(@RequestBody User user){
-        return null;
+    public Result loginOut(){
+        //删除token
+        User currUserInfo = UserUtils.getCurrUserInfo();
+        int d = loginService.logout(currUserInfo.getLoginName());
+        if(d > 0){
+            return new Result(Response.SC_OK,"退出成功");
+        }else {
+            return new Result(Response.SC_INTERNAL_SERVER_ERROR,"服务器报错");
+        }
     }
     /**
      * 模拟登录页面

@@ -8,4 +8,6 @@ public interface LoginService {
     Result login(User user);
 
     Result regist(User user);
+
+    int logout(String uuid);
 }
