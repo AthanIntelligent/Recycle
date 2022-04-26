@@ -1,12 +1,18 @@
 package com.jack.recycle.controller;
 
 import com.jack.recycle.model.Station;
+import com.jack.recycle.model.TypeOfStation;
+import com.jack.recycle.model.VO.StationAndGoodsIds;
 import com.jack.recycle.model.VO.StationAndUser;
 import com.jack.recycle.service.StationService;
+import com.jack.recycle.service.TypeOfStationService;
 import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
+import com.jack.recycle.utils.UserUtils;
 import org.apache.catalina.connector.Response;
+import org.hibernate.validator.internal.util.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.SimpleDateFormat;
@@ -19,6 +25,9 @@ import java.util.UUID;
 public class BaseStationController {
     @Autowired
     StationService stationService;
+
+    @Autowired
+    TypeOfStationService typeOfStationService;
 
     /**
      * 查看基站列表
@@ -65,13 +74,24 @@ public class BaseStationController {
      * 注册基站
      */
     @PostMapping(value = "/addStation")
-    public Result addStation(@RequestBody Station station){
-        //创建一张基站和类型的关联表（基站回收哪些类型的物品）
+    public Result addStation(@RequestBody StationAndGoodsIds stationAndGoodsIds){
+        Station station = stationAndGoodsIds.getStation();
+        String goodsIds = stationAndGoodsIds.getGoodsIds();
+        if (StringUtils.isEmpty(station.getStationName())||StringUtils.isEmpty(station.getStationAddress())) {
+            return new Result(Response.SC_INTERNAL_SERVER_ERROR,"必填参数不能为空",null);
+        }
         station.setUuid(UUID.randomUUID().toString());
+        station.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
         station.setOpenFlag("2");
-        station.setStationLegal("7b74e505-3924-4c03-86ed-acbbb6df4b92");
-        station.setCheck("2");
+        station.setCheck("审核中");
         station.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd hh:mm:ss"));
+        TypeOfStation typeOfStation = new TypeOfStation();
+        typeOfStation.setUuid(UUID.randomUUID().toString());
+        typeOfStation.setStationId(station.getUuid());
+        if (!StringHelper.isNullOrEmptyString(goodsIds)) {
+            typeOfStation.setGoodsIds(goodsIds);
+        }
+        typeOfStationService.addTypeOfStation(typeOfStation);
         return new Result(Response.SC_OK,"success",stationService.addStation(station));
     }
 

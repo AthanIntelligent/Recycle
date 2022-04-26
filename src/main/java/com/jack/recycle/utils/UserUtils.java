@@ -1,12 +1,9 @@
 package com.jack.recycle.utils;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.jack.recycle.mapper.AuthDao;
 import com.jack.recycle.mapper.UserDao;
 import com.jack.recycle.model.Auth;
 import com.jack.recycle.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;

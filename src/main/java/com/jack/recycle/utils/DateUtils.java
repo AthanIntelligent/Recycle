@@ -1,8 +1,8 @@
 package com.jack.recycle.utils;
 
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DateUtils {
     /**
@@ -10,6 +10,8 @@ public class DateUtils {
      * @return
      */
     public static String getFormatDate(String pattern){
-        return LocalDateTime.now().toLocalDate().format(DateTimeFormatter.ofPattern(pattern));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String now = simpleDateFormat.format(new Date());
+        return now;
     }
 }

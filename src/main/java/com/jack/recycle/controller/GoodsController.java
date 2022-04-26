@@ -1,6 +1,8 @@
 package com.jack.recycle.controller;
 
 import com.jack.recycle.model.Goods;
+import com.jack.recycle.model.GoodsType;
+import com.jack.recycle.model.VO.GoodsTypeAndGoods;
 import com.jack.recycle.service.GoodsService;
 import com.jack.recycle.service.GoodsTypeService;
 import com.jack.recycle.utils.PicUtil;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,6 +65,22 @@ public class GoodsController {
         List<Goods> goodsList = goodsService.dirGoods(goods);
         goodsList.stream().forEach(good -> good.setGoodsType(goodsTypeService.getGoodsTypeName(good.getGoodsType())));
         return new Result(StatusCode.OK, "OK", goodsList);
+    }
+
+    @GetMapping(value = "/getGoodsTypeAndGoods")
+    public Result getGoodsTypeAndGoods() {
+        List<GoodsType> goodsTypesList = goodsTypeService.dirGoodsType();
+        List<GoodsTypeAndGoods> result = new ArrayList<>();
+        for (GoodsType goods:goodsTypesList){
+            GoodsTypeAndGoods goodsTypeAndGoods = new GoodsTypeAndGoods();
+            goodsTypeAndGoods.setGoodsType(goods.getGoodsType());
+            Goods ggg = new Goods();
+            ggg.setGoodsType(goods.getUuid());
+            List<Goods> goodsByTypeId = goodsService.dirGoods(ggg);
+            goodsTypeAndGoods.setGoodsList(goodsByTypeId);
+            result.add(goodsTypeAndGoods);
+        }
+        return new Result(StatusCode.OK, "OK", result);
     }
 
     @GetMapping(value = "/getGoods")

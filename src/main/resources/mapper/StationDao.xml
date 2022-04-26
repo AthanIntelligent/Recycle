@@ -48,9 +48,9 @@
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Station" useGeneratedKeys="true">
-    insert into station (station_legal, station_address, station_name, 
+    insert into station (uuid, station_legal, station_address, station_name,
       open_flag, `check`, create_time)
-    values (#{stationLegal,jdbcType=VARCHAR}, #{stationAddress,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR},
+    values (#{uuid,jdbcType=VARCHAR},#{stationLegal,jdbcType=VARCHAR}, #{stationAddress,jdbcType=VARCHAR}, #{stationName,jdbcType=VARCHAR},
       #{openFlag,jdbcType=VARCHAR}, #{check,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Station" useGeneratedKeys="true">

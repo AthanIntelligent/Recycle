@@ -2,14 +2,17 @@ package com.jack.recycle.controller;
 
 import com.jack.recycle.model.GoodsType;
 import com.jack.recycle.service.GoodsTypeService;
+import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
 import com.jack.recycle.utils.StatusCode;
+import com.jack.recycle.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.ListUtils;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*",maxAge = 3600)
@@ -46,6 +49,9 @@ public class GoodsTypeController {
         if (!ListUtils.isEmpty(multi)){
             return new Result(StatusCode.INTERNAL_SERVER_ERROR,"物品类型名字不能重复");
         }
+        goodsType.setUuid(UUID.randomUUID().toString());
+//        goodsType.setCreateUser(UserUtils.getCurrUserInfo().getUuid());
+//        goodsType.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd hh:mm:ss"));
         int i = goodsTypeService.addGoodsType(goodsType);
         return new Result(StatusCode.OK, "OK", i);
     }
