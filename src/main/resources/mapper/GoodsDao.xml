@@ -9,9 +9,11 @@
     <result column="per_money" jdbcType="DOUBLE" property="perMoney" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="pic" jdbcType="VARCHAR" property="pic" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, goods_type, goods_name, recycle_detail, per_money, remark, pic
+    uuid, goods_type, goods_name, recycle_detail, per_money, remark, pic, create_user, create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -45,9 +47,9 @@
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods" useGeneratedKeys="true">
-    insert into goods (uuid,goods_type, goods_name, recycle_detail,per_money, remark, pic)
+    insert into goods (uuid,goods_type, goods_name, recycle_detail,per_money, remark, pic, create_user, create_time)
     values (#{uuid,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{recycleDetail,jdbcType=VARCHAR},
-      #{perMoney,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR})
+      #{perMoney,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods" useGeneratedKeys="true">
     insert into goods
@@ -113,6 +115,12 @@
       <if test="pic != null">
         pic = #{pic,jdbcType=VARCHAR},
       </if>
+      <if test="createUser != null">
+        create_user = #{pic,createUser=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
     </set>
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
@@ -122,7 +130,9 @@
       goods_name = #{goodsName,jdbcType=VARCHAR},
       recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
       per_money = #{perMoney,jdbcType=DOUBLE},
-      remark = #{remark,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
 </mapper>

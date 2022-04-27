@@ -17,4 +17,6 @@ public interface UserService {
     int deleteUserInfo(String uuid);
 
     List<User> dirUserInfo(User user);
+
+    String getRealNameByUuid(String uuid);
 }

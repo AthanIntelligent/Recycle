@@ -41,5 +41,20 @@ public class Goods implements Serializable {
      */
     private String pic;
 
+    /**
+     * 创建人
+     */
+    private String createUser;
+
+    /**
+     * 创建时间
+     */
+    private String createTime;
+
+    /**
+     * 操作栏是否显示；不是数据库字段，是有查询列表的时候用到
+     */
+    private Boolean isVisible;
+
     private static final long serialVersionUID = 1L;
 }

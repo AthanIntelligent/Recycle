@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jack.recycle.mapper.GoodsOfStationDao">
+    <resultMap id="BaseResultMap" type="com.jack.recycle.model.GoodsOfStation">
+        <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+        <result column="station_id" jdbcType="VARCHAR" property="stationId" />
+        <result column="station_legal" jdbcType="VARCHAR" property="stationLegal" />
+        <result column="goods_ids" jdbcType="VARCHAR" property="goodsIds" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        uuid, station_id, station_legal, goods_ids
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from goods_of_station
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectByStationLegal" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from goods_of_station
+        where station_legal = #{stationLegal,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+            *
+        from goods_of_station
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from goods_of_station
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.GoodsOfStation" useGeneratedKeys="true">
+        insert into goods_of_station (uuid, station_id, station_legal, goods_ids)
+        values (#{uuid,jdbcType=VARCHAR},#{stationId,jdbcType=VARCHAR},#{stationLegal,jdbcType=VARCHAR},#{goodsIds,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.GoodsOfStation">
+        update goods_of_station
+        <set>
+            <if test="goodsIds != null">
+                goods_ids = #{goodsIds,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.GoodsOfStation">
+        update goods_of_station
+        set station_id = #{stationId,jdbcType=VARCHAR},station_legal = #{stationLegal,jdbcType=VARCHAR},goods_ids = #{goodsIds,jdbcType=VARCHAR}
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+</mapper>

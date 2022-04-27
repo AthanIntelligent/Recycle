@@ -27,4 +27,6 @@ public interface UserDao {
     List<User> dirUserInfo(User record);
 
     int updateToken(String token, String loginName);
+
+    String getRealNameByUuid(String uuid);
 }

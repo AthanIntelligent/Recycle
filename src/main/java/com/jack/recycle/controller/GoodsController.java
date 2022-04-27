@@ -1,13 +1,15 @@
 package com.jack.recycle.controller;
 
 import com.jack.recycle.model.Goods;
+import com.jack.recycle.model.GoodsOfStation;
 import com.jack.recycle.model.GoodsType;
 import com.jack.recycle.model.VO.GoodsTypeAndGoods;
+import com.jack.recycle.service.GoodsOfStationService;
 import com.jack.recycle.service.GoodsService;
 import com.jack.recycle.service.GoodsTypeService;
-import com.jack.recycle.utils.PicUtil;
-import com.jack.recycle.utils.Result;
-import com.jack.recycle.utils.StatusCode;
+import com.jack.recycle.service.UserService;
+import com.jack.recycle.utils.*;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.hibernate.validator.internal.util.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -16,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,11 +33,28 @@ public class GoodsController {
     @Autowired
     private GoodsTypeService goodsTypeService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private GoodsOfStationService goodsOfStationService;
+
     @PostMapping(value = "/addGoods")
     public Result addGoods(@RequestBody Goods goods){
         goods.setUuid(UUID.randomUUID().toString());
         String goodsTypeUuid = goodsTypeService.getGoodsTypeUuid(goods.getGoodsType());
         goods.setGoodsType(goodsTypeUuid);
+        goods.setCreateUser(UserUtils.getCurrUserInfo().getUuid());
+        goods.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd hh:mm"));
+        //基站人员添加物品还需要添加到goodsOfStation表中
+        String currentUserId = UserUtils.getCurrUserInfo().getUuid();
+        if (!UserUtils.ADMIN.equals(currentUserId)){
+            GoodsOfStation goodsOfStation = goodsOfStationService.getGoodsOfStation(currentUserId);
+            String goodsIds = goodsOfStation.getGoodsIds();
+            goodsIds += ","+goods.getUuid();
+            goodsOfStation.setGoodsIds(goodsIds);
+            int a = goodsOfStationService.updGoodsOfStation(goodsOfStation);
+        }
         int i = goodsService.addGoods(goods);
         return new Result(StatusCode.OK, "OK", i);
     }
@@ -62,8 +82,32 @@ public class GoodsController {
             String goodsTypeUuid = goodsTypeService.getGoodsTypeUuid(goods.getGoodsType());
             goods.setGoodsType(goodsTypeUuid);
         }
-        List<Goods> goodsList = goodsService.dirGoods(goods);
-        goodsList.stream().forEach(good -> good.setGoodsType(goodsTypeService.getGoodsTypeName(good.getGoodsType())));
+        List<Goods> goodsList = new ArrayList<>();
+        String currUserId = UserUtils.getCurrUserInfo().getUuid();
+        if (UserUtils.ADMIN.equals(currUserId)) {
+            goodsList = goodsService.dirGoods(goods);
+            goodsList.stream().forEach(good -> {
+                good.setIsVisible(true);
+            });
+        }else {
+            String goodsIds = goodsOfStationService.getGoodsOfStation(currUserId).getGoodsIds();
+            List<String> goodsIdList = Arrays.asList(goodsIds.split(","));
+            for (String goodsId:goodsIdList) {
+                Goods good = goodsService.getGoods(goodsId);
+                if (good != null) {
+                    //判断哪些是可操作的 哪些是不可操作的
+                    if (UserUtils.ADMIN.equals(good.getCreateUser()))
+                        good.setIsVisible(false);
+                    else
+                        good.setIsVisible(true);
+                    goodsList.add(good);
+                }
+            }
+        }
+        goodsList.stream().forEach(good -> {
+                good.setGoodsType(goodsTypeService.getGoodsTypeName(good.getGoodsType()));
+                good.setCreateUser(userService.getRealNameByUuid(good.getCreateUser()));
+        });
         return new Result(StatusCode.OK, "OK", goodsList);
     }
 

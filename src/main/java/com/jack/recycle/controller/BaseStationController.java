@@ -1,11 +1,11 @@
 package com.jack.recycle.controller;
 
 import com.jack.recycle.model.Station;
-import com.jack.recycle.model.TypeOfStation;
+import com.jack.recycle.model.GoodsOfStation;
 import com.jack.recycle.model.VO.StationAndGoodsIds;
 import com.jack.recycle.model.VO.StationAndUser;
 import com.jack.recycle.service.StationService;
-import com.jack.recycle.service.TypeOfStationService;
+import com.jack.recycle.service.GoodsOfStationService;
 import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
 import com.jack.recycle.utils.UserUtils;
@@ -27,7 +27,7 @@ public class BaseStationController {
     StationService stationService;
 
     @Autowired
-    TypeOfStationService typeOfStationService;
+    GoodsOfStationService typeOfStationService;
 
     /**
      * 查看基站列表
@@ -85,13 +85,14 @@ public class BaseStationController {
         station.setOpenFlag("2");
         station.setCheck("审核中");
         station.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd hh:mm:ss"));
-        TypeOfStation typeOfStation = new TypeOfStation();
+        GoodsOfStation typeOfStation = new GoodsOfStation();
         typeOfStation.setUuid(UUID.randomUUID().toString());
         typeOfStation.setStationId(station.getUuid());
+        typeOfStation.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
         if (!StringHelper.isNullOrEmptyString(goodsIds)) {
             typeOfStation.setGoodsIds(goodsIds);
         }
-        typeOfStationService.addTypeOfStation(typeOfStation);
+        typeOfStationService.addGoodsOfStation(typeOfStation);
         return new Result(Response.SC_OK,"success",stationService.addStation(station));
     }
 

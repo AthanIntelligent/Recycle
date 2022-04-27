@@ -37,6 +37,12 @@
         <include refid="Base_Column_List"/>
         from user
     </select>
+    <select id="getRealNameByUuid" resultType="java.lang.String">
+        select
+            real_name
+        from user
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
     <select id="dirUserInfo" parameterType="com.jack.recycle.model.User" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>

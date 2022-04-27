@@ -16,6 +16,10 @@ public class UserUtils {
     private static UserDao userDao = BeanUtils.getBean(UserDao.class);
 
     private static AuthDao authDao = BeanUtils.getBean(AuthDao.class);
+    /**
+     * 系统管理员uuid
+     */
+    public static final String ADMIN = "1";
 
     /**
      * 获取当前用户
