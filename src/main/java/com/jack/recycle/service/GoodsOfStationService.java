@@ -5,7 +5,9 @@ import com.jack.recycle.model.GoodsOfStation;
 public interface GoodsOfStationService {
     int addGoodsOfStation(GoodsOfStation goodsOfStation);
 
-    GoodsOfStation getGoodsOfStation(String stationLegalId);
+    GoodsOfStation getGoodsOfStationByStationLegal(String stationLegalId);
 
     int updGoodsOfStation(GoodsOfStation goodsOfStation);
+
+    GoodsOfStation getGoodsOfStationByStationId (String stationId);
 }

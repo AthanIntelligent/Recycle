@@ -32,6 +32,9 @@
     <if test="goodsName != null">
       and goods_name like "%"#{goodsName,jdbcType=VARCHAR}"%"
     </if>
+    <if test="createUser != null">
+      and create_user = #{createUser,jdbcType=VARCHAR}
+    </if>
   </select>
   <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
     select

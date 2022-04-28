@@ -45,4 +45,10 @@ public class UserServiceImpl implements UserService {
     public String getRealNameByUuid(String uuid) {
         return userDao.getRealNameByUuid(uuid);
     }
+
+    @Override
+    public List<User> dirStationUserList(List<String> ids) {
+        List<User> users = userDao.selectUserByType(ids);
+        return users;
+    }
 }

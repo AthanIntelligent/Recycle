@@ -27,6 +27,12 @@
             *
         from goods_of_station
     </select>
+    <select id="selectByStationId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from goods_of_station
+        where station_id= #{stationId,jdbcType=VARCHAR}
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete from goods_of_station
         where uuid = #{uuid,jdbcType=VARCHAR}

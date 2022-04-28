@@ -29,4 +29,6 @@ public interface UserDao {
     int updateToken(String token, String loginName);
 
     String getRealNameByUuid(String uuid);
+
+    List<User> selectUserByType(List<String> ids);
 }

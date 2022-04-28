@@ -19,7 +19,7 @@ public class GoodsOfStationServiceImpl implements GoodsOfStationService {
     }
 
     @Override
-    public GoodsOfStation getGoodsOfStation(String stationLegalId) {
+    public GoodsOfStation getGoodsOfStationByStationLegal(String stationLegalId) {
         GoodsOfStation goodsOfStation = goodsOfStationDao.selectByStationLegal(stationLegalId);
         return goodsOfStation;
     }
@@ -27,5 +27,10 @@ public class GoodsOfStationServiceImpl implements GoodsOfStationService {
     @Override
     public int updGoodsOfStation(GoodsOfStation goodsOfStation) {
         return goodsOfStationDao.updateByPrimaryKeySelective(goodsOfStation);
+    }
+
+    @Override
+    public GoodsOfStation getGoodsOfStationByStationId(String stationId) {
+        return goodsOfStationDao.selectByStationId(stationId);
     }
 }

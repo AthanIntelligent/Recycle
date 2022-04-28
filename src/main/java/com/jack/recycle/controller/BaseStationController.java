@@ -93,7 +93,9 @@ public class BaseStationController {
             typeOfStation.setGoodsIds(goodsIds);
         }
         typeOfStationService.addGoodsOfStation(typeOfStation);
-        return new Result(Response.SC_OK,"success",stationService.addStation(station));
+        stationService.addStation(station);
+        //添加基站后给前端返回基站id,用于查看最后一步的状态
+        return new Result(Response.SC_OK,"success",station.getUuid());
     }
 
     /**

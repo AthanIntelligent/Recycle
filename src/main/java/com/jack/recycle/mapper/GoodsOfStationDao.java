@@ -9,4 +9,6 @@ public interface GoodsOfStationDao {
     GoodsOfStation selectByStationLegal(String stationLegalId);
 
     int updateByPrimaryKeySelective(GoodsOfStation typeOfStation);
+
+    GoodsOfStation selectByStationId(String stationId);
 }

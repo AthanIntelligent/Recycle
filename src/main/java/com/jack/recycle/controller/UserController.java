@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,5 +95,19 @@ public class UserController {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 系统管理员获取所有基站人员 userType=2 包括自己userType=3
+     * @param
+     * @return
+     */
+    @GetMapping(value = "/dirStationUserList")
+    public Result dirStationUserList(){
+        List<String> ids = new ArrayList<>();
+        ids.add("2");
+        ids.add("3");
+        List<User> users = userService.dirStationUserList(ids);
+        return new Result(Response.SC_OK,"success",users);
     }
 }

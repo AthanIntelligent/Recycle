@@ -26,6 +26,15 @@
         from user
         where uuid = #{uuid,jdbcType=VARCHAR}
     </select>
+    <select id="selectUserByType" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where user_type in
+        <foreach collection="list" item="typeId" index="index" open="(" close=")" separator=",">
+            #{typeId}
+        </foreach>
+    </select>
     <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>

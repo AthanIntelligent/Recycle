@@ -49,7 +49,7 @@ public class GoodsController {
         //基站人员添加物品还需要添加到goodsOfStation表中
         String currentUserId = UserUtils.getCurrUserInfo().getUuid();
         if (!UserUtils.ADMIN.equals(currentUserId)){
-            GoodsOfStation goodsOfStation = goodsOfStationService.getGoodsOfStation(currentUserId);
+            GoodsOfStation goodsOfStation = goodsOfStationService.getGoodsOfStationByStationLegal(currentUserId);
             String goodsIds = goodsOfStation.getGoodsIds();
             goodsIds += ","+goods.getUuid();
             goodsOfStation.setGoodsIds(goodsIds);
@@ -82,26 +82,28 @@ public class GoodsController {
             String goodsTypeUuid = goodsTypeService.getGoodsTypeUuid(goods.getGoodsType());
             goods.setGoodsType(goodsTypeUuid);
         }
-        List<Goods> goodsList = new ArrayList<>();
         String currUserId = UserUtils.getCurrUserInfo().getUuid();
+        List<Goods> goodsList = goodsService.dirGoods(goods);
         if (UserUtils.ADMIN.equals(currUserId)) {
-            goodsList = goodsService.dirGoods(goods);
             goodsList.stream().forEach(good -> {
                 good.setIsVisible(true);
             });
         }else {
-            String goodsIds = goodsOfStationService.getGoodsOfStation(currUserId).getGoodsIds();
+            String goodsIds = goodsOfStationService.getGoodsOfStationByStationLegal(currUserId).getGoodsIds();
             List<String> goodsIdList = Arrays.asList(goodsIds.split(","));
-            for (String goodsId:goodsIdList) {
-                Goods good = goodsService.getGoods(goodsId);
-                if (good != null) {
-                    //判断哪些是可操作的 哪些是不可操作的
-                    if (UserUtils.ADMIN.equals(good.getCreateUser()))
-                        good.setIsVisible(false);
-                    else
-                        good.setIsVisible(true);
-                    goodsList.add(good);
+            //废纸类有三个 1234 ，1 2是系统管理员添加 3是自己添加的 4是其他人添加的；那么goodsList就是1234 ；goodsIdList基站人员经营的所有物品的id集合，包括废纸类 其他类
+            //做法：先循环那么goodsList就是1234，把不是自己添加不是管理员添加的排除掉
+            for (Goods goo:goodsList) {
+                if (!goodsIdList.contains(goo.getUuid())) {
+                    goodsList.remove(goo);
                 }
+            }
+            for (Goods good:goodsList) {
+                //判断哪些是可操作的 哪些是不可操作的
+                if (UserUtils.ADMIN.equals(good.getCreateUser()))
+                    good.setIsVisible(false);
+                else
+                    good.setIsVisible(true);
             }
         }
         goodsList.stream().forEach(good -> {
