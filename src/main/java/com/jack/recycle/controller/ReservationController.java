@@ -32,6 +32,7 @@ public class ReservationController {
     public Result dirReservation(@RequestBody Reservation reservation){
         List<Reservation> reservations = reservationService.dirReservation(reservation);
         //需要循环list把预约人id等id转换成真实姓名
+        //每次刷新都要根据当前时间对比预约时间修改状态
         return new Result(StatusCode.OK, "OK", reservations);
     }
 }
