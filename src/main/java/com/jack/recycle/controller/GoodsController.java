@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @CrossOrigin(origins = "*",maxAge = 3600)
@@ -93,11 +90,19 @@ public class GoodsController {
             List<String> goodsIdList = Arrays.asList(goodsIds.split(","));
             //废纸类有三个 1234 ，1 2是系统管理员添加 3是自己添加的 4是其他人添加的；那么goodsList就是1234 ；goodsIdList基站人员经营的所有物品的id集合，包括废纸类 其他类
             //做法：先循环那么goodsList就是1234，把不是自己添加不是管理员添加的排除掉
-            for (Goods goo:goodsList) {
-                if (!goodsIdList.contains(goo.getUuid())) {
-                    goodsList.remove(goo);
+            Iterator<Goods> iterator = goodsList.iterator();
+            while (iterator.hasNext()){
+                Goods g = iterator.next();
+                if(!goodsIdList.contains(g.getUuid())){
+                    iterator.remove();
                 }
             }
+
+//            for (Goods goo:goodsList) {
+//                if (!goodsIdList.contains(goo.getUuid())) {
+//                    goodsList.remove(goo);
+//                }
+//            }
             for (Goods good:goodsList) {
                 //判断哪些是可操作的 哪些是不可操作的
                 if (UserUtils.ADMIN.equals(good.getCreateUser()))

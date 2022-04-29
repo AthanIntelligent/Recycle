@@ -51,4 +51,10 @@ public class UserServiceImpl implements UserService {
         List<User> users = userDao.selectUserByType(ids);
         return users;
     }
+
+    @Override
+    public List<User> dirStationUserListUU(List<String> ids) {
+        List<User> users = userDao.selectUserByUUids(ids);
+        return users;
+    }
 }
