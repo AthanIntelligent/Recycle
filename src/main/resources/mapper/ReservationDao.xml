@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jack.recycle.mapper.ReservationDao">
+    <resultMap id="BaseResultMap" type="com.jack.recycle.model.Reservation">
+        <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+        <result column="day" jdbcType="VARCHAR" property="day" />
+        <result column="time" jdbcType="VARCHAR" property="time" />
+        <result column="appointment_holder" jdbcType="VARCHAR" property="appointmentHolder" />
+        <result column="appointment_station" jdbcType="VARCHAR" property="appointmentStation" />
+        <result column="station_legal" jdbcType="VARCHAR" property="stationLegal" />
+        <result column="is_come" jdbcType="VARCHAR" property="isCome" />
+        <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        uuid, `day`, `time`, appointment_holder, appointment_station, station_legal, is_come, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from reservation
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+            *
+        from reservation
+        where 1=1
+        <if test="day != null">
+            and day = #{day,jdbcType=VARCHAR}
+        </if>
+        <if test="time != null">
+            and time = #{time,jdbcType=VARCHAR}
+        </if>
+        <if test="isCome != null">
+            and is_come = #{isCome,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from reservation
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.GoodsType" useGeneratedKeys="true">
+        insert into reservation (uuid, day, time, appointment_holder, appointment_station, station_legal, is_come, create_time)
+        values (#{uuid,jdbcType=VARCHAR},#{day,jdbcType=VARCHAR},#{time,jdbcType=VARCHAR},#{appointment_holder,jdbcType=VARCHAR},#{appointment_station,jdbcType=VARCHAR},#{station_legal,jdbcType=VARCHAR},#{is_come,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Reservation">
+        update reservation
+        set is_come = #{is_come,jdbcType=VARCHAR}
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+</mapper>

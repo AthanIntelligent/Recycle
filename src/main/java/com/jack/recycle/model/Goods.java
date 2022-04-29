@@ -32,6 +32,11 @@ public class Goods implements Serializable {
     private Double perMoney;
 
     /**
+     * 价格单位
+     */
+    private String unit;
+
+    /**
      * 新旧程度备注
      */
     private String remark;

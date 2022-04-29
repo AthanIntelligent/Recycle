@@ -98,16 +98,25 @@ public class UserController {
     }
 
     /**
-     * 系统管理员获取所有基站人员 userType=2 包括自己userType=3
+     * 系统管理员获取所有基站人员 userType=2 包括自己userType=3；基站人员获取自己和系统管理员添加的
      * @param
      * @return
      */
     @GetMapping(value = "/dirStationUserList")
     public Result dirStationUserList(){
+        List<User> users;
         List<String> ids = new ArrayList<>();
-        ids.add("2");
-        ids.add("3");
-        List<User> users = userService.dirStationUserList(ids);
+        //如果是系统管理员 就查用户类型是2和3的
+        if (UserUtils.ADMIN.equals(UserUtils.getCurrUserInfo().getUuid())) {
+            ids.add("2");
+            ids.add("3");
+            users = userService.dirStationUserList(ids);
+        }else {
+            // 如果是基站人员 就查自己和系统管理员的uuid
+            ids.add(UserUtils.getCurrUserInfo().getUuid());
+            ids.add(UserUtils.ADMIN);
+            users = userService.dirStationUserListUU(ids);
+        }
         return new Result(Response.SC_OK,"success",users);
     }
 }
