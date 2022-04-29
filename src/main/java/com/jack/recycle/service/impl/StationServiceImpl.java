@@ -91,5 +91,10 @@ public class StationServiceImpl implements StationService {
         return insert;
     }
 
+    @Override
+    public Station getStationStatus(String userId) {
+        return stationDao.selectByStationLegal(userId);
+    }
+
 
 }

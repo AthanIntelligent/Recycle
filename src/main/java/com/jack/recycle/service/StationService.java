@@ -28,4 +28,6 @@ public interface StationService {
     int updStation(Station station);
 
     int addStation(Station station);
+
+    Station getStationStatus(String userId);
 }

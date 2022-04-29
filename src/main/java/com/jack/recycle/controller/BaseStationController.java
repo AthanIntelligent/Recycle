@@ -58,6 +58,14 @@ public class BaseStationController {
     }
 
     /**
+     * 查看基站状态
+     */
+    @GetMapping(value = "/getStationStatus")
+    public Result getStationStatus(String userId){
+        return new Result(Response.SC_OK,"success",stationService.getStationStatus(userId));
+    }
+
+    /**
      * 修改基站信息（管理员可修改状态）
      */
     @PostMapping(value = "/updStation")
