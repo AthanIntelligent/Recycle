@@ -23,4 +23,6 @@ public interface UserService {
     List<User> dirStationUserList(List<String> ids);
 
     List<User> dirStationUserListUU(List<String> ids);
+
+    String getUuidByRealName(String realName);
 }

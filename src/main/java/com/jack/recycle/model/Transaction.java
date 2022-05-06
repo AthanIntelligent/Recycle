@@ -13,16 +13,6 @@ public class Transaction implements Serializable {
     private String uuid;
 
     /**
-     * 重量
-     */
-    private Double weight;
-
-    /**
-     * 金额
-     */
-    private String money;
-
-    /**
      * 用户id
      */
     private String userId;
@@ -35,17 +25,17 @@ public class Transaction implements Serializable {
     /**
      * 回收时间
      */
-    private Date transactionTime;
+    private String transactionTime;
 
     /**
-     * 物品id
+     * 物品ids
      */
-    private String goodsId;
+    private String transactionGoodsId;
 
     /**
      * 基站人员id
      */
-    private String stationUserId;
+    private String stationLegal;
 
     private static final long serialVersionUID = 1L;
 }

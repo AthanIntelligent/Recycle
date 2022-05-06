@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jack.recycle.mapper.TransactionGoodsDao">
+    <resultMap id="BaseResultMap" type="com.jack.recycle.model.TransactionGoods">
+        <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+        <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+        <result column="weight" jdbcType="DOUBLE" property="weight" />
+        <result column="money" jdbcType="DOUBLE" property="money" />
+        <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        uuid, transaction_id, weight, money, goods_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from transaction_goods
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from transaction_goods
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Transaction" useGeneratedKeys="true">
+        insert into transaction_goods (uuid, transaction_id, weight, money, goods_id)
+        values (#{uuid,jdbcType=VARCHAR},#{transactionId,jdbcType=VARCHAR},#{weight,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE},#{goodsId,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Transaction">
+        update transaction_goods
+        <set>
+            <if test="weight != null">
+                weight = #{weight,jdbcType=DOUBLE},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DOUBLE},
+            </if>
+            <if test="transactionId != null">
+                transaction_id = #{transactionId,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsId != null">
+                goods_id = #{goodsId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Transaction">
+        update transaction_goods
+        set weight = #{weight,jdbcType=DOUBLE},
+            money = #{money,jdbcType=DOUBLE},
+            transaction_id = #{transactionId,jdbcType=VARCHAR},
+            goods_id = #{goodsId,jdbcType=VARCHAR}
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+</mapper>

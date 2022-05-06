@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
         List<User> users = userDao.selectUserByUUids(ids);
         return users;
     }
+
+    @Override
+    public String getUuidByRealName(String realName) {
+        return userDao.getUuidByRealName(realName);
+    }
 }

@@ -8,4 +8,6 @@ public interface ReservationService {
     int addReservation(Reservation reservation);
 
     List<Reservation> dirReservation(Reservation reservation);
+
+    int updReservation (Reservation reservation);
 }

@@ -41,11 +41,11 @@
     </delete>
     <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.GoodsType" useGeneratedKeys="true">
         insert into reservation (uuid, day, time, appointment_holder, appointment_station, station_legal, is_come, create_time)
-        values (#{uuid,jdbcType=VARCHAR},#{day,jdbcType=VARCHAR},#{time,jdbcType=VARCHAR},#{appointment_holder,jdbcType=VARCHAR},#{appointment_station,jdbcType=VARCHAR},#{station_legal,jdbcType=VARCHAR},#{is_come,jdbcType=VARCHAR},#{create_time,jdbcType=VARCHAR})
+        values (#{uuid,jdbcType=VARCHAR},#{day,jdbcType=VARCHAR},#{time,jdbcType=VARCHAR},#{appointmentHolder,jdbcType=VARCHAR},#{appointmentStation,jdbcType=VARCHAR},#{stationLegal,jdbcType=VARCHAR},#{isCome,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Reservation">
         update reservation
-        set is_come = #{is_come,jdbcType=VARCHAR}
+        set is_come = #{isCome,jdbcType=VARCHAR}
         where uuid = #{uuid,jdbcType=VARCHAR}
     </update>
 </mapper>

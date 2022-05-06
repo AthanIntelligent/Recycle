@@ -7,4 +7,5 @@ import java.util.List;
 public interface ReservationDao {
     int insert(Reservation reservation);
     List<Reservation> selectAll(Reservation reservation);
+    int updateByPrimaryKey(Reservation reservation);
 }

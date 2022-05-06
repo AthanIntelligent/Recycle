@@ -24,4 +24,10 @@ public class ReservationServiceImpl implements ReservationService {
         List<Reservation> reservations = reservationDao.selectAll(reservation);
         return reservations;
     }
+
+    @Override
+    public int updReservation(Reservation reservation) {
+        int i = reservationDao.updateByPrimaryKey(reservation);
+        return i;
+    }
 }

@@ -30,6 +30,8 @@ public interface UserDao {
 
     String getRealNameByUuid(String uuid);
 
+    String getUuidByRealName(String realName);
+
     List<User> selectUserByType(List<String> typeIds);
 
     List<User> selectUserByUUids(List<String> uuids);

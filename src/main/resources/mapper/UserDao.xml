@@ -61,6 +61,12 @@
         from user
         where uuid = #{uuid,jdbcType=VARCHAR}
     </select>
+    <select id="getUuidByRealName" resultType="java.lang.String">
+        select
+            uuid
+        from user
+        where real_name = #{realName,jdbcType=VARCHAR}
+    </select>
     <select id="dirUserInfo" parameterType="com.jack.recycle.model.User" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"></include>
