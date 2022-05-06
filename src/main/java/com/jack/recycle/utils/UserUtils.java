@@ -4,6 +4,8 @@ import com.jack.recycle.mapper.AuthDao;
 import com.jack.recycle.mapper.UserDao;
 import com.jack.recycle.model.Auth;
 import com.jack.recycle.model.User;
+import org.apache.catalina.connector.Response;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -26,6 +28,9 @@ public class UserUtils {
      */
     public static User getCurrUserInfo(){
         String userId = (String) memcachedRunner.getClient().get("userId");
+        if("".equals(userId) || userId == null){
+            return null;
+        }
         User user = userDao.selectByPrimaryKey(userId);
         return user;
     }
@@ -36,6 +41,9 @@ public class UserUtils {
     public static String getCurrUserInfoPermissions() throws IOException {
         String authStr = "";
         User currUserInfo = getCurrUserInfo();
+        if(currUserInfo == null){
+            return "/login";
+        }
         List<Auth> auth = authDao.selectByUserType(Integer.valueOf(currUserInfo.getUserType()));
         if(auth.size() > 0){
             for(int i=0;i<auth.size();i++){

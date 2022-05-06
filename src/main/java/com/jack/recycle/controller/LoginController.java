@@ -55,6 +55,9 @@ public class LoginController {
     public Result loginOut(){
         //删除token
         User currUserInfo = UserUtils.getCurrUserInfo();
+        if(currUserInfo == null){
+            return new Result(Response.SC_CONFLICT,"请重新登录");
+        }
         int d = loginService.logout(currUserInfo.getLoginName());
         if(d > 0){
             return new Result(Response.SC_OK,"退出成功");
