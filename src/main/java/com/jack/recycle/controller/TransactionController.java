@@ -3,13 +3,17 @@ package com.jack.recycle.controller;
 import com.jack.recycle.model.Transaction;
 import com.jack.recycle.model.TransactionGoods;
 import com.jack.recycle.model.VO.TransactionAndGoods;
+import com.jack.recycle.service.GoodsService;
 import com.jack.recycle.service.TransactionGoodsService;
 import com.jack.recycle.service.TransactionService;
 import com.jack.recycle.service.UserService;
 import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
 import com.jack.recycle.utils.StatusCode;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.hibernate.validator.internal.util.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -26,6 +30,9 @@ public class TransactionController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GoodsService goodsService;
 
     @Autowired
     private TransactionGoodsService transactionGoodsService;
@@ -58,4 +65,46 @@ public class TransactionController {
     }
 
 
+    @PostMapping(value = "/dirTransaction")
+    public Result dirTransaction(@RequestBody Transaction transaction){
+        //用户姓名转换成id，如果输入的用户姓名不存在，提示"该用户不存在"，不用这个查询条件
+        if (!StringHelper.isNullOrEmptyString(transaction.getUserId())) {
+            String uuidByRealName = userService.getUuidByRealName(transaction.getUserId());
+            if (!StringUtils.isEmpty(uuidByRealName))
+                transaction.setUserId(uuidByRealName);
+            else
+                return new Result(StatusCode.INTERNAL_SERVER_ERROR, "该用户不存在", transaction.getUserId());
+        }
+        List<Transaction> transactions = transactionService.dirTransaction(transaction);
+        for (Transaction tr:transactions) {
+            String realName = userService.getRealNameByUuid(tr.getUserId());
+            tr.setUserId(realName);
+            String realName2 = userService.getRealNameByUuid(tr.getStationLegal());
+            tr.setStationLegal(realName2);
+        }
+//        List<TransactionAndGoods> result = new ArrayList<>();
+//        for (Transaction tran:transactions) {
+//            TransactionGoods transactionGoods = new TransactionGoods();
+//            transactionGoods.setTransactionId(tran.getUuid());
+//            List<TransactionGoods> transactionGoodsList = transactionGoodsService.dirtransactionGoods(transactionGoods);
+//
+//            TransactionAndGoods transactionAndGoods = new TransactionAndGoods();
+//            transactionAndGoods.setTransaction(tran);
+//            transactionAndGoods.setTransactionGoodsList(transactionGoodsList);
+//            result.add(transactionAndGoods);
+//        }
+        return new Result(StatusCode.OK, "OK", transactions);
+    }
+
+    @GetMapping(value = "/getTransactionGoods")
+    public Result getTransactionGoods(@RequestParam("transactionId") String transactionId) {
+        TransactionGoods transactionGoods = new TransactionGoods();
+        transactionGoods.setTransactionId(transactionId);
+        List<TransactionGoods> transactionGoodsList = transactionGoodsService.dirTransactionGoods(transactionGoods);
+        for (TransactionGoods tr:transactionGoodsList) {
+            String goodsName = goodsService.getGoods(tr.getGoodsId()).getGoodsName();
+            tr.setGoodsId(goodsName);
+        }
+        return new Result(StatusCode.OK, "OK", transactionGoodsList);
+    }
 }

@@ -2,6 +2,8 @@ package com.jack.recycle.mapper;
 
 import com.jack.recycle.model.Transaction;
 
+import java.util.List;
+
 public interface TransactionDao {
     int deleteByPrimaryKey(String uuid);
 
@@ -10,6 +12,8 @@ public interface TransactionDao {
     int insertSelective(Transaction record);
 
     Transaction selectByPrimaryKey(String uuid);
+
+    List<Transaction> selectAll(Transaction record);
 
     int updateByPrimaryKeySelective(Transaction record);
 

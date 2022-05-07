@@ -6,6 +6,8 @@ import com.jack.recycle.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TransactionServiceImpl implements TransactionService {
     @Autowired
@@ -14,5 +16,10 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public int addTransaction(Transaction transaction) {
         return transactionDao.insert(transaction);
+    }
+
+    @Override
+    public List<Transaction> dirTransaction(Transaction transaction) {
+        return transactionDao.selectAll(transaction);
     }
 }

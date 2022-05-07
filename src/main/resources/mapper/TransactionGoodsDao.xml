@@ -17,6 +17,15 @@
         from transaction_goods
         where uuid = #{uuid,jdbcType=VARCHAR}
     </select>
+    <select id="selectAll" parameterType="com.jack.recycle.model.TransactionGoods" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from transaction_goods
+        where 1=1
+        <if test="transactionId != null">
+            and transaction_id = #{transactionId,jdbcType=VARCHAR}
+        </if>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete from transaction_goods
         where uuid = #{uuid,jdbcType=VARCHAR}
