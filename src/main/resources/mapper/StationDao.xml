@@ -8,6 +8,7 @@
     <result column="station_name" jdbcType="VARCHAR" property="stationName" />
     <result column="open_flag" jdbcType="VARCHAR" property="openFlag" />
     <result column="check" jdbcType="VARCHAR" property="check" />
+    <result column="active" jdbcType="INTEGER" property="active" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
@@ -39,7 +40,7 @@
   </select>
   <select id="selectByStationLegal" parameterType="java.lang.String" resultMap="BaseResultMap">
     select
-    <include refid="Base_Column_List" />
+    *
     from station
     where station_legal = #{stationLegal,jdbcType=VARCHAR}
   </select>
@@ -96,6 +97,15 @@
       </if>
     </trim>
   </insert>
+  <update id="updateJoinStationActive" parameterType="com.jack.recycle.model.Station">
+    update station
+    <set>
+      <if test="active != null">
+        active = #{active,jdbcType=INTEGER},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Station">
     update station
     <set>

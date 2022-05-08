@@ -39,6 +39,11 @@ public class Station implements Serializable {
     private String check;
 
     /**
+     * 入驻步骤
+     */
+    private Integer active;
+
+    /**
      * 创建时间
      */
     private String createTime;

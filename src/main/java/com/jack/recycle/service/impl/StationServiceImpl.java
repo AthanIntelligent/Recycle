@@ -96,5 +96,10 @@ public class StationServiceImpl implements StationService {
         return stationDao.selectByStationLegal(userId);
     }
 
+    @Override
+    public int updateJoinStationActive(Station station) {
+        return stationDao.updateJoinStationActive(station);
+    }
+
 
 }

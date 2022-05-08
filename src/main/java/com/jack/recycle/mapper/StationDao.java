@@ -26,4 +26,6 @@ public interface StationDao {
     int reBaseStation(String uuid);
 
     List<Station> selectAllStation(Station station);
+
+    int updateJoinStationActive(Station station);
 }

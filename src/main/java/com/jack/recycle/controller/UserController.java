@@ -5,15 +5,16 @@ import com.jack.recycle.service.UserService;
 import com.jack.recycle.utils.MemcachedRunner;
 import com.jack.recycle.utils.Result;
 import com.jack.recycle.utils.UserUtils;
+import com.zhenzi.sms.ZhenziSmsClient;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RestController
 @RequestMapping("/user")
@@ -24,6 +25,8 @@ public class UserController {
 
     @Autowired
     private MemcachedRunner memcachedRunner;
+
+    HttpSession session=null;
 
     /**
      * 查看用户详情
@@ -118,5 +121,58 @@ public class UserController {
             users = userService.dirStationUserListUU(ids);
         }
         return new Result(Response.SC_OK,"success",users);
+    }
+
+    @PostMapping(value = "/sendPhoneMessage")
+    public String getVerifyCode(@RequestBody String phone, HttpServletRequest request) {
+
+        try {
+            phone = phone.substring(0,11);
+            System.out.println("phone:"+phone);
+            //生成6位验证码
+            String verifyCode = String.valueOf(new Random().nextInt(899999) + 100000);
+//            map.put("phone",phone);
+//            map.put("message","您的验证码为:" + verifyCode + "，该码有效期为5分钟，该码只能使用一次！");
+            //发送短信
+
+            ZhenziSmsClient client = new ZhenziSmsClient("https://sms_developer.zhenzikj.com", "108428", "cad8b700-7c40-4760-b584-9a6020a5afe3");
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("number", phone);
+            params.put("templateId","4175");
+            String[] templateParams = new String[2];
+            templateParams[0] = verifyCode;
+            templateParams[1] = "5分钟";
+            params.put("templateParams", templateParams);
+            String result = client.send(params);
+            //将验证码存到session中,同时存入创建时间
+            //以json存放，这里使用的是阿里的fastjson
+            session = request.getSession();
+            Map<String,String> map=new HashMap<>();
+            map.put("Code", verifyCode);
+            map.put("createTime", System.currentTimeMillis()+"");
+            // 将认证码存入SESSION
+            session.setAttribute("verifyCode", map);
+
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+
+    }
+    @PostMapping("/verifyPhoneCode")
+    public String loginCheck(@RequestBody String verifyCode,HttpServletRequest request){
+        //用户输入的验证码的值
+        verifyCode = verifyCode.substring(0,6);
+        Map<String,String> kaptchaExpected = (Map<String,String>) session.getAttribute(
+                "verifyCode");
+        System.out.println(kaptchaExpected.get("Code"));
+        System.out.println("kapchaReceived="+verifyCode);
+        //校验验证码是否正确
+        if (verifyCode == null || !verifyCode.equals(kaptchaExpected.get("Code"))) {
+            return "kaptcha_error";//返回验证码错误
+        }
+        return "success"; //校验通过返回成功
     }
 }

@@ -30,4 +30,6 @@ public interface StationService {
     int addStation(Station station);
 
     Station getStationStatus(String userId);
+
+    int updateJoinStationActive(Station station);
 }

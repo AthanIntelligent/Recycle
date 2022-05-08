@@ -188,4 +188,12 @@ public class BaseStationController {
         }
         return new Result(Response.SC_INTERNAL_SERVER_ERROR,"撤销失败");
     }
+
+    /**
+     * /station/updateJoinStationActive
+     */
+    @PostMapping(value = "/updateJoinStationActive")
+    public Result updateJoinStationActive(@RequestBody Station station){
+       return new Result(Response.SC_OK,"success",stationService.updateJoinStationActive(station));
+    }
 }
