@@ -10,6 +10,7 @@ import com.jack.recycle.service.GoodsTypeService;
 import com.jack.recycle.service.UserService;
 import com.jack.recycle.utils.*;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import org.apache.catalina.connector.Response;
 import org.hibernate.validator.internal.util.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -78,6 +79,9 @@ public class GoodsController {
         if (!StringHelper.isNullOrEmptyString(goods.getGoodsType())){
             String goodsTypeUuid = goodsTypeService.getGoodsTypeUuid(goods.getGoodsType());
             goods.setGoodsType(goodsTypeUuid);
+        }
+        if(UserUtils.getCurrUserInfo().equals("") || UserUtils.getCurrUserInfo()==null){
+            return new Result(Response.SC_BAD_REQUEST,"token过期");
         }
         String currUserId = UserUtils.getCurrUserInfo().getUuid();
         List<Goods> goodsList = goodsService.dirGoods(goods);
