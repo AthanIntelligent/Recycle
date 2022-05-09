@@ -40,8 +40,9 @@ public class ReservationController {
         }else {
             reservation.setUuid(UUID.randomUUID().toString());
             reservation.setAppointmentHolder(UserUtils.getCurrUserInfo().getUuid());
+            //这里stationId是传过来还是根据登录的基站人员去查（如果一个用户只能有一个基站的话）？
             reservation.setAppointmentStation(reservationAndStation.getStationId());
-            reservation.setStationLegal(reservationAndStation.getStationLegal());
+            reservation.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
             reservation.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd HH:mm"));
             reservation.setIsCome("已预约");
         }
@@ -50,6 +51,7 @@ public class ReservationController {
 
     @PostMapping(value = "/dirReservation")
     public Result dirReservation(@RequestBody Reservation reservation) throws ParseException {
+        reservation.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
         List<Reservation> reservations = reservationService.dirReservation(reservation);
         String formatDate = DateUtils.getFormatDate("yyyy-MM-dd HH:mm");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
