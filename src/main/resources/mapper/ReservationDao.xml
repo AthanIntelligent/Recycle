@@ -20,11 +20,14 @@
         from reservation
         where uuid = #{uuid,jdbcType=VARCHAR}
     </select>
-    <select id="selectAll" resultMap="BaseResultMap">
+    <select id="selectAll" parameterType="com.jack.recycle.model.Reservation" resultMap="BaseResultMap">
         select
             *
         from reservation
         where 1=1
+        <if test="appointmentHolder != null">
+            and appointment_holder = #{appointmentHolder,jdbcType=VARCHAR}
+        </if>
         <if test="stationLegal != null">
             and station_legal = #{stationLegal,jdbcType=VARCHAR}
         </if>
