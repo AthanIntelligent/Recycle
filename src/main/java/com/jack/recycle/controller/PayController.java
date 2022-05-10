@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/pay")
 public class PayController {
@@ -35,7 +35,7 @@ public class PayController {
     @Autowired
     private RedisTemplate redisTemplate;
     @PostMapping("/alipay")
-    public String alipay(@RequestBody List<TransactionGoods> goodsList, Reservation reservation, @CookieValue("XM_TOKEN") String cookie, HttpServletRequest request) throws AlipayApiException, UnsupportedEncodingException, AlipayApiException {
+    public String alipay(@RequestBody List<TransactionGoods> goodsList,@RequestBody Reservation reservation, @CookieValue("XM_TOKEN") String cookie, HttpServletRequest request) throws AlipayApiException, UnsupportedEncodingException, AlipayApiException {
         String name = "";
         Double amount = 0.0;
         Map<String,String> map = new HashMap<>();
