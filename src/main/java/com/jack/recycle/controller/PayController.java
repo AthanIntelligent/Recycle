@@ -9,6 +9,7 @@ import com.jack.recycle.model.Transaction;
 import com.jack.recycle.service.TransactionGoodsService;
 import com.jack.recycle.service.TransactionService;
 import com.jack.recycle.service.impl.PayService;
+import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.UserUtils;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class PayController {
     @Autowired
     private TransactionService transactionService;
     @Autowired
-    private TransactionGoodsService tranGoodsService;
+    private TransactionGoodsService transactionGoodsService;
     @Autowired
     private PayService payService;
     @Autowired
@@ -39,16 +40,41 @@ public class PayController {
         Double amount = 0.0;
         Map<String,String> map = new HashMap<>();
         String WIDout_trade_no = UUID.randomUUID().toString(); // 订单id
+        List<String> goodsIds = new ArrayList<>();
         for(TransactionGoods goods : goodsList){
             amount += goods.getAmount();
             if(!map.containsKey(goods.getGoodsName())){
                 map.put(goods.getGoodsName(),goods.getGoodsName());
                 name += goods.getGoodsName();
+                goodsIds.add(goods.getUuid());
             }
         }
         HttpSession session = request.getSession();
         session.setAttribute("goodsList",goodsList);
         session.setAttribute("reservation",reservation);
+
+        Transaction transaction = new Transaction();
+        transaction.setUuid(WIDout_trade_no);
+        transaction.setUserId(reservation.getAppointmentHolder());
+        transaction.setStationId(reservation.getAppointmentStation());
+        transaction.setTransactionTime(DateUtils.getFormatDate("yyyy-MM-dd HH:mm"));
+        String goodsIdsL = String.join(",", goodsIds);
+        transaction.setTransactionGoodsId(goodsIdsL);
+        transaction.setStationLegal(reservation.getStationLegal());
+        transaction.setAllMoney(amount);
+        transaction.setPayFlag("未支付");
+        transactionService.addTransaction(transaction);
+
+        for (TransactionGoods goods : goodsList) {
+            com.jack.recycle.model.TransactionGoods transactionGoods = new com.jack.recycle.model.TransactionGoods();
+            transactionGoods.setUuid(UUID.randomUUID().toString());
+            transactionGoods.setTransactionId(transaction.getUuid());
+            transactionGoods.setGoodsId(goods.getUuid());
+            transactionGoods.setWeight(goods.getGoodsWeight());
+            transactionGoods.setMoney(goods.getGoodsPrice());
+            transactionGoodsService.addTransactionGoods(transactionGoods);
+        }
+
         return  payService.aliPay(WIDout_trade_no, name, amount.toString());
 
     }
@@ -57,7 +83,6 @@ public class PayController {
     public void paysuccess(HttpServletRequest request, @CookieValue("XM_TOKEN") String cookie, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         List<TransactionGoods> goodsList = (List<TransactionGoods>) session.getAttribute("goodsList");
-        Reservation reservation = (Reservation) session.getAttribute("reservation");
         //获取支付宝GET过来反馈信息
         Map<String, String> params = new HashMap<String, String>();
         Map<String, String[]> requestParams = request.getParameterMap();
@@ -82,20 +107,7 @@ public class PayController {
         String total_amount = new String(request.getParameter("total_amount").getBytes("ISO-8859-1"), "UTF-8");
         if(goodsList != null){
             try{
-                String userId = UserUtils.getCurrUserInfo().getUuid();
-//                transactionOrderService.addOrder(goodsList,order_id, userId);
-                Transaction transaction = new Transaction();
-//                transaction.setUuid(U);
-//                transaction.setUserId();
-//                transaction.setStationId();
-//                transaction.setTransactionTime();
-//                transaction.setTransactionGoodsId();
-//                transaction.setStationLegal();
-//                transaction.setAllMoney();
-//                transaction.setPayFlag();
 
-
-                transactionService.addTransaction(transaction);
             }catch (Exception ex){
                 ex.getMessage();
             }
