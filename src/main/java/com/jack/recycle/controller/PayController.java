@@ -4,10 +4,13 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.jack.recycle.config.AlipayConfig;
 import com.jack.recycle.model.PO.TransactionGoods;
+import com.jack.recycle.model.Reservation;
+import com.jack.recycle.model.Transaction;
 import com.jack.recycle.service.TransactionGoodsService;
 import com.jack.recycle.service.TransactionService;
 import com.jack.recycle.service.impl.PayService;
 import com.jack.recycle.utils.UserUtils;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +26,7 @@ import java.util.*;
 public class PayController {
 
     @Autowired
-    private TransactionService tranService;
+    private TransactionService transactionService;
     @Autowired
     private TransactionGoodsService tranGoodsService;
     @Autowired
@@ -31,7 +34,7 @@ public class PayController {
     @Autowired
     private RedisTemplate redisTemplate;
     @PostMapping("/alipay")
-    public String alipay(@RequestBody List<TransactionGoods> goodsList, @CookieValue("XM_TOKEN") String cookie, HttpServletRequest request) throws AlipayApiException, UnsupportedEncodingException, AlipayApiException {
+    public String alipay(@RequestBody List<TransactionGoods> goodsList, Reservation reservation, @CookieValue("XM_TOKEN") String cookie, HttpServletRequest request) throws AlipayApiException, UnsupportedEncodingException, AlipayApiException {
         String name = "";
         Double amount = 0.0;
         Map<String,String> map = new HashMap<>();
@@ -45,6 +48,7 @@ public class PayController {
         }
         HttpSession session = request.getSession();
         session.setAttribute("goodsList",goodsList);
+        session.setAttribute("reservation",reservation);
         return  payService.aliPay(WIDout_trade_no, name, amount.toString());
 
     }
@@ -53,6 +57,7 @@ public class PayController {
     public void paysuccess(HttpServletRequest request, @CookieValue("XM_TOKEN") String cookie, HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         List<TransactionGoods> goodsList = (List<TransactionGoods>) session.getAttribute("goodsList");
+        Reservation reservation = (Reservation) session.getAttribute("reservation");
         //获取支付宝GET过来反馈信息
         Map<String, String> params = new HashMap<String, String>();
         Map<String, String[]> requestParams = request.getParameterMap();
@@ -79,6 +84,18 @@ public class PayController {
             try{
                 String userId = UserUtils.getCurrUserInfo().getUuid();
 //                transactionOrderService.addOrder(goodsList,order_id, userId);
+                Transaction transaction = new Transaction();
+//                transaction.setUuid(U);
+//                transaction.setUserId();
+//                transaction.setStationId();
+//                transaction.setTransactionTime();
+//                transaction.setTransactionGoodsId();
+//                transaction.setStationLegal();
+//                transaction.setAllMoney();
+//                transaction.setPayFlag();
+
+
+                transactionService.addTransaction(transaction);
             }catch (Exception ex){
                 ex.getMessage();
             }
