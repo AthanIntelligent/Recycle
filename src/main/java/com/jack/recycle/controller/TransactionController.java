@@ -10,6 +10,7 @@ import com.jack.recycle.service.UserService;
 import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
 import com.jack.recycle.utils.StatusCode;
+import com.jack.recycle.utils.UserUtils;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 import org.hibernate.validator.internal.util.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +68,7 @@ public class TransactionController {
 
     @PostMapping(value = "/dirTransaction")
     public Result dirTransaction(@RequestBody Transaction transaction){
+        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
         //用户姓名转换成id，如果输入的用户姓名不存在，提示"该用户不存在"，不用这个查询条件
         if (!StringHelper.isNullOrEmptyString(transaction.getUserId())) {
             String uuidByRealName = userService.getUuidByRealName(transaction.getUserId());

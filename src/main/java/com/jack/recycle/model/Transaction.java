@@ -37,5 +37,15 @@ public class Transaction implements Serializable {
      */
     private String stationLegal;
 
+    /**
+     * 总交易金额
+     */
+    private Double allMoney;
+
+    /**
+     * 支付状态
+     */
+    private String payFlag;
+
     private static final long serialVersionUID = 1L;
 }
