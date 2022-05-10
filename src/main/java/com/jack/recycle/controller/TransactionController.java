@@ -2,11 +2,9 @@ package com.jack.recycle.controller;
 
 import com.jack.recycle.model.Transaction;
 import com.jack.recycle.model.TransactionGoods;
+import com.jack.recycle.model.VO.StationAndUser;
 import com.jack.recycle.model.VO.TransactionAndGoods;
-import com.jack.recycle.service.GoodsService;
-import com.jack.recycle.service.TransactionGoodsService;
-import com.jack.recycle.service.TransactionService;
-import com.jack.recycle.service.UserService;
+import com.jack.recycle.service.*;
 import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
 import com.jack.recycle.utils.StatusCode;
@@ -22,7 +20,7 @@ import java.util.List;
 import java.util.UUID;
 
 
-@CrossOrigin(origins = "*",maxAge = 3600)
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/transaction")
 public class TransactionController {
@@ -38,8 +36,11 @@ public class TransactionController {
     @Autowired
     private TransactionGoodsService transactionGoodsService;
 
+    @Autowired
+    private StationService stationService;
+
     @PostMapping(value = "/addTransaction")
-    public Result addTransaction(@RequestBody TransactionAndGoods transactionAndGoods){
+    public Result addTransaction(@RequestBody TransactionAndGoods transactionAndGoods) {
         Transaction transaction = transactionAndGoods.getTransaction();
         transaction.setUuid(UUID.randomUUID().toString());
         //传用户真实姓名过来转成uuid
@@ -53,7 +54,7 @@ public class TransactionController {
         List<String> goodsIdsList = new ArrayList<>();
         //获取交易物品list
         List<TransactionGoods> transactionGoodsList = transactionAndGoods.getTransactionGoodsList();
-        for (TransactionGoods tran:transactionGoodsList) {
+        for (TransactionGoods tran : transactionGoodsList) {
             tran.setUuid(UUID.randomUUID().toString());
             tran.setTransactionId(transaction.getUuid());
             transactionGoodsService.addTransactionGoods(tran);
@@ -67,34 +68,27 @@ public class TransactionController {
 
 
     @PostMapping(value = "/dirTransaction")
-    public Result dirTransaction(@RequestBody Transaction transaction){
-        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
-        //用户姓名转换成id，如果输入的用户姓名不存在，提示"该用户不存在"，不用这个查询条件
-        if (!StringHelper.isNullOrEmptyString(transaction.getUserId())) {
-            String uuidByRealName = userService.getUuidByRealName(transaction.getUserId());
-            if (!StringUtils.isEmpty(uuidByRealName))
-                transaction.setUserId(uuidByRealName);
-            else
-                return new Result(StatusCode.INTERNAL_SERVER_ERROR, "该用户不存在", transaction.getUserId());
+    public Result dirTransaction(@RequestBody Transaction transaction) {
+        if (UserUtils.getCurrUserInfo().getUserType().equals("2")) {
+            transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+            //用户姓名转换成id，如果输入的用户姓名不存在，提示"该用户不存在"，不用这个查询条件
+            if (!StringHelper.isNullOrEmptyString(transaction.getUserId())) {
+                String uuidByRealName = userService.getUuidByRealName(transaction.getUserId());
+                if (!StringUtils.isEmpty(uuidByRealName))
+                    transaction.setUserId(uuidByRealName);
+                else
+                    return new Result(StatusCode.INTERNAL_SERVER_ERROR, "该用户不存在", transaction.getUserId());
+            }
         }
+        if (UserUtils.getCurrUserInfo().getUserType().equals("1"))
+            transaction.setUserId(UserUtils.getCurrUserInfo().getUuid());
         List<Transaction> transactions = transactionService.dirTransaction(transaction);
-        for (Transaction tr:transactions) {
+        for (Transaction tr : transactions) {
             String realName = userService.getRealNameByUuid(tr.getUserId());
             tr.setUserId(realName);
             String realName2 = userService.getRealNameByUuid(tr.getStationLegal());
             tr.setStationLegal(realName2);
         }
-//        List<TransactionAndGoods> result = new ArrayList<>();
-//        for (Transaction tran:transactions) {
-//            TransactionGoods transactionGoods = new TransactionGoods();
-//            transactionGoods.setTransactionId(tran.getUuid());
-//            List<TransactionGoods> transactionGoodsList = transactionGoodsService.dirtransactionGoods(transactionGoods);
-//
-//            TransactionAndGoods transactionAndGoods = new TransactionAndGoods();
-//            transactionAndGoods.setTransaction(tran);
-//            transactionAndGoods.setTransactionGoodsList(transactionGoodsList);
-//            result.add(transactionAndGoods);
-//        }
         return new Result(StatusCode.OK, "OK", transactions);
     }
 
@@ -103,7 +97,7 @@ public class TransactionController {
         TransactionGoods transactionGoods = new TransactionGoods();
         transactionGoods.setTransactionId(transactionId);
         List<TransactionGoods> transactionGoodsList = transactionGoodsService.dirTransactionGoods(transactionGoods);
-        for (TransactionGoods tr:transactionGoodsList) {
+        for (TransactionGoods tr : transactionGoodsList) {
             String goodsName = goodsService.getGoods(tr.getGoodsId()).getGoodsName();
             tr.setGoodsId(goodsName);
         }

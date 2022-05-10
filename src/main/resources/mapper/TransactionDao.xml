@@ -1,89 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.TransactionDao">
-  <resultMap id="BaseResultMap" type="com.jack.recycle.model.Transaction">
-    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="station_id" jdbcType="VARCHAR" property="stationId" />
-    <result column="transaction_time" jdbcType="VARCHAR" property="transactionTime" />
-    <result column="transaction_goods_id" jdbcType="VARCHAR" property="transactionGoodsId" />
-    <result column="station_legal" jdbcType="VARCHAR" property="stationLegal" />
-    <result column="all_money" jdbcType="DOUBLE" property="allMoney" />
-    <result column="pay_flag" jdbcType="VARCHAR" property="payFlag" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    uuid, user_id, station_id, transaction_time, transaction_goods_id, station_legal,all_money,pay_flag
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from transaction
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" parameterType="com.jack.recycle.model.Transaction" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from transaction
-    where 1=1
-    <if test="stationLegal != null">
-      and station_legal = #{stationLegal,jdbcType=VARCHAR}
-    </if>
-    <if test="transactionTime != null">
-      and transaction_time = #{transactionTime,jdbcType=VARCHAR}
-    </if>
-    <if test="userId != null">
-      and user_id = #{userId,jdbcType=VARCHAR}
-    </if>
-    <if test="payFlag != null">
-      and pay_flag = #{payFlag,jdbcType=VARCHAR}
-    </if>
-  </select>
+    <resultMap id="BaseResultMap" type="com.jack.recycle.model.Transaction">
+        <id column="uuid" jdbcType="VARCHAR" property="uuid"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="station_id" jdbcType="VARCHAR" property="stationId"/>
+        <result column="transaction_time" jdbcType="VARCHAR" property="transactionTime"/>
+        <result column="transaction_goods_id" jdbcType="VARCHAR" property="transactionGoodsId"/>
+        <result column="station_legal" jdbcType="VARCHAR" property="stationLegal"/>
+        <result column="all_money" jdbcType="DOUBLE" property="allMoney"/>
+        <result column="pay_flag" jdbcType="VARCHAR" property="payFlag"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        uuid, user_id, station_id, transaction_time, transaction_goods_id, station_legal,all_money,pay_flag
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from transaction
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+            *
+        from transaction
+        where 1=1
+        <if test="stationLegal != null">
+            and station_legal = #{stationLegal,jdbcType=VARCHAR}
+        </if>
+        <if test="transactionTime != null">
+            and transaction_time = #{transactionTime,jdbcType=VARCHAR}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="payFlag != null">
+            and pay_flag = #{payFlag,jdbcType=VARCHAR}
+        </if>
+    </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from transaction
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Transaction" useGeneratedKeys="true">
-    insert into transaction (uuid, user_id, station_id, transaction_time, transaction_goods_id, station_legal,all_money,pay_flag)
-    values (#{uuid,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{stationId,jdbcType=VARCHAR},
-            #{transactionTime,jdbcType=VARCHAR}, #{transactionGoodsId,jdbcType=VARCHAR}, #{stationLegal,jdbcType=VARCHAR}, #{allMoney,jdbcType=DOUBLE}, #{payFlag,jdbcType=VARCHAR})
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Transaction">
-    update transaction
-    <set>
-      <if test="userId != null">
-        user_id = #{userId,jdbcType=VARCHAR},
-      </if>
-      <if test="stationId != null">
-        station_id = #{stationId,jdbcType=VARCHAR},
-      </if>
-      <if test="transactionTime != null">
-        transaction_time = #{transactionTime,jdbcType=VARCHAR},
-      </if>
-      <if test="transactionGoodsId != null">
-        transaction_goods_id = #{transactionGoodsId,jdbcType=VARCHAR},
-      </if>
-      <if test="stationLegal != null">
-        station_legal = #{stationLegal,jdbcType=VARCHAR},
-      </if>
-      <if test="allMoney != null">
-        all_money = #{allMoney,jdbcType=DOUBLE},
-      </if>
-      <if test="payFlag != null">
-        pay_flag = #{payFlag,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Transaction">
-    update transaction
-    set user_id = #{userId,jdbcType=VARCHAR},
-      station_id = #{stationId,jdbcType=VARCHAR},
-      transaction_time = #{transactionTime,jdbcType=VARCHAR},
-      transaction_goods_id = #{transactionGoodsId,jdbcType=VARCHAR},
-      station_legal = #{stationLegal,jdbcType=VARCHAR},
-        all_money = #{allMoney,jdbcType=DOUBLE},
-        pay_flag = #{payFlag,jdbcType=VARCHAR}
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </update>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from transaction
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Transaction"
+            useGeneratedKeys="true">
+        insert into transaction (uuid, user_id, station_id, transaction_time, transaction_goods_id, station_legal,
+                                 all_money, pay_flag)
+        values (#{uuid,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{stationId,jdbcType=VARCHAR},
+                #{transactionTime,jdbcType=VARCHAR}, #{transactionGoodsId,jdbcType=VARCHAR},
+                #{stationLegal,jdbcType=VARCHAR}, #{allMoney,jdbcType=DOUBLE}, #{payFlag,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Transaction">
+        update transaction
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="stationId != null">
+                station_id = #{stationId,jdbcType=VARCHAR},
+            </if>
+            <if test="transactionTime != null">
+                transaction_time = #{transactionTime,jdbcType=VARCHAR},
+            </if>
+            <if test="transactionGoodsId != null">
+                transaction_goods_id = #{transactionGoodsId,jdbcType=VARCHAR},
+            </if>
+            <if test="stationLegal != null">
+                station_legal = #{stationLegal,jdbcType=VARCHAR},
+            </if>
+            <if test="allMoney != null">
+                all_money = #{allMoney,jdbcType=DOUBLE},
+            </if>
+            <if test="payFlag != null">
+                pay_flag = #{payFlag,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Transaction">
+        update transaction
+        set user_id              = #{userId,jdbcType=VARCHAR},
+            station_id           = #{stationId,jdbcType=VARCHAR},
+            transaction_time     = #{transactionTime,jdbcType=VARCHAR},
+            transaction_goods_id = #{transactionGoodsId,jdbcType=VARCHAR},
+            station_legal        = #{stationLegal,jdbcType=VARCHAR},
+            all_money            = #{allMoney,jdbcType=DOUBLE},
+            pay_flag             = #{payFlag,jdbcType=VARCHAR}
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
 </mapper>

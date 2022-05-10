@@ -51,7 +51,11 @@ public class ReservationController {
 
     @PostMapping(value = "/dirReservation")
     public Result dirReservation(@RequestBody Reservation reservation) throws ParseException {
-        reservation.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+        //判断用户类型
+        if (UserUtils.getCurrUserInfo().getUserType().equals("2"))
+            reservation.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+        if (UserUtils.getCurrUserInfo().getUserType().equals("1"))
+            reservation.setAppointmentHolder(UserUtils.getCurrUserInfo().getUuid());
         List<Reservation> reservations = reservationService.dirReservation(reservation);
         String formatDate = DateUtils.getFormatDate("yyyy-MM-dd HH:mm");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
