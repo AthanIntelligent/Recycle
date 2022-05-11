@@ -35,7 +35,7 @@ public class ReservationController {
     private StationService stationService;
 
     @PostMapping(value = "/addReservation")
-    public Result addReservation(@RequestBody Reservation reservation){
+    public Result addReservation(@RequestBody Reservation reservation) throws Exception {
         //判断当前预约时间的人数是否超过10个，若超过提示"该时间段预约认输已满，请选择其他时间"
         Reservation reservationValid = new Reservation();
         reservationValid.setDay(reservation.getDay());
@@ -45,13 +45,14 @@ public class ReservationController {
             return new Result(StatusCode.INTERNAL_SERVER_ERROR, "ERROR", "该时间段预约人数已满，请选择其他时间");
         }else {
             reservation.setUuid(UUID.randomUUID().toString());
+            reservation.setAppointmentHolder(UserUtils.getCurrUserInfo().getUuid());
             reservation.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd HH:mm"));
         }
         return new Result(StatusCode.OK, "OK", reservationService.addReservation(reservation));
     }
 
     @PostMapping(value = "/dirReservation")
-    public Result dirReservation(@RequestBody Reservation reservation) throws ParseException {
+    public Result dirReservation(@RequestBody Reservation reservation) throws Exception {
         //判断用户类型
         if (UserUtils.getCurrUserInfo().getUserType().equals("2"))
             reservation.setStationLegal(UserUtils.getCurrUserInfo().getUuid());

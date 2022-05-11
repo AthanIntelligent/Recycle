@@ -38,7 +38,7 @@ public class GoodsController {
     private GoodsOfStationService goodsOfStationService;
 
     @PostMapping(value = "/addGoods")
-    public Result addGoods(@RequestBody Goods goods){
+    public Result addGoods(@RequestBody Goods goods) throws Exception {
         goods.setUuid(UUID.randomUUID().toString());
         String goodsTypeUuid = goodsTypeService.getGoodsTypeUuid(goods.getGoodsType());
         goods.setGoodsType(goodsTypeUuid);
@@ -75,7 +75,7 @@ public class GoodsController {
     }
 
     @PostMapping(value = "/dirGoods")
-    public Result dirGoods(@RequestBody Goods goods) {
+    public Result dirGoods(@RequestBody Goods goods) throws Exception {
         if (!StringHelper.isNullOrEmptyString(goods.getGoodsType())){
             String goodsTypeUuid = goodsTypeService.getGoodsTypeUuid(goods.getGoodsType());
             goods.setGoodsType(goodsTypeUuid);

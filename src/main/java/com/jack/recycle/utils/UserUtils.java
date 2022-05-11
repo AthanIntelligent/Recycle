@@ -26,10 +26,10 @@ public class UserUtils {
     /**
      * 获取当前用户
      */
-    public static User getCurrUserInfo(){
+    public static User getCurrUserInfo() throws Exception {
         String userId = (String) memcachedRunner.getClient().get("userId");
         if("".equals(userId) || userId == null){
-            return null;
+            throw new Exception("token过期");
         }
         User user = userDao.selectByPrimaryKey(userId);
         return user;
@@ -38,7 +38,7 @@ public class UserUtils {
     /**
      * 获取当前用户的权限
      */
-    public static String getCurrUserInfoPermissions() throws IOException {
+    public static String getCurrUserInfoPermissions() throws Exception {
         String authStr = "";
         User currUserInfo = getCurrUserInfo();
         if(currUserInfo == null){

@@ -82,7 +82,7 @@ public class BaseStationController {
      * 注册基站
      */
     @PostMapping(value = "/addStation")
-    public Result addStation(@RequestBody StationAndGoodsIds stationAndGoodsIds){
+    public Result addStation(@RequestBody StationAndGoodsIds stationAndGoodsIds) throws Exception {
         Station station = stationAndGoodsIds.getStation();
         String goodsIds = stationAndGoodsIds.getGoodsIds();
         if (StringUtils.isEmpty(station.getStationName())||StringUtils.isEmpty(station.getStationAddress())) {

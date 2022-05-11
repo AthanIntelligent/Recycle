@@ -39,7 +39,7 @@ public class TransactionController {
     private ReservationService reservationService;
 
     @PostMapping(value = "/addTransaction")
-    public Result addTransaction(@RequestBody TransactionAndGoods transactionAndGoods) {
+    public Result addTransaction(@RequestBody TransactionAndGoods transactionAndGoods) throws Exception {
         Reservation reservation = transactionAndGoods.getReservation();
         Transaction transaction = new Transaction();
         transaction.setUuid(UUID.randomUUID().toString());
@@ -77,7 +77,7 @@ public class TransactionController {
 
 
     @PostMapping(value = "/dirTransaction")
-    public Result dirTransaction(@RequestBody Transaction transaction) {
+    public Result dirTransaction(@RequestBody Transaction transaction) throws Exception {
         if (UserUtils.getCurrUserInfo().getUserType().equals("2")) {
             transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
             //用户姓名转换成id，如果输入的用户姓名不存在，提示"该用户不存在"，不用这个查询条件

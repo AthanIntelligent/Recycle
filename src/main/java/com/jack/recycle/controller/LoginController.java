@@ -55,7 +55,7 @@ public class LoginController {
      * @return
      */
     @PostMapping(value = "/logout")
-    public Result loginOut(){
+    public Result loginOut() throws Exception {
         //删除token
         User currUserInfo = UserUtils.getCurrUserInfo();
         if(currUserInfo == null){

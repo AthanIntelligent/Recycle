@@ -42,6 +42,8 @@ public class UserController {
             map.put("permissions",UserUtils.getCurrUserInfoPermissions());
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return new Result(Response.SC_OK,"success",map);
     }
@@ -106,7 +108,7 @@ public class UserController {
      * @return
      */
     @GetMapping(value = "/dirStationUserList")
-    public Result dirStationUserList(){
+    public Result dirStationUserList() throws Exception {
         List<User> users;
         List<String> ids = new ArrayList<>();
         //如果是系统管理员 就查用户类型是2和3的
