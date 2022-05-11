@@ -1,15 +1,11 @@
-package com.jack.recycle.model;
+package com.jack.recycle.model.VO;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
-/**
- * reservation
- * @author
- */
 @Data
-public class Reservation implements Serializable {
+public class ReservationVO implements Serializable {
     /**
      * 主键id
      */
@@ -51,6 +47,22 @@ public class Reservation implements Serializable {
      * 创建时间
      */
     private String createTime;
+
+    /**
+     * 基站名称
+     */
+    private String stationName;
+
+    /**
+     * 基站地址
+     */
+    private String stationAddress;
+
+    /**
+     * 联系电话
+     */
+    private String mobile;
+
 
     private static final long serialVersionUID = 1L;
 }

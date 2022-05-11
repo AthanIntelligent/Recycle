@@ -18,6 +18,11 @@ public class TransactionGoods implements Serializable {
     private Double money;
 
     /**
+     * 单位
+     */
+    private String unit;
+
+    /**
      * 物品id
      */
     private String goodsId;

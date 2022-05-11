@@ -6,10 +6,11 @@
         <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
         <result column="weight" jdbcType="DOUBLE" property="weight" />
         <result column="money" jdbcType="DOUBLE" property="money" />
+        <result column="unit" jdbcType="VARCHAR" property="unit" />
         <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
     </resultMap>
     <sql id="Base_Column_List">
-        uuid, transaction_id, weight, money, goods_id
+        uuid, transaction_id, weight, money, unit, goods_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -31,8 +32,8 @@
         where uuid = #{uuid,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Transaction" useGeneratedKeys="true">
-        insert into transaction_goods (uuid, transaction_id, weight, money, goods_id)
-        values (#{uuid,jdbcType=VARCHAR},#{transactionId,jdbcType=VARCHAR},#{weight,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE},#{goodsId,jdbcType=VARCHAR})
+        insert into transaction_goods (uuid, transaction_id, weight, money, unit, goods_id)
+        values (#{uuid,jdbcType=VARCHAR},#{transactionId,jdbcType=VARCHAR},#{weight,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE},#{unit,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR})
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Transaction">
         update transaction_goods
@@ -42,6 +43,9 @@
             </if>
             <if test="money != null">
                 money = #{money,jdbcType=DOUBLE},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
             </if>
             <if test="transactionId != null">
                 transaction_id = #{transactionId,jdbcType=VARCHAR},
@@ -56,6 +60,7 @@
         update transaction_goods
         set weight = #{weight,jdbcType=DOUBLE},
             money = #{money,jdbcType=DOUBLE},
+            unit = #{unit,jdbcType=VARCHAR},
             transaction_id = #{transactionId,jdbcType=VARCHAR},
             goods_id = #{goodsId,jdbcType=VARCHAR}
         where uuid = #{uuid,jdbcType=VARCHAR}
