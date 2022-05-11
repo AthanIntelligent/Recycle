@@ -35,13 +35,15 @@ public class TransactionController {
     @Autowired
     private TransactionGoodsService transactionGoodsService;
 
+    @Autowired
+    private ReservationService reservationService;
+
     @PostMapping(value = "/addTransaction")
     public Result addTransaction(@RequestBody TransactionAndGoods transactionAndGoods) {
         Reservation reservation = transactionAndGoods.getReservation();
         Transaction transaction = new Transaction();
         transaction.setUuid(UUID.randomUUID().toString());
         //传用户真实姓名过来转成uuid
-
         String userId = userService.getUuidByRealName(reservation.getAppointmentHolder());
         transaction.setUserId(userId);
         transaction.setStationId(reservation.getAppointmentStation());
@@ -60,6 +62,7 @@ public class TransactionController {
             transactionGoods.setGoodsId(tr.getUuid());
             transactionGoods.setWeight(tr.getGoodsWeight());
             transactionGoods.setMoney(tr.getGoodsPrice());
+            transactionGoods.setUnit(tr.getGoodsUnit());
             transactionGoodsService.addTransactionGoods(transactionGoods);
             goodsIdsList.add(transactionGoods.getUuid());
         }
@@ -67,7 +70,9 @@ public class TransactionController {
         String goodsIds = String.join(",", goodsIdsList);
         transaction.setTransactionGoodsId(goodsIds);
         transactionService.addTransaction(transaction);
-        return new Result(StatusCode.OK, "OK", null);
+        //交易完成之后，修改预约表的到访状态为已签到
+        reservation.setIsCome("已签到");
+        return new Result(StatusCode.OK, "OK", reservationService.updReservation(reservation));
     }
 
 

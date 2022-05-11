@@ -2,7 +2,10 @@ package com.jack.recycle.controller;
 
 import com.jack.recycle.model.Reservation;
 import com.jack.recycle.model.VO.ReservationAndStation;
+import com.jack.recycle.model.VO.ReservationVO;
+import com.jack.recycle.model.VO.StationAndUser;
 import com.jack.recycle.service.ReservationService;
+import com.jack.recycle.service.StationService;
 import com.jack.recycle.service.UserService;
 import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +30,9 @@ public class ReservationController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private StationService stationService;
 
     @PostMapping(value = "/addReservation")
     public Result addReservation(@RequestBody Reservation reservation){
@@ -69,6 +76,35 @@ public class ReservationController {
             String realName = userService.getRealNameByUuid(reserva.getAppointmentHolder());
             reserva.setAppointmentHolder(realName);
         }
-        return new Result(StatusCode.OK, "OK", reservations);
+        if (UserUtils.getCurrUserInfo().getUserType().equals("2"))
+            return new Result(StatusCode.OK, "OK", reservations);
+
+        List<ReservationVO> reservationVOList = new ArrayList<>();
+        if (UserUtils.getCurrUserInfo().getUserType().equals("1")) {
+            for (Reservation reserva:reservations) {
+                ReservationVO reservationVO = new ReservationVO();
+                reservationVO.setUuid(reserva.getUuid());
+                reservationVO.setDay(reserva.getDay());
+                reservationVO.setTime(reserva.getTime());
+                reservationVO.setAppointmentHolder(reserva.getAppointmentHolder());
+                reservationVO.setIsCome(reserva.getIsCome());
+                reservationVO.setCreateTime(reserva.getCreateTime());
+                reservationVO.setStationLegal(reserva.getStationLegal());
+                StationAndUser stationDetail = stationService.getStationDetail(reserva.getAppointmentStation());
+                reservationVO.setStationName(stationDetail.getStation().getStationName());
+                reservationVO.setStationAddress(stationDetail.getStation().getStationAddress());
+                reservationVO.setMobile(stationDetail.getUser().getMobile());
+                reservationVO.setStationLegal(stationDetail.getUser().getRealName());
+                reservationVOList.add(reservationVO);
+            }
+            return new Result(StatusCode.OK, "OK", reservationVOList);
+        }
+        return new Result(StatusCode.OK, "OK", null);
+    }
+
+    @PostMapping(value = "/updReservation")
+    public Result updReservation(@RequestBody Reservation reservation) {
+        reservation.setIsCome("已撤销");
+        return new Result(StatusCode.OK, "OK", reservationService.updReservation(reservation));
     }
 }
