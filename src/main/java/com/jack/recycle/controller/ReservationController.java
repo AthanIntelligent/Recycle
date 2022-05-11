@@ -28,8 +28,7 @@ public class ReservationController {
     private UserService userService;
 
     @PostMapping(value = "/addReservation")
-    public Result addReservation(@RequestBody ReservationAndStation reservationAndStation){
-        Reservation reservation = reservationAndStation.getReservation();
+    public Result addReservation(@RequestBody Reservation reservation){
         //判断当前预约时间的人数是否超过10个，若超过提示"该时间段预约认输已满，请选择其他时间"
         Reservation reservationValid = new Reservation();
         reservationValid.setDay(reservation.getDay());
@@ -39,12 +38,7 @@ public class ReservationController {
             return new Result(StatusCode.INTERNAL_SERVER_ERROR, "ERROR", "该时间段预约人数已满，请选择其他时间");
         }else {
             reservation.setUuid(UUID.randomUUID().toString());
-            reservation.setAppointmentHolder(UserUtils.getCurrUserInfo().getUuid());
-            //这里stationId是传过来还是根据登录的基站人员去查（如果一个用户只能有一个基站的话）？
-            reservation.setAppointmentStation(reservationAndStation.getStationId());
-            reservation.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
             reservation.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd HH:mm"));
-            reservation.setIsCome("已预约");
         }
         return new Result(StatusCode.OK, "OK", reservationService.addReservation(reservation));
     }
