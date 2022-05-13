@@ -76,6 +76,9 @@ public class GoodsController {
 
     @PostMapping(value = "/dirGoods")
     public Result dirGoods(@RequestBody Goods goods) throws Exception {
+        if(UserUtils.isTokenExpect()){
+            return new Result(Response.SC_BAD_REQUEST,"token过期");
+        }
         if (!StringHelper.isNullOrEmptyString(goods.getGoodsType())){
             String goodsTypeUuid = goodsTypeService.getGoodsTypeUuid(goods.getGoodsType());
             goods.setGoodsType(goodsTypeUuid);

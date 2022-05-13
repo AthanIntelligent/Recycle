@@ -50,7 +50,7 @@ public class LoginServiceImpl implements LoginService {
         String token = TokenUtils.token(user.getLoginName(), user.getPassword());
         userDao.updateToken(token,user.getLoginName());
         User loginUser = userService.getLoginUser(user.getLoginName());
-        memcachedRunner.getClient().set("userId",3000,loginUser.getUuid());
+        memcachedRunner.getClient().set("userId",3600,loginUser.getUuid());
         return new Result(Response.SC_OK,"成功",loginUser);
     }
 

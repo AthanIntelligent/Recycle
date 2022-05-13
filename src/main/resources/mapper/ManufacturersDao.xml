@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jack.recycle.mapper.ManufacturersDao">
+  <resultMap id="BaseResultMap" type="com.jack.recycle.model.Manufacturers">
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="facture_name" jdbcType="VARCHAR" property="factureName" />
+    <result column="facture_phone" jdbcType="VARCHAR" property="facturePhone" />
+    <result column="recycle_goods_and_price" jdbcType="VARCHAR" property="recycleGoodsAndPrice" />
+    <result column="facture_image" jdbcType="VARCHAR" property="factureImage" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="facture_address" jdbcType="VARCHAR" property="factureAddress" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uuid, facture_name, facture_phone, recycle_goods_and_price, facture_image, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from manufacturers
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" parameterType="com.jack.recycle.model.Manufacturers">
+    select *
+    from manufactruers
+    <where>
+      1=1
+        <if test="factureName!=null and factureName!=''">
+         and facture_name like #{factureName,jdbcType=VARCHAR}
+        </if>
+        <if test="factureName!=null and factureName!=''">
+         and recycle_goods_and_price like #{recycleGoodsAndPrice,jdbcType=VARCHAR}
+        </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from manufacturers
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Manufacturers" useGeneratedKeys="true">
+    insert into manufacturers (facture_name, facture_phone, recycle_goods_and_price, 
+      facture_image, create_time)
+    values (#{factureName,jdbcType=VARCHAR}, #{facturePhone,jdbcType=VARCHAR}, #{recycleGoodsAndPrice,jdbcType=VARCHAR}, 
+      #{factureImage,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR},#{factureAddress,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Manufacturers" useGeneratedKeys="true">
+    insert into manufacturers
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="factureName != null">
+        facture_name,
+      </if>
+      <if test="facturePhone != null">
+        facture_phone,
+      </if>
+      <if test="recycleGoodsAndPrice != null">
+        recycle_goods_and_price,
+      </if>
+      <if test="factureImage != null">
+        facture_image,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="factureAddress != null">
+        facture_address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="factureName != null">
+        #{factureName,jdbcType=VARCHAR},
+      </if>
+      <if test="facturePhone != null">
+        #{facturePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="recycleGoodsAndPrice != null">
+        #{recycleGoodsAndPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="factureImage != null">
+        #{factureImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="factureAddress != null">
+        #{factureAddress,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Manufacturers">
+    update manufacturers
+    <set>
+      <if test="factureName != null">
+        facture_name = #{factureName,jdbcType=VARCHAR},
+      </if>
+      <if test="facturePhone != null">
+        facture_phone = #{facturePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="recycleGoodsAndPrice != null">
+        recycle_goods_and_price = #{recycleGoodsAndPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="factureImage != null">
+        facture_image = #{factureImage,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Manufacturers">
+    update manufacturers
+    set facture_name = #{factureName,jdbcType=VARCHAR},
+      facture_phone = #{facturePhone,jdbcType=VARCHAR},
+      recycle_goods_and_price = #{recycleGoodsAndPrice,jdbcType=VARCHAR},
+      facture_image = #{factureImage,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

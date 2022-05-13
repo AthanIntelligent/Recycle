@@ -26,13 +26,21 @@ public class UserUtils {
     /**
      * 获取当前用户
      */
-    public static User getCurrUserInfo() throws Exception {
+    public static User getCurrUserInfo(){
         String userId = (String) memcachedRunner.getClient().get("userId");
         if("".equals(userId) || userId == null){
-            throw new Exception("token过期");
+            return null;
         }
         User user = userDao.selectByPrimaryKey(userId);
         return user;
+    }
+
+    public static boolean isTokenExpect(){
+        if(UserUtils.getCurrUserInfo()==null){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     /**
