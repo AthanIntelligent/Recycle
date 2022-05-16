@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class DayAndMoney {
     private String day;
-    private Double money;
+    private String money;
 }

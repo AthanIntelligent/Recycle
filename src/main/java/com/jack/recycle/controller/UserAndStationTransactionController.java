@@ -1,5 +1,6 @@
 package com.jack.recycle.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jack.recycle.model.Transaction;
 import com.jack.recycle.model.VO.DayAndMoney;
 import com.jack.recycle.model.VO.TransactionAndGoods;
@@ -30,17 +31,16 @@ public class UserAndStationTransactionController {
      */
     @GetMapping(value = "/dirUandSTransaction")
     public Result dirUandSTransaction() {
-
         String formatDate = DateUtils.getFormatDate("yyyy-MM");
         Transaction transaction = new Transaction();
-        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+//        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+        transaction.setStationLegal("7b74e505-3924-4c03-86ed-acbbb6df4b92");
         transaction.setTransactionTime(formatDate);
         //获取当前月份该基站的所有交易记录
         List<Transaction> transactions = transactionService.dirUandSTransaction(transaction);
-        List<DayAndMoney> monthTransactionList = new ArrayList<>();
         Map<String, Double> map = new HashMap<>();
         for (Transaction tr:transactions) {
-            String day = tr.getTransactionTime().substring(0, 10);
+            String day = tr.getTransactionTime().substring(5, 10);
             if (!map.containsKey(day))
                 map.put(day,tr.getAllMoney());
             else {
@@ -48,10 +48,17 @@ public class UserAndStationTransactionController {
                 mmm += tr.getAllMoney();
                 map.replace(day,mmm);
             }
-
         }
-        //返回当月每天收益 支出
-        return new Result(StatusCode.OK, "OK", null);
+
+        List<DayAndMoney> monthTransactionList = new ArrayList<>();
+        for(String key:map.keySet()){//keySet获取map集合key的集合  然后在遍历key即可
+            DayAndMoney dayAndMoney = new DayAndMoney();
+            dayAndMoney.setDay(key);
+            dayAndMoney.setMoney(map.get(key).toString());
+            monthTransactionList.add(dayAndMoney);
+        }
+        //返回当月每天支出
+        return new Result(StatusCode.OK, "OK", monthTransactionList);
     }
 
 }
