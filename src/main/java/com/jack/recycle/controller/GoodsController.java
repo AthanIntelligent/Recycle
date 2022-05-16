@@ -38,7 +38,7 @@ public class GoodsController {
     private GoodsOfStationService goodsOfStationService;
 
     @PostMapping(value = "/addGoods")
-    public Result addGoods(@RequestBody Goods goods) throws Exception {
+    public Result addGoods(@RequestBody Goods goods){
         goods.setUuid(UUID.randomUUID().toString());
         String goodsTypeUuid = goodsTypeService.getGoodsTypeUuid(goods.getGoodsType());
         goods.setGoodsType(goodsTypeUuid);
@@ -75,7 +75,7 @@ public class GoodsController {
     }
 
     @PostMapping(value = "/dirGoods")
-    public Result dirGoods(@RequestBody Goods goods) throws Exception {
+    public Result dirGoods(@RequestBody Goods goods){
         if(UserUtils.isTokenExpect()){
             return new Result(Response.SC_BAD_REQUEST,"token过期");
         }
@@ -105,11 +105,6 @@ public class GoodsController {
                 }
             }
 
-//            for (Goods goo:goodsList) {
-//                if (!goodsIdList.contains(goo.getUuid())) {
-//                    goodsList.remove(goo);
-//                }
-//            }
             for (Goods good:goodsList) {
                 //判断哪些是可操作的 哪些是不可操作的
                 if (UserUtils.ADMIN.equals(good.getCreateUser()))
@@ -151,7 +146,7 @@ public class GoodsController {
 
 
     @PostMapping(value = "/pic")
-    public Result pic(MultipartFile file) throws IOException {
+    public Result pic(MultipartFile file){
         String path = PicUtil.dealPic(file);
         if (!StringUtils.isEmpty(path)){
             return new Result(StatusCode.OK, "OK", path);

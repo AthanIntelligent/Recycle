@@ -22,4 +22,9 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> dirTransaction(Transaction transaction) {
         return transactionDao.selectAll(transaction);
     }
+
+    @Override
+    public List<Transaction> dirUandSTransaction(Transaction transaction) {
+        return transactionDao.selectMonthAll(transaction);
+    }
 }
