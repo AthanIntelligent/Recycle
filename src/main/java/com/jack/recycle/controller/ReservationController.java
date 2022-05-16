@@ -66,10 +66,12 @@ public class ReservationController {
             String time = reserva.getDay()+" "+reserva.getTime();
             try {
                 Date resTime = format.parse(time);
-                //每次刷新都要根据当前时间对比预约时间修改状态,超过自动设置为未到场
-                if (resTime.before(nowDate)) {
-                    reserva.setIsCome("未到场");
-                    reservationService.updReservation(reserva);
+                //每次刷新都要根据当前时间对比预约时间修改状态,超过自动设置为未到场；在状态是已预约的情况下判断；如果是已签到，已撤销就不用管
+                if (reserva.getIsCome().equals("已预约")){
+                    if (resTime.before(nowDate)) {
+                        reserva.setIsCome("未到场");
+                        reservationService.updReservation(reserva);
+                    }
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
