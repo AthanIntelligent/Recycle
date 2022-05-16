@@ -1,5 +1,6 @@
 package com.jack.recycle.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.recycle.model.Transaction;
 import com.jack.recycle.model.VO.DayAndMoney;
@@ -50,15 +51,15 @@ public class UserAndStationTransactionController {
             }
         }
 
-        List<DayAndMoney> monthTransactionList = new ArrayList<>();
-        for(String key:map.keySet()){//keySet获取map集合key的集合  然后在遍历key即可
-            DayAndMoney dayAndMoney = new DayAndMoney();
-            dayAndMoney.setDay(key);
-            dayAndMoney.setMoney(map.get(key).toString());
-            monthTransactionList.add(dayAndMoney);
+        JSONArray result = new JSONArray();
+        for(String key:map.keySet()){
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("day",key);
+            jsonObject.put("money",map.get(key));
+            result.add(jsonObject);
         }
         //返回当月每天支出
-        return new Result(StatusCode.OK, "OK", monthTransactionList);
+        return new Result(StatusCode.OK, "OK", result);
     }
 
 }
