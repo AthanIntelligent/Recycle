@@ -3,14 +3,11 @@ package com.jack.recycle.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.jack.recycle.model.Transaction;
-import com.jack.recycle.model.VO.DayAndMoney;
-import com.jack.recycle.model.VO.TransactionAndGoods;
 import com.jack.recycle.service.TransactionGoodsService;
 import com.jack.recycle.service.TransactionService;
 import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
 import com.jack.recycle.utils.StatusCode;
-import com.jack.recycle.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
