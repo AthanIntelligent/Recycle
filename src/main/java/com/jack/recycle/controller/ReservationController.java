@@ -41,7 +41,7 @@ public class ReservationController {
         reservationValid.setDay(reservation.getDay());
         reservationValid.setTime(reservation.getTime());
         List<Reservation> reservations = reservationService.dirReservation(reservationValid);
-        if (reservations.size()>10){
+        if (reservations.size()>9){
             return new Result(StatusCode.INTERNAL_SERVER_ERROR, "ERROR", "该时间段预约人数已满，请选择其他时间");
         }else {
             reservation.setUuid(UUID.randomUUID().toString());
