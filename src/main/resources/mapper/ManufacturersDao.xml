@@ -19,16 +19,17 @@
     from manufacturers
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
-  <select id="selectAll" parameterType="com.jack.recycle.model.Manufacturers">
+  <select id="selectAll" parameterType="com.jack.recycle.model.Manufacturers"
+          resultType="com.jack.recycle.model.Manufacturers" resultMap="BaseResultMap">
     select *
-    from manufactruers
+    from manufacturers
     <where>
       1=1
         <if test="factureName!=null and factureName!=''">
-         and facture_name like #{factureName,jdbcType=VARCHAR}
+         and facture_name like %#{factureName,jdbcType=VARCHAR}%
         </if>
-        <if test="factureName!=null and factureName!=''">
-         and recycle_goods_and_price like #{recycleGoodsAndPrice,jdbcType=VARCHAR}
+        <if test="recycleGoodsAndPrice!=null and recycleGoodsAndPrice!=''">
+         and recycle_goods_and_price like %#{recycleGoodsAndPrice,jdbcType=VARCHAR}%
         </if>
     </where>
   </select>
@@ -36,10 +37,10 @@
     delete from manufacturers
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Manufacturers" useGeneratedKeys="true">
-    insert into manufacturers (facture_name, facture_phone, recycle_goods_and_price, 
-      facture_image, create_time)
-    values (#{factureName,jdbcType=VARCHAR}, #{facturePhone,jdbcType=VARCHAR}, #{recycleGoodsAndPrice,jdbcType=VARCHAR}, 
+  <insert id="insert" parameterType="com.jack.recycle.model.Manufacturers">
+    insert into manufacturers (uuid,facture_name, facture_phone, recycle_goods_and_price,
+      facture_image, create_time,facture_address)
+    values (#{uuid,jdbcType=VARCHAR},#{factureName,jdbcType=VARCHAR}, #{facturePhone,jdbcType=VARCHAR}, #{recycleGoodsAndPrice,jdbcType=VARCHAR},
       #{factureImage,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR},#{factureAddress,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Manufacturers" useGeneratedKeys="true">
