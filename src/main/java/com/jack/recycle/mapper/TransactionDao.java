@@ -18,4 +18,6 @@ public interface TransactionDao {
     int updateByPrimaryKeySelective(Transaction record);
 
     int updateByPrimaryKey(Transaction record);
+
+    List<Transaction> selectMonthAll(Transaction transaction);
 }

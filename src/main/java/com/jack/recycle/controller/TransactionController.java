@@ -1,6 +1,5 @@
 package com.jack.recycle.controller;
 
-import com.jack.recycle.model.PO.TransactionGoods;
 import com.jack.recycle.model.Reservation;
 import com.jack.recycle.model.Transaction;
 import com.jack.recycle.model.VO.TransactionAndGoods;

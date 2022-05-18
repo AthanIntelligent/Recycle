@@ -29,7 +29,7 @@
             and station_legal = #{stationLegal,jdbcType=VARCHAR}
         </if>
         <if test="transactionTime != null">
-            and transaction_time = #{transactionTime,jdbcType=VARCHAR}
+            and LEFT (transaction_time,10) = #{transactionTime,jdbcType=VARCHAR}
         </if>
         <if test="userId != null">
             and user_id = #{userId,jdbcType=VARCHAR}
@@ -38,7 +38,18 @@
             and pay_flag = #{payFlag,jdbcType=VARCHAR}
         </if>
     </select>
-
+    <select id="selectMonthAll" resultMap="BaseResultMap">
+        select
+        *
+        from transaction
+        where 1=1
+        <if test="stationLegal != null">
+            and station_legal = #{stationLegal,jdbcType=VARCHAR}
+        </if>
+        <if test="transactionTime != null">
+            and LEFT (transaction_time,7) = #{transactionTime,jdbcType=VARCHAR}
+        </if>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete
         from transaction

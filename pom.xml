@@ -162,12 +162,12 @@
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.40</version>
+                        <version>8.0.27</version>
                     </dependency>
                     <dependency>
                         <groupId>org.mybatis.generator</groupId>
                         <artifactId>mybatis-generator-core</artifactId>
-                        <version>1.4.0</version>
+                        <version>1.4.1</version>
                     </dependency>
                 </dependencies>
             </plugin>

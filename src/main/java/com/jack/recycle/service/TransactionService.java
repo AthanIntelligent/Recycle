@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface TransactionService {
     int addTransaction(Transaction transaction);
+
     List<Transaction> dirTransaction(Transaction transaction);
+
+    List<Transaction> dirUandSTransaction(Transaction transaction);
 }
