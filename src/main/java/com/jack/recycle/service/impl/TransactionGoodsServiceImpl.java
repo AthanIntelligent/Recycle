@@ -22,4 +22,9 @@ public class TransactionGoodsServiceImpl implements TransactionGoodsService {
     public List<TransactionGoods> dirTransactionGoods(TransactionGoods transactionGoods) {
         return transactionGoodsDao.selectAll(transactionGoods);
     }
+
+    @Override
+    public List<TransactionGoods> dirByTransactionIds(List<String> tranIdsList) {
+        return transactionGoodsDao.selectByTransactionIds(tranIdsList);
+    }
 }

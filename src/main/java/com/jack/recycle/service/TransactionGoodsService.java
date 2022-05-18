@@ -8,4 +8,6 @@ public interface TransactionGoodsService {
     int addTransactionGoods(TransactionGoods transactionGoods);
 
     List<TransactionGoods> dirTransactionGoods(TransactionGoods transactionGoods);
+
+    List<TransactionGoods> dirByTransactionIds(List<String> tranIdsList);
 }

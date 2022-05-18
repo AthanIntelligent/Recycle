@@ -13,7 +13,7 @@ public class TransactionGoods implements Serializable {
     private Double weight;
 
     /**
-     * 金额
+     * 单价
      */
     private Double money;
 
@@ -21,6 +21,11 @@ public class TransactionGoods implements Serializable {
      * 单位
      */
     private String unit;
+
+    /**
+     * 重量/个数 * 单价
+     */
+    private Double rmb;
 
     /**
      * 物品id

@@ -7,10 +7,11 @@
         <result column="weight" jdbcType="DOUBLE" property="weight" />
         <result column="money" jdbcType="DOUBLE" property="money" />
         <result column="unit" jdbcType="VARCHAR" property="unit" />
+        <result column="rmb" jdbcType="DOUBLE" property="rmb" />
         <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
     </resultMap>
     <sql id="Base_Column_List">
-        uuid, transaction_id, weight, money, unit, goods_id
+        uuid, transaction_id, weight, money, unit, rmb, goods_id
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -27,13 +28,22 @@
             and transaction_id = #{transactionId,jdbcType=VARCHAR}
         </if>
     </select>
+    <select id="selectByTransactionIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from transaction_goods
+        where transaction_id in
+        <foreach collection="list" item="transactionId" index="index" open="(" close=")" separator=",">
+            #{transactionId}
+        </foreach>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         delete from transaction_goods
         where uuid = #{uuid,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Transaction" useGeneratedKeys="true">
-        insert into transaction_goods (uuid, transaction_id, weight, money, unit, goods_id)
-        values (#{uuid,jdbcType=VARCHAR},#{transactionId,jdbcType=VARCHAR},#{weight,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE},#{unit,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR})
+        insert into transaction_goods (uuid, transaction_id, weight, money, unit, rmb, goods_id)
+        values (#{uuid,jdbcType=VARCHAR},#{transactionId,jdbcType=VARCHAR},#{weight,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE},#{unit,jdbcType=VARCHAR}, #{rmb,jdbcType=DOUBLE}, #{goodsId,jdbcType=VARCHAR})
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Transaction">
         update transaction_goods
@@ -46,6 +56,9 @@
             </if>
             <if test="unit != null">
                 unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="rmb != null">
+                rmb = #{rmb,jdbcType=DOUBLE},
             </if>
             <if test="transactionId != null">
                 transaction_id = #{transactionId,jdbcType=VARCHAR},
@@ -61,6 +74,7 @@
         set weight = #{weight,jdbcType=DOUBLE},
             money = #{money,jdbcType=DOUBLE},
             unit = #{unit,jdbcType=VARCHAR},
+            rmb = #{rmb,jdbcType=DOUBLE},
             transaction_id = #{transactionId,jdbcType=VARCHAR},
             goods_id = #{goodsId,jdbcType=VARCHAR}
         where uuid = #{uuid,jdbcType=VARCHAR}

@@ -8,4 +8,6 @@ public interface TransactionGoodsDao {
     int insert(TransactionGoods transactionGoods);
 
     List<TransactionGoods> selectAll(TransactionGoods transactionGoods);
+
+    List<TransactionGoods> selectByTransactionIds(List<String> idList);
 }

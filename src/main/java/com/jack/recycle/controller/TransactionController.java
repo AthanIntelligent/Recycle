@@ -62,6 +62,7 @@ public class TransactionController {
             transactionGoods.setWeight(tr.getGoodsWeight());
             transactionGoods.setMoney(tr.getGoodsPrice());
             transactionGoods.setUnit(tr.getGoodsUnit());
+            transactionGoods.setRmb(tr.getAmount());
             transactionGoodsService.addTransactionGoods(transactionGoods);
             goodsIdsList.add(transactionGoods.getUuid());
         }
