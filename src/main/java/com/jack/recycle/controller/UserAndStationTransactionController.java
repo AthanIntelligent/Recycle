@@ -47,7 +47,6 @@ public class UserAndStationTransactionController {
         String formatDate = DateUtils.getFormatDate("yyyy-MM");
         Transaction transaction = new Transaction();
         transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
-//        transaction.setStationLegal("7b74e505-3924-4c03-86ed-acbbb6df4b92");
         transaction.setTransactionTime(formatDate);
         //获取当前月份该基站的所有交易记录
         List<Transaction> transactions = transactionService.dirUandSTransaction(transaction);
@@ -79,8 +78,7 @@ public class UserAndStationTransactionController {
     @GetMapping(value = "/dirGoodsPercent")
     public Result dirGoodsPercent() {
         Transaction transaction = new Transaction();
-//        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
-        transaction.setStationLegal("7b74e505-3924-4c03-86ed-acbbb6df4b92");
+        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
         List<Transaction> transactions = transactionService.dirUandSTransaction(transaction);
         List<String> tranIdsList = new ArrayList<>();
         List<Double> allMoneyList = new ArrayList<>();
@@ -120,7 +118,6 @@ public class UserAndStationTransactionController {
     public Result dirReservationPercent() {
         Reservation reservation = new Reservation();
         reservation.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
-//        reservation.setStationLegal("7b74e505-3924-4c03-86ed-acbbb6df4b92");
         List<Reservation> reservations = reservationService.dirReservation(reservation);
         Map<String, Integer> map = new HashMap<>();
         for (Reservation res:reservations) {
