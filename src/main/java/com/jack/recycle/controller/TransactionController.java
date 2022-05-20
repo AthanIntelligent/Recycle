@@ -2,6 +2,7 @@ package com.jack.recycle.controller;
 
 import com.jack.recycle.model.Reservation;
 import com.jack.recycle.model.Transaction;
+import com.jack.recycle.model.TransactionGoods;
 import com.jack.recycle.model.VO.TransactionAndGoods;
 import com.jack.recycle.service.*;
 import com.jack.recycle.utils.DateUtils;
@@ -111,5 +112,26 @@ public class TransactionController {
             tr.setGoodsId(goodsName);
         }
         return new Result(StatusCode.OK, "OK", transactionGoodsList);
+    }
+
+    @GetMapping(value = "/getGoodsWeight")
+    public Result getGoodsWeight(@RequestParam("goodsName") String goodsName) {
+        String goodsId = goodsService.getGoodsUuidByName(goodsName);
+        Transaction transaction = new Transaction();
+        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+        List<Transaction> transactions = transactionService.dirTransaction(transaction);
+        List<String> idsList = new ArrayList<>();
+        for (Transaction tr:transactions) {
+            idsList.add(tr.getUuid());
+        }
+
+        Double weight = 0.0;
+        List<TransactionGoods> transactionGoods = transactionGoodsService.dirByTransactionIds(idsList);
+        for (TransactionGoods tg:transactionGoods) {
+            if (goodsId.equals(tg.getGoodsId())) {
+                weight += tg.getWeight();
+            }
+        }
+        return new Result(StatusCode.OK, "OK", weight);
     }
 }

@@ -117,6 +117,11 @@ public class GoodsServiceImpl implements GoodsService {
         return null;
     }
 
+    @Override
+    public String getGoodsUuidByName(String goodsName) {
+        return goodsDao.getGoodsUuidByName(goodsName);
+    }
+
 }
 
 

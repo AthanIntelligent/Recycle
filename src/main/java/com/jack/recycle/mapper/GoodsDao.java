@@ -24,4 +24,5 @@ public interface GoodsDao {
 
     List<Goods> selectByIds(List<String> ids);
 
+    String getGoodsUuidByName(String goodsName);
 }

@@ -25,4 +25,6 @@ public interface GoodsService {
     Map<String,String> uuids(List<String> ids);
 
     List<Goods> importGoods(MultipartFile file);
+
+    String getGoodsUuidByName(String goodsName);
 }

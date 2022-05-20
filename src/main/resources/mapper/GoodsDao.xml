@@ -1,152 +1,164 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.jack.recycle.mapper.GoodsDao">
-  <resultMap id="BaseResultMap" type="com.jack.recycle.model.Goods">
-    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="goods_type" jdbcType="VARCHAR" property="goodsType" />
-    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
-    <result column="recycle_detail" jdbcType="VARCHAR" property="recycleDetail" />
-    <result column="per_money" jdbcType="DOUBLE" property="perMoney" />
-    <result column="unit" jdbcType="VARCHAR" property="unit" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="pic" jdbcType="VARCHAR" property="pic" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    uuid, goods_type, goods_name, recycle_detail, per_money, unit, remark, pic, create_user, create_time
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from goods
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </select>
-  <select id="selectAll" parameterType="com.jack.recycle.model.Goods" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from goods
-    where 1=1
-    <if test="goodsType != null">
-      and goods_type = #{goodsType,jdbcType=VARCHAR}
-    </if>
-    <if test="goodsName != null">
-      and goods_name like "%"#{goodsName,jdbcType=VARCHAR}"%"
-    </if>
-    <if test="createUser != null">
-      and create_user = #{createUser,jdbcType=VARCHAR}
-    </if>
-  </select>
-  <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from goods
-    where uuid in
-    <foreach collection="list" item="uuid" index="index" open="(" close=")" separator=",">
-      #{uuid}
-    </foreach>
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from goods
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods" useGeneratedKeys="true">
-    insert into goods (uuid,goods_type, goods_name, recycle_detail,per_money, unit, remark, pic, create_user, create_time)
-    values (#{uuid,jdbcType=VARCHAR},#{goodsType,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{recycleDetail,jdbcType=VARCHAR},
-      #{perMoney,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods" useGeneratedKeys="true">
-    insert into goods
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="goodsType != null">
-        goods_type,
-      </if>
-      <if test="goodsName != null">
-        goods_name,
-      </if>
-      <if test="recycleDetail != null">
-        recycle_detail,
-      </if>
-      <if test="perMoney != null">
-        per_money,
-      </if>
-      <if test="unit != null">
-        unit,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="pic != null">
-        pic,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="goodsType != null">
-        #{goodsType,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsName != null">
-        #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="recycleDetail != null">
-        #{recycleDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="perMoney != null">
-        #{perMoney,jdbcType=DOUBLE},
-      </if>
-      <if test="unit != null">
-        #{unit,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="pic != null">
-        #{pic,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Goods">
-    update goods
-    <set>
-      <if test="goodsType != null">
-        goods_type = #{goodsType,jdbcType=VARCHAR},
-      </if>
-      <if test="goodsName != null">
-        goods_name = #{goodsName,jdbcType=VARCHAR},
-      </if>
-      <if test="recycleDetail != null">
-        recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
-      </if>
-      <if test="perMoney != null">
-        per_money = #{perMoney,jdbcType=DOUBLE},
-      </if>
-      <if test="unit != null">
-        unit = #{unit,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="pic != null">
-        pic = #{pic,jdbcType=VARCHAR},
-      </if>
-      <if test="createUser != null">
-        create_user = #{pic,createUser=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Goods">
-    update goods
-    set goods_type = #{goodsType,jdbcType=VARCHAR},
-      goods_name = #{goodsName,jdbcType=VARCHAR},
-      recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
-      per_money = #{perMoney,jdbcType=DOUBLE},
-      unit = #{unit,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      create_user = #{createUser,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=VARCHAR}
-    where uuid = #{uuid,jdbcType=VARCHAR}
-  </update>
+    <resultMap id="BaseResultMap" type="com.jack.recycle.model.Goods">
+        <id column="uuid" jdbcType="VARCHAR" property="uuid"/>
+        <result column="goods_type" jdbcType="VARCHAR" property="goodsType"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="recycle_detail" jdbcType="VARCHAR" property="recycleDetail"/>
+        <result column="per_money" jdbcType="DOUBLE" property="perMoney"/>
+        <result column="unit" jdbcType="VARCHAR" property="unit"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="pic" jdbcType="VARCHAR" property="pic"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        uuid
+        , goods_type, goods_name, recycle_detail, per_money, unit, remark, pic, create_user, create_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from goods
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+    <select id="selectAll" parameterType="com.jack.recycle.model.Goods" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from goods
+        where 1=1
+        <if test="goodsType != null">
+            and goods_type = #{goodsType,jdbcType=VARCHAR}
+        </if>
+        <if test="goodsName != null">
+            and goods_name like "%"#{goodsName,jdbcType=VARCHAR}"%"
+        </if>
+        <if test="createUser != null">
+            and create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+    </select>
+    <select id="selectByIds" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from goods
+        where uuid in
+        <foreach collection="list" item="uuid" index="index" open="(" close=")" separator=",">
+            #{uuid}
+        </foreach>
+    </select>
+    <select id="getGoodsUuidByName" resultType="java.lang.String">
+        select uuid
+        from goods
+        where goods_name = #{goodsName,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete
+        from goods
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods"
+            useGeneratedKeys="true">
+        insert into goods (uuid, goods_type, goods_name, recycle_detail, per_money, unit, remark, pic, create_user,
+                           create_time)
+        values (#{uuid,jdbcType=VARCHAR}, #{goodsType,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR},
+                #{recycleDetail,jdbcType=VARCHAR},
+                #{perMoney,jdbcType=DOUBLE}, #{unit,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+                #{pic,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Goods"
+            useGeneratedKeys="true">
+        insert into goods
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsType != null">
+                goods_type,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="recycleDetail != null">
+                recycle_detail,
+            </if>
+            <if test="perMoney != null">
+                per_money,
+            </if>
+            <if test="unit != null">
+                unit,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsType != null">
+                #{goodsType,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="recycleDetail != null">
+                #{recycleDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="perMoney != null">
+                #{perMoney,jdbcType=DOUBLE},
+            </if>
+            <if test="unit != null">
+                #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="pic != null">
+                #{pic,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Goods">
+        update goods
+        <set>
+            <if test="goodsType != null">
+                goods_type = #{goodsType,jdbcType=VARCHAR},
+            </if>
+            <if test="goodsName != null">
+                goods_name = #{goodsName,jdbcType=VARCHAR},
+            </if>
+            <if test="recycleDetail != null">
+                recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
+            </if>
+            <if test="perMoney != null">
+                per_money = #{perMoney,jdbcType=DOUBLE},
+            </if>
+            <if test="unit != null">
+                unit = #{unit,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="pic != null">
+                pic = #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user = #{pic,createUser=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Goods">
+        update goods
+        set goods_type     = #{goodsType,jdbcType=VARCHAR},
+            goods_name     = #{goodsName,jdbcType=VARCHAR},
+            recycle_detail = #{recycleDetail,jdbcType=VARCHAR},
+            per_money      = #{perMoney,jdbcType=DOUBLE},
+            unit           = #{unit,jdbcType=VARCHAR},
+            remark         = #{remark,jdbcType=VARCHAR},
+            create_user    = #{createUser,jdbcType=VARCHAR},
+            create_time    = #{createTime,jdbcType=VARCHAR}
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </update>
 </mapper>
