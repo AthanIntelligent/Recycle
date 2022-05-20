@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jack.recycle.mapper.TradeGoodsDao">
+  <resultMap id="BaseResultMap" type="com.jack.recycle.model.TradeGoods">
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="trade_id" jdbcType="VARCHAR" property="tradeId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="per_money" jdbcType="DOUBLE" property="perMoney" />
+    <result column="unit" jdbcType="VARCHAR" property="unit" />
+    <result column="weight" jdbcType="DOUBLE" property="weight" />
+    <result column="rmb" jdbcType="DOUBLE" property="rmb" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uuid, trade_id, goods_name, per_money, unit, weight, rmb
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trade_goods
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from trade_goods
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.TradeGoods" useGeneratedKeys="true">
+    insert into trade_goods (trade_id, goods_name, per_money, 
+      unit, weight, rmb)
+    values (#{tradeId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{perMoney,jdbcType=DOUBLE}, 
+      #{unit,jdbcType=VARCHAR}, #{weight,jdbcType=DOUBLE}, #{rmb,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.TradeGoods" useGeneratedKeys="true">
+    insert into trade_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tradeId != null">
+        trade_id,
+      </if>
+      <if test="goodsName != null">
+        goods_name,
+      </if>
+      <if test="perMoney != null">
+        per_money,
+      </if>
+      <if test="unit != null">
+        unit,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="rmb != null">
+        rmb,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tradeId != null">
+        #{tradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="perMoney != null">
+        #{perMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="unit != null">
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="rmb != null">
+        #{rmb,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.TradeGoods">
+    update trade_goods
+    <set>
+      <if test="tradeId != null">
+        trade_id = #{tradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null">
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="perMoney != null">
+        per_money = #{perMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="unit != null">
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=DOUBLE},
+      </if>
+      <if test="rmb != null">
+        rmb = #{rmb,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.TradeGoods">
+    update trade_goods
+    set trade_id = #{tradeId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      per_money = #{perMoney,jdbcType=DOUBLE},
+      unit = #{unit,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=DOUBLE},
+      rmb = #{rmb,jdbcType=DOUBLE}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>

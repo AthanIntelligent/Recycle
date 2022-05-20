@@ -39,4 +39,5 @@ public class ManufacturersController {
         return new Result(Response.SC_OK,"OK",manufacturersService.dirManufacturer(manufacturers));
     }
 
+
 }

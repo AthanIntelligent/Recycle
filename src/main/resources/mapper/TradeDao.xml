@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jack.recycle.mapper.TradeDao">
+  <resultMap id="BaseResultMap" type="com.jack.recycle.model.Trade">
+    <id column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="factory_id" jdbcType="VARCHAR" property="factoryId" />
+    <result column="station_id" jdbcType="VARCHAR" property="stationId" />
+    <result column="all_money" jdbcType="DOUBLE" property="allMoney" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    uuid, factory_id, station_id, all_money, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from trade
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from trade
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Trade" useGeneratedKeys="true">
+    insert into trade (factory_id, station_id, all_money, 
+      create_time)
+    values (#{factoryId,jdbcType=VARCHAR}, #{stationId,jdbcType=VARCHAR}, #{allMoney,jdbcType=DOUBLE}, 
+      #{createTime,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Trade" useGeneratedKeys="true">
+    insert into trade
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="factoryId != null">
+        factory_id,
+      </if>
+      <if test="stationId != null">
+        station_id,
+      </if>
+      <if test="allMoney != null">
+        all_money,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="factoryId != null">
+        #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="stationId != null">
+        #{stationId,jdbcType=VARCHAR},
+      </if>
+      <if test="allMoney != null">
+        #{allMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Trade">
+    update trade
+    <set>
+      <if test="factoryId != null">
+        factory_id = #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="stationId != null">
+        station_id = #{stationId,jdbcType=VARCHAR},
+      </if>
+      <if test="allMoney != null">
+        all_money = #{allMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Trade">
+    update trade
+    set factory_id = #{factoryId,jdbcType=VARCHAR},
+      station_id = #{stationId,jdbcType=VARCHAR},
+      all_money = #{allMoney,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=VARCHAR}
+    where uuid = #{uuid,jdbcType=VARCHAR}
+  </update>
+</mapper>
