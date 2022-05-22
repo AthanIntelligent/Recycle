@@ -17,6 +17,11 @@ public class Trade implements Serializable {
     private String factoryId;
 
     /**
+     * 基站法人id
+     */
+    private String stationLegal;
+
+    /**
      * 基站id
      */
     private String stationId;

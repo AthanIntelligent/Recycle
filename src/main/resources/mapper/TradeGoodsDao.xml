@@ -19,14 +19,23 @@
     from trade_goods
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
+  <select id="selectAll" parameterType="com.jack.recycle.model.TransactionGoods" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from trade_goods
+    where 1=1
+    <if test="tradeId != null">
+      and trade_id = #{tradeId,jdbcType=VARCHAR}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from trade_goods
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.TradeGoods" useGeneratedKeys="true">
-    insert into trade_goods (trade_id, goods_name, per_money, 
+    insert into trade_goods (uuid,trade_id, goods_name, per_money,
       unit, weight, rmb)
-    values (#{tradeId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{perMoney,jdbcType=DOUBLE}, 
+    values (#{uuid,jdbcType=VARCHAR},#{tradeId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, #{perMoney,jdbcType=DOUBLE},
       #{unit,jdbcType=VARCHAR}, #{weight,jdbcType=DOUBLE}, #{rmb,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.TradeGoods" useGeneratedKeys="true">

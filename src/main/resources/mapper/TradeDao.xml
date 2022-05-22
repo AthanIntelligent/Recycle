@@ -4,12 +4,13 @@
   <resultMap id="BaseResultMap" type="com.jack.recycle.model.Trade">
     <id column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="factory_id" jdbcType="VARCHAR" property="factoryId" />
+    <result column="station_legal" jdbcType="VARCHAR" property="stationLegal" />
     <result column="station_id" jdbcType="VARCHAR" property="stationId" />
     <result column="all_money" jdbcType="DOUBLE" property="allMoney" />
     <result column="create_time" jdbcType="VARCHAR" property="createTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    uuid, factory_id, station_id, all_money, create_time
+    uuid, factory_id, station_legal, station_id, all_money, create_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -17,14 +18,29 @@
     from trade
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    *
+    from trade
+    where 1=1
+    <if test="stationLegal != null">
+      and station_legal = #{stationLegal,jdbcType=VARCHAR}
+    </if>
+    <if test="createTime != null">
+      and LEFT (create_time,10) = #{createTime,jdbcType=VARCHAR}
+    </if>
+    <if test="factoryId != null">
+      and factory_id = #{factoryId,jdbcType=VARCHAR}
+    </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from trade
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Trade" useGeneratedKeys="true">
-    insert into trade (factory_id, station_id, all_money, 
+    insert into trade (uuid, factory_id, station_legal, station_id, all_money,
       create_time)
-    values (#{factoryId,jdbcType=VARCHAR}, #{stationId,jdbcType=VARCHAR}, #{allMoney,jdbcType=DOUBLE}, 
+    values (#{uuid,jdbcType=VARCHAR},#{uuid,jdbcType=VARCHAR},#{stationLegal,jdbcType=VARCHAR}, #{stationId,jdbcType=VARCHAR}, #{allMoney,jdbcType=DOUBLE},
       #{createTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Trade" useGeneratedKeys="true">
@@ -32,6 +48,9 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="factoryId != null">
         factory_id,
+      </if>
+      <if test="stationLegal != null">
+        station_legal,
       </if>
       <if test="stationId != null">
         station_id,
@@ -46,6 +65,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="factoryId != null">
         #{factoryId,jdbcType=VARCHAR},
+      </if>
+      <if test="stationLegal != null">
+        #{stationLegal,jdbcType=VARCHAR},
       </if>
       <if test="stationId != null">
         #{stationId,jdbcType=VARCHAR},
@@ -64,6 +86,9 @@
       <if test="factoryId != null">
         factory_id = #{factoryId,jdbcType=VARCHAR},
       </if>
+      <if test="stationLegal != null">
+        station_legal = #{stationLegal,jdbcType=VARCHAR},
+      </if>
       <if test="stationId != null">
         station_id = #{stationId,jdbcType=VARCHAR},
       </if>
@@ -79,6 +104,7 @@
   <update id="updateByPrimaryKey" parameterType="com.jack.recycle.model.Trade">
     update trade
     set factory_id = #{factoryId,jdbcType=VARCHAR},
+      station_legal = #{stationLegal,jdbcType=VARCHAR},
       station_id = #{stationId,jdbcType=VARCHAR},
       all_money = #{allMoney,jdbcType=DOUBLE},
       create_time = #{createTime,jdbcType=VARCHAR}
