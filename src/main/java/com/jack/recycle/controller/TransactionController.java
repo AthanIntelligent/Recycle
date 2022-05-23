@@ -64,6 +64,7 @@ public class TransactionController {
             transactionGoods.setMoney(tr.getGoodsPrice());
             transactionGoods.setUnit(tr.getGoodsUnit());
             transactionGoods.setRmb(tr.getAmount());
+            transactionGoods.setIsNull(1);
             transactionGoodsService.addTransactionGoods(transactionGoods);
             goodsIdsList.add(transactionGoods.getUuid());
         }
@@ -128,8 +129,10 @@ public class TransactionController {
         Double weight = 0.0;
         List<TransactionGoods> transactionGoods = transactionGoodsService.dirByTransactionIds(idsList);
         for (TransactionGoods tg:transactionGoods) {
-            if (goodsId.equals(tg.getGoodsId())) {
-                weight += tg.getWeight();
+            if (tg.getIsNull() == 1){
+                if (goodsId.equals(tg.getGoodsId())) {
+                    weight += tg.getWeight();
+                }
             }
         }
         return new Result(StatusCode.OK, "OK", weight);

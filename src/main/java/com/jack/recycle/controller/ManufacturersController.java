@@ -1,13 +1,9 @@
 package com.jack.recycle.controller;
 
-import com.jack.recycle.model.Manufacturers;
-import com.jack.recycle.model.Trade;
-import com.jack.recycle.model.TradeGoods;
+import com.jack.recycle.model.*;
+import com.jack.recycle.model.VO.StationAndUser;
 import com.jack.recycle.model.VO.TradeAndGoods;
-import com.jack.recycle.service.ManufacturersService;
-import com.jack.recycle.service.StationService;
-import com.jack.recycle.service.TradeGoodsService;
-import com.jack.recycle.service.TradeService;
+import com.jack.recycle.service.*;
 import com.jack.recycle.utils.DateUtils;
 import com.jack.recycle.utils.Result;
 import com.jack.recycle.utils.UserUtils;
@@ -28,10 +24,19 @@ public class ManufacturersController {
     private StationService stationService;
 
     @Autowired
+    private GoodsService goodsService;
+
+    @Autowired
     private TradeService tradeService;
 
     @Autowired
     private TradeGoodsService tradeGoodsService;
+
+    @Autowired
+    private TransactionService transactionService;
+
+    @Autowired
+    private TransactionGoodsService transactionGoodsService;
 
     @PostMapping("/addManufacturers")
     public Result addManufacturers(@RequestBody Manufacturers manufacturers){
@@ -50,9 +55,25 @@ public class ManufacturersController {
 
     @PostMapping("/dirManufacturers")
     public Result dirManufacturers(@RequestBody Manufacturers manufacturers){
-        return new Result(Response.SC_OK,"OK",manufacturersService.dirManufacturer(manufacturers));
+        //查询厂商列表
+        List<Manufacturers> manufacturersList = manufacturersService.dirManufacturer(manufacturers);
+        List<Trade> trades = tradeService.dirTrade(new Trade());
+        List<String> factoryIds = new ArrayList<>();
+        for (Trade trade : trades) {
+            factoryIds.add(trade.getFactoryId());
+        }
+        for (Manufacturers mmm:manufacturersList) {
+            if (factoryIds.contains(mmm.getUuid()))
+                mmm.setIsVisible(true);
+            else
+                mmm.setIsVisible(false);
+        }
+        return new Result(Response.SC_OK,"OK",manufacturersList);
     }
 
+    /*
+     * 厂商与基站的交易
+     */
     @PostMapping("/toPayFacture")
     public Result payStationManufacture(@RequestBody TradeAndGoods manufacture){
         Trade trade = manufacture.getTrade();
@@ -62,6 +83,18 @@ public class ManufacturersController {
         trade.setCreateTime(DateUtils.getFormatDate("yyyy-MM-dd HH:mm"));
         tradeService.addTrade(trade);
 
+        // 根据基站人员id获取他所拥有的交易信息合集
+        Transaction transaction = new Transaction();
+        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+        List<Transaction> transactions = transactionService.dirTransaction(transaction);
+        // 把transactionId放到一个集合
+        List<String> transactionIds = new ArrayList<>();
+        for (Transaction tran : transactions) {
+            transactionIds.add(tran.getUuid());
+        }
+        List<TransactionGoods> transactionGoodsList = transactionGoodsService.dirByTransactionIds(transactionIds);
+
+        //获取与厂商交易的物品表
         List<TradeGoods> tradeGoods = manufacture.getTradeGoods();
         for (TradeGoods tg:tradeGoods) {
             if (tg.getWeight().equals(0.0))
@@ -69,9 +102,32 @@ public class ManufacturersController {
             tg.setUuid(UUID.randomUUID().toString());
             tg.setTradeId(trade.getUuid());
             tradeGoodsService.addTradeGoods(tg);
+            // 根据物品名称去物品表里获取物品uuid，再根据物品uuid去transactionGoods表 改变isNull为0
+            String goodsUuid = goodsService.getGoodsUuidByName(tg.getGoodsName());
+            for (TransactionGoods transactionGoods : transactionGoodsList) {
+                if(transactionGoods.getGoodsId().equals(goodsUuid)) {
+                    transactionGoods.setIsNull(0);
+                    transactionGoodsService.updTransactionGoods(transactionGoods);
+                }
+            }
         }
         return new Result(Response.SC_OK,"OK",null);
     }
 
+    /*
+       根据factoryId获取trade表工厂交易记录
+     */
+    @GetMapping("/getFactoryTrade")
+    public Result getFactoryTrade(String factoryId){
+        Trade trade = new Trade();
+        trade.setFactoryId(factoryId);
+        List<Trade> trades = tradeService.dirTrade(trade);
+        for (Trade tr : trades) {
+            StationAndUser stationDetail = stationService.getStationDetail(tr.getStationId());
+            tr.setStationLegal(stationDetail.getUser().getRealName());
+            tr.setStationId(stationDetail.getStation().getStationName());
+        }
+        return new Result(Response.SC_OK,"OK",trades);
+    }
 
 }

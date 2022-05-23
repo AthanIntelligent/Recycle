@@ -27,4 +27,9 @@ public class TransactionGoodsServiceImpl implements TransactionGoodsService {
     public List<TransactionGoods> dirByTransactionIds(List<String> tranIdsList) {
         return transactionGoodsDao.selectByTransactionIds(tranIdsList);
     }
+
+    @Override
+    public int updTransactionGoods(TransactionGoods transactionGoods) {
+        return transactionGoodsDao.updateByPrimaryKeySelective(transactionGoods);
+    }
 }

@@ -9,9 +9,10 @@
         <result column="unit" jdbcType="VARCHAR" property="unit" />
         <result column="rmb" jdbcType="DOUBLE" property="rmb" />
         <result column="goods_id" jdbcType="VARCHAR" property="goodsId" />
+        <result column="is_null" jdbcType="INTEGER" property="isNull" />
     </resultMap>
     <sql id="Base_Column_List">
-        uuid, transaction_id, weight, money, unit, rmb, goods_id
+        uuid, transaction_id, weight, money, unit, rmb, goods_id, is_null
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
@@ -42,8 +43,8 @@
         where uuid = #{uuid,jdbcType=VARCHAR}
     </delete>
     <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Transaction" useGeneratedKeys="true">
-        insert into transaction_goods (uuid, transaction_id, weight, money, unit, rmb, goods_id)
-        values (#{uuid,jdbcType=VARCHAR},#{transactionId,jdbcType=VARCHAR},#{weight,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE},#{unit,jdbcType=VARCHAR}, #{rmb,jdbcType=DOUBLE}, #{goodsId,jdbcType=VARCHAR})
+        insert into transaction_goods (uuid, transaction_id, weight, money, unit, rmb, goods_id, is_null)
+        values (#{uuid,jdbcType=VARCHAR},#{transactionId,jdbcType=VARCHAR},#{weight,jdbcType=DOUBLE}, #{money,jdbcType=DOUBLE},#{unit,jdbcType=VARCHAR}, #{rmb,jdbcType=DOUBLE}, #{goodsId,jdbcType=VARCHAR}, #{isNull,jdbcType=INTEGER})
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.jack.recycle.model.Transaction">
         update transaction_goods
@@ -66,6 +67,9 @@
             <if test="goodsId != null">
                 goods_id = #{goodsId,jdbcType=VARCHAR},
             </if>
+            <if test="isNull != null">
+                is_null = #{isNull,jdbcType=INTEGER}
+            </if>
         </set>
         where uuid = #{uuid,jdbcType=VARCHAR}
     </update>
@@ -77,6 +81,7 @@
             rmb = #{rmb,jdbcType=DOUBLE},
             transaction_id = #{transactionId,jdbcType=VARCHAR},
             goods_id = #{goodsId,jdbcType=VARCHAR}
+            is_null = #{isNull,jdbcType=INTEGER}
         where uuid = #{uuid,jdbcType=VARCHAR}
     </update>
 </mapper>

@@ -2,6 +2,7 @@ package com.jack.recycle.model;
 
 import java.io.Serializable;
 import lombok.Data;
+import org.springframework.data.annotation.Transient;
 
 /**
  * manufacturers
@@ -22,6 +23,9 @@ public class Manufacturers implements Serializable {
     private String createTime;
 
     private String factureAddress;
+
+    @Transient
+    private Boolean isVisible;
 
     private static final long serialVersionUID = 1L;
 }

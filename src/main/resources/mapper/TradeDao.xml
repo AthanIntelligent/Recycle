@@ -40,7 +40,7 @@
   <insert id="insert" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Trade" useGeneratedKeys="true">
     insert into trade (uuid, factory_id, station_legal, station_id, all_money,
       create_time)
-    values (#{uuid,jdbcType=VARCHAR},#{uuid,jdbcType=VARCHAR},#{stationLegal,jdbcType=VARCHAR}, #{stationId,jdbcType=VARCHAR}, #{allMoney,jdbcType=DOUBLE},
+    values (#{uuid,jdbcType=VARCHAR},#{factoryId,jdbcType=VARCHAR},#{stationLegal,jdbcType=VARCHAR}, #{stationId,jdbcType=VARCHAR}, #{allMoney,jdbcType=DOUBLE},
       #{createTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" keyColumn="uuid" keyProperty="uuid" parameterType="com.jack.recycle.model.Trade" useGeneratedKeys="true">

@@ -10,4 +10,6 @@ public interface TransactionGoodsService {
     List<TransactionGoods> dirTransactionGoods(TransactionGoods transactionGoods);
 
     List<TransactionGoods> dirByTransactionIds(List<String> tranIdsList);
+
+    int updTransactionGoods(TransactionGoods transactionGoods);
 }

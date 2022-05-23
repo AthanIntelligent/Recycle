@@ -37,5 +37,10 @@ public class TransactionGoods implements Serializable {
      */
     private String transactionId;
 
+    /**
+     * 是否清空库存
+     */
+    private Integer isNull;
+
     private static final long serialVersionUID = 1L;
 }
