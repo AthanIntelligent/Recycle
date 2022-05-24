@@ -18,4 +18,6 @@ public interface TradeDao {
     int updateByPrimaryKey(Trade record);
 
     List<Trade> selectAll(Trade trade);
+
+    List<Trade> selectByStationId(String uuid);
 }

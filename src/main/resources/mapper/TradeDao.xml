@@ -18,6 +18,12 @@
     from trade
     where uuid = #{uuid,jdbcType=VARCHAR}
   </select>
+  <select id="selectByStationId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    *
+    from trade
+    where station_id = #{uuid,jdbcType=VARCHAR}
+  </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select
     *

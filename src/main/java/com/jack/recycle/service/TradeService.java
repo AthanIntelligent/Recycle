@@ -8,4 +8,6 @@ public interface TradeService {
     int addTrade(Trade trade);
 
     List<Trade> dirTrade(Trade trade);
+
+    List<Trade> getTradeData(String uuid);
 }

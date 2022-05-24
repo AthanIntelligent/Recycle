@@ -27,4 +27,9 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> dirUandSTransaction(Transaction transaction) {
         return transactionDao.selectMonthAll(transaction);
     }
+
+    @Override
+    public List<Transaction> getTransactionData(String uuid) {
+        return transactionDao.selectByStationId(uuid);
+    }
 }

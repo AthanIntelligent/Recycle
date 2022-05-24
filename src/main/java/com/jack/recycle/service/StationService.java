@@ -32,4 +32,6 @@ public interface StationService {
     Station getStationStatus(String userId);
 
     int updateJoinStationActive(Station station);
+
+    List<Station> dirStationTop10(Station station);
 }

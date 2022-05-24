@@ -22,4 +22,9 @@ public class TradeServiceImpl implements TradeService {
     public List<Trade> dirTrade(Trade trade) {
         return tradeDao.selectAll(trade);
     }
+
+    @Override
+    public List<Trade> getTradeData(String uuid) {
+        return tradeDao.selectByStationId(uuid);
+    }
 }

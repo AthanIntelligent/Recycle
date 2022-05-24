@@ -10,4 +10,6 @@ public interface TransactionService {
     List<Transaction> dirTransaction(Transaction transaction);
 
     List<Transaction> dirUandSTransaction(Transaction transaction);
+
+    List<Transaction> getTransactionData(String uuid);
 }

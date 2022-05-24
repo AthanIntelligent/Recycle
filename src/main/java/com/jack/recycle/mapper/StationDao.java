@@ -28,4 +28,6 @@ public interface StationDao {
     List<Station> selectAllStation(Station station);
 
     int updateJoinStationActive(Station station);
+
+    List<Station> selectTop10Station(Station station);
 }

@@ -101,5 +101,10 @@ public class StationServiceImpl implements StationService {
         return stationDao.updateJoinStationActive(station);
     }
 
+    @Override
+    public List<Station> dirStationTop10(Station station) {
+        return stationDao.selectTop10Station(station);
+    }
+
 
 }

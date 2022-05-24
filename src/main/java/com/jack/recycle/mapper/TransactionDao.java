@@ -20,4 +20,6 @@ public interface TransactionDao {
     int updateByPrimaryKey(Transaction record);
 
     List<Transaction> selectMonthAll(Transaction transaction);
+
+    List<Transaction> selectByStationId(String uuid);
 }

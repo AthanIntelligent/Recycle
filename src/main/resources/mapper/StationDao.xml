@@ -32,6 +32,13 @@
       and create_time = #{createTime,jdbcType=VARCHAR}
     </if>
   </select>
+  <select id="selectTop10Station"  parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from station
+    where open_flag = 1
+    limit 0,10
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
