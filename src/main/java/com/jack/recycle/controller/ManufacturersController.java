@@ -130,4 +130,50 @@ public class ManufacturersController {
         return new Result(Response.SC_OK,"OK",trades);
     }
 
+    /*
+       根据trade uuuid获取tradegoods
+     */
+    @GetMapping("/getTradeGoods")
+    public Result getTradeGoods(String tradeId){
+        TradeGoods tradeGoods = new TradeGoods();
+        tradeGoods.setTradeId(tradeId);
+        List<TradeGoods> tradeGoodsList = tradeGoodsService.dirTradeGoods(tradeGoods);
+        return new Result(Response.SC_OK,"OK",tradeGoodsList);
+    }
+
+    /*
+       基站管理员 收益计算
+     */
+    @GetMapping("/getMyMoney")
+    public Result getMyMoney(){
+        Double payMoney = 0.0;
+        Transaction transaction = new Transaction();
+        transaction.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+        List<Transaction> transactions = transactionService.dirTransaction(transaction);
+        List<String> transactionIds = new ArrayList<>();
+        for (Transaction tr : transactions) {
+            transactionIds.add(tr.getUuid());
+        }
+        List<TransactionGoods> transactionGoods = transactionGoodsService.dirByTransactionIds(transactionIds);
+        for (TransactionGoods tg : transactionGoods) {
+            if (tg.getIsNull() == 0) {
+                payMoney += tg.getRmb();
+            }
+        }
+
+        Double revMoney = 0.0;
+        Trade trade = new Trade();
+        trade.setStationLegal(UserUtils.getCurrUserInfo().getUuid());
+        List<Trade> trades = tradeService.dirTrade(trade);
+        List<String> tradeIds = new ArrayList<>();
+        for (Trade tra : trades) {
+            tradeIds.add(tra.getUuid());
+        }
+        List<TradeGoods> tradeGoods = tradeGoodsService.dirByTradeIds(tradeIds);
+        for (TradeGoods tradeGood : tradeGoods) {
+            revMoney += tradeGood.getRmb();
+        }
+        Double res = revMoney - payMoney;
+        return new Result(Response.SC_OK,"OK",res);
+    }
 }

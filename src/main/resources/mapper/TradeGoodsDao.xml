@@ -28,6 +28,15 @@
       and trade_id = #{tradeId,jdbcType=VARCHAR}
     </if>
   </select>
+  <select id="selectByTradeIds" parameterType="java.util.List" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from trade_goods
+    where trade_id in
+    <foreach collection="list" item="tradeId" index="index" open="(" close=")" separator=",">
+      #{tradeId}
+    </foreach>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from trade_goods
     where uuid = #{uuid,jdbcType=VARCHAR}

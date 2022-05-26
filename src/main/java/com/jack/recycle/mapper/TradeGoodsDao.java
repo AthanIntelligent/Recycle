@@ -18,4 +18,6 @@ public interface TradeGoodsDao {
     int updateByPrimaryKey(TradeGoods record);
 
     List<TradeGoods> selectAll(TradeGoods tradeGoods);
+
+    List<TradeGoods> selectByTradeIds(List<String> tradeIds);
 }

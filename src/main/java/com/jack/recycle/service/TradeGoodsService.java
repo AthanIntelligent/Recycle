@@ -8,4 +8,6 @@ public interface TradeGoodsService {
     int addTradeGoods(TradeGoods tradeGoods);
 
     List<TradeGoods> dirTradeGoods(TradeGoods tradeGoods);
+
+    List<TradeGoods> dirByTradeIds(List<String> tradeIds);
 }
